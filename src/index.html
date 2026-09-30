@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="UTF-8"><style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
+#pet{position:absolute;left:50%;top:50%;width:110px;height:110px;transform:translate(-50%,-50%);cursor:grab;user-select:none}
+.shadow{position:absolute;left:18px;bottom:10px;width:72px;height:14px;border-radius:50%;background:rgba(0,0,0,.20)}
+.wolf{position:absolute;left:20px;bottom:10px;width:78px;height:72px;image-rendering:pixelated;transform-origin:50% 82%;will-change:transform}
+.wolf-svg{width:100%;height:100%;overflow:visible;shape-rendering:crispEdges}.sleep-z{visibility:hidden}
+.walk .leg.a{animation:step .18s infinite alternate}.walk .leg.b{animation:step .18s .09s infinite alternate}.walk .leg.c{animation:step .18s .09s infinite alternate}.walk .leg.d{animation:step .18s infinite alternate}.walk .tail{animation:wag .25s infinite alternate}
+.idle{animation:breathe .9s infinite alternate ease-in-out}.idle .ear1{animation:earTwitch 3.2s ease-in-out infinite}.idle .ear2{animation:earTwitch 3.2s .52s ease-in-out infinite}.idle .eye-open{animation:blink 5.2s ease-in-out infinite}.idle .tail{animation:idleTail 3.8s ease-in-out infinite alternate}
+.sit .tail{animation:sitTail 1.5s ease-in-out infinite alternate;transform-origin:100% 100%}.sleep .head{animation:sleepHead 1.8s ease-in-out infinite alternate}.sleep .eye-open{display:none}.sleep .eye-closed{display:inline}.sleep .sleep-z{visibility:visible;animation:sleepZ 1.5s ease-in-out infinite}.react{animation:bounce .22s 4 alternate}
+@keyframes step{to{transform:translateY(-3px)}}@keyframes wag{to{transform:rotate(10deg)}}@keyframes idleTail{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(5deg)}}@keyframes breathe{to{transform:translateY(-2px)}}@keyframes blink{0%,88%,100%{opacity:1}90%,94%{opacity:0}}@keyframes bounce{to{transform:translateY(-7px) rotate(-3deg)}}@keyframes earTwitch{0%,82%,100%{transform:rotate(0)}87%{transform:rotate(-8deg)}92%{transform:rotate(4deg)}}@keyframes sitTail{to{transform:rotate(8deg)}}@keyframes sleepHead{to{transform:translateY(1px)}}@keyframes sleepZ{0%,100%{transform:translate(0,0);opacity:.45}50%{transform:translate(3px,-5px);opacity:1}}
+#bubble{position:absolute;left:50%;top:12px;transform:translate(-50%,-100%);background:#fff;color:#333;padding:5px 9px;border-radius:9px;font:700 12px system-ui;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.16);display:none}
+</style></head><body><div id="pet"><div id="bubble"></div><div class="shadow"></div><div class="wolf idle" id="wolf">
+<svg class="wolf-svg" viewBox="0 0 78 72" aria-label="pixel puppy">
+<g class="tail"><rect x="10" y="28" width="10" height="14" fill="#c8c8c8"/><rect x="7" y="24" width="8" height="10" fill="#dedede"/><rect x="9" y="19" width="8" height="9" fill="#f0f0f0"/><rect x="13" y="16" width="7" height="8" fill="#d4d4d4"/></g>
+<g class="body"><rect x="18" y="27" width="35" height="19" fill="#dedede"/><rect x="22" y="23" width="27" height="8" fill="#f5f5f5"/><rect x="19" y="38" width="33" height="8" fill="#c7c7c7"/><rect x="28" y="29" width="18" height="9" fill="#e7e7e7"/><rect x="44" y="25" width="8" height="13" fill="#bcbcbc"/></g>
+<g class="leg a"><rect x="20" y="42" width="8" height="19" fill="#d5d5d5"/><rect x="19" y="58" width="10" height="7" fill="#b1b1b1"/><rect x="22" y="43" width="4" height="10" fill="#f3f3f3"/></g>
+<g class="leg b"><rect x="29" y="42" width="8" height="18" fill="#cfcfcf"/><rect x="29" y="57" width="9" height="8" fill="#a9a9a9"/></g>
+<g class="leg c"><rect x="42" y="42" width="8" height="18" fill="#c7c7c7"/><rect x="41" y="57" width="9" height="8" fill="#a3a3a3"/></g>
+<g class="leg d"><rect x="50" y="41" width="8" height="19" fill="#d2d2d2"/><rect x="49" y="57" width="10" height="8" fill="#aaa"/></g>
+<g class="neck"><rect x="43" y="20" width="12" height="19" fill="#c6c6c6"/><rect x="45" y="21" width="9" height="12" fill="#f1f1f1"/></g>
+<g class="head">
+<rect x="47" y="11" width="25" height="25" fill="#e5e5e5"/>
+<g class="ear1"><rect x="51" y="6" width="8" height="11" fill="#c9c9c9"/><rect x="53" y="8" width="4" height="6" fill="#f3a4a4"/></g>
+<g class="ear2"><rect x="63" y="6" width="8" height="11" fill="#c9c9c9"/><rect x="65" y="8" width="4" height="6" fill="#f3a4a4"/></g>
+<rect x="51" y="14" width="19" height="9" fill="#f7f7f7"/>
+<g class="eye-open"><rect x="54" y="20" width="5" height="5" fill="#222"/><rect x="66" y="20" width="5" height="5" fill="#222"/><rect x="55" y="20" width="2" height="2" fill="#fff"/><rect x="67" y="20" width="2" height="2" fill="#fff"/></g>
+<g class="eye-closed" style="display:none"><rect x="54" y="22" width="5" height="2" fill="#444"/><rect x="66" y="22" width="5" height="2" fill="#444"/></g>
+<rect x="48" y="26" width="25" height="10" fill="#d7d7d7"/>
+<rect x="63" y="26" width="9" height="8" fill="#efd1b5"/><rect x="69" y="27" width="7" height="7" fill="#f1d6bd"/>
+<rect x="74" y="29" width="4" height="4" rx="1" fill="#222"/>
+<rect x="58" y="27" width="6" height="6" fill="#f3d8be"/>
+</g>
+<text class="sleep-z" visibility="hidden" x="70" y="9" font-size="10" font-family="system-ui" font-weight="700" fill="#555">z</text>
+</svg></div></div><script src="pet-engine.js"></script><script src="characters/dog.js"></script><script src="renderer.js"></script></body></html>

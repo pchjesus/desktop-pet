@@ -1,0 +1,43 @@
+{
+  "name": "desktop-pet",
+  "version": "0.1.8",
+  "description": "AI-assisted desktop pet MVP with robust Electron preparation and Windows validation",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node node_modules/electron/cli.js .",
+    "test": "node --test test/*.test.js",
+    "check": "node --check src/main.js && node --check src/preload.js && node --check src/renderer.js && node --check src/pet-engine.js && node --check src/characters/dog.js",
+    "dist": "electron-builder --win --x64",
+    "dist:installer": "electron-builder --win --x64 --config.win.target=nsis",
+    "test:shell": "node test/desktop-shell.test.js",
+    "verify:electron": "node scripts/verify-electron.js",
+    "prepare:electron": "node scripts/prepare-electron.js"
+  },
+  "devDependencies": {
+    "electron": "44.5.0",
+    "electron-builder": "26.0.12"
+  },
+  "build": {
+    "appId": "com.desktoppet.app",
+    "productName": "Desktop Pet",
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "DesktopPet-${version}-portable.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "electronDist": "node_modules/electron/dist"
+  },
+  "author": "Desktop Pet Project"
+}
