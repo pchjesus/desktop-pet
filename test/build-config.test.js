@@ -7,7 +7,7 @@ const projectRoot = path.resolve(__dirname, '..');
 const packageJson = JSON.parse(fs.readFileSync(path.join(projectRoot, 'package.json'), 'utf8'));
 
 test('Windows build uses the locally installed Electron distribution', () => {
-  assert.equal(packageJson.version, '0.1.8');
+  assert.equal(packageJson.version, '0.1.12');
   assert.equal(packageJson.devDependencies.electron, '44.5.0');
   assert.equal(packageJson.devDependencies['electron-builder'], '26.0.12');
   assert.equal(packageJson.build.electronDist, 'node_modules/electron/dist');
@@ -37,7 +37,7 @@ test('Windows build prepares Electron through an explicit script', () => {
   const build = fs.readFileSync(path.join(projectRoot, 'BUILD-WINDOWS.bat'), 'utf8');
   assert.match(build, /CALL\s+npm\.cmd\s+run\s+prepare:electron/);
   assert.doesNotMatch(build, /npm\.cmd\s+rebuild\s+electron/);
-  assert.match(build, /DesktopPet-0\.1\.8-portable\.exe/);
+  assert.match(build, /DesktopPet-0\.1\.12-portable\.exe/);
 });
 
 test('Electron preparation script executes the Electron package install.js directly', () => {

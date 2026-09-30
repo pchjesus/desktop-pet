@@ -1,12 +1,12 @@
 {
   "name": "desktop-pet",
-  "version": "0.1.8",
+  "version": "0.1.12",
   "description": "AI-assisted desktop pet MVP with robust Electron preparation and Windows validation",
   "main": "src/main.js",
   "scripts": {
     "start": "node node_modules/electron/cli.js .",
     "test": "node --test test/*.test.js",
-    "check": "node --check src/main.js && node --check src/preload.js && node --check src/renderer.js && node --check src/pet-engine.js && node --check src/characters/dog.js",
+    "check": "node --check src/main.js && node --check src/preload.js && node --check src/renderer.js && node --check src/pet-engine.js && node --check src/characters/neukgu.js && node --check src/characters/growlithe.js && node --check src/characters/royce.js",
     "dist": "electron-builder --win --x64",
     "dist:installer": "electron-builder --win --x64 --config.win.target=nsis",
     "test:shell": "node test/desktop-shell.test.js",

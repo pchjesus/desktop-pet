@@ -82,7 +82,7 @@ The UI must not become the source of truth for OS window placement. The main pro
 
 ### Character system
 
-The renderer owns shared pet behavior state and interaction flow, while character modules own character-specific visual DOM and animation behavior.
+The renderer owns shared pet behavior state and interaction flow, while character modules own character-specific visual DOM and animation behavior. The default character is named Neukgu (늑구).
 
 ```text
 Renderer
@@ -90,12 +90,17 @@ Renderer
     v
 Character API
     |
-    +-- DogCharacter
+    +-- NeukguCharacter
+    +-- GrowlitheCharacter
+    +-- RoyceCharacter
     +-- PachirisuCharacter (future)
     +-- CheeseCatCharacter (future)
 ```
 
-The first implementation keeps the existing dog SVG/CSS structure unchanged and moves only dog-specific DOM manipulation (state classes and facing animation) behind `DogCharacter`. Main/IPC and the pure Pet Engine remain character-independent.
+The shared character surface is intentionally small: `setState()`, `setFacing()`, and `render()`. Character-specific capabilities remain optional and stay inside the character module. Main/IPC and the pure Pet Engine remain character-independent.
+
+### Character resource policy
+Character visuals use verified original resources as the baseline. New motions are produced through minimal pixel editing of the original resource rather than by replacing the character with an AI-generated or otherwise newly redrawn approximation. See `CHARACTER-RESOURCE-RULES.md` for the detailed policy.
 
 ## 5. Behavior Model
 
@@ -128,7 +133,7 @@ Use existing open-source desktop-pet projects as implementation references, espe
 
 - coglabss/deskcat — behavior/movement separation and automated tests.
 - kokoronoka/desktopPet — Electron overlay, click-through, drag IPC, work-area clamping, renderer/main separation.
-- Evanfan007/desktop-pet — simple Electron dog with state-machine animation and drag/click behavior.
+- Evanfan007/desktop-pet — simple Electron Neukgu with state-machine animation and drag/click behavior.
 
 Do not blindly copy project code. Extract proven patterns, adapt them to this project's architecture, and test the adapted behavior.
 

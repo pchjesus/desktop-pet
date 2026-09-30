@@ -7,5 +7,7 @@ contextBridge.exposeInMainWorld('petAPI', {
   dragEnd: () => ipcRenderer.send('pet:drag-end'),
   getWindow: () => ipcRenderer.invoke('pet:get-window'),
   setPosition: (x, y) => ipcRenderer.send('pet:set-position', { x, y }),
-  quit: () => ipcRenderer.invoke('pet:quit')
+  quit: () => ipcRenderer.invoke('pet:quit'),
+  openFanProject: () => ipcRenderer.send('pet:open-fan-project'),
+  showRoyceMessage: () => ipcRenderer.invoke('pet:show-royce-message')
 });

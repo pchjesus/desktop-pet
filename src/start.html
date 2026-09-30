@@ -17,12 +17,20 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
   .card {
-    width: 340px;
-    padding: 34px 30px 30px;
+    width: 440px;
+    padding: 28px 30px 26px;
     text-align: center;
   }
   h1 { margin: 0; font-size: 28px; letter-spacing: -0.04em; }
-  p { margin: 10px 0 26px; color: #666; font-size: 13px; line-height: 1.6; }
+  p { margin: 10px 0 18px; color: #666; font-size: 13px; line-height: 1.6; }
+  .choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 12px; }
+  .choice { border: 1px solid #ddd; border-radius: 14px; padding: 12px 8px 10px; background: #fff; cursor: pointer; }
+  .choice.selected { box-shadow: 0 0 0 2px #333 inset; }
+  .choice-neukgu { width: 86px; height: 86px; display: grid; place-items: center; font-size: 52px; margin: 0 auto 5px; }
+  .choice img { width: 86px; height: 86px; object-fit: contain; image-rendering: pixelated; display: block; margin: 0 auto 5px; }
+  .choice strong { display: block; font-size: 13px; }
+  .choice span { color: #777; font-size: 11px; }
+  .tip { margin: 0 0 14px; color: #888; font-size: 11px; line-height: 1.45; }
   .buttons { display: grid; gap: 10px; }
   button {
     width: 100%;
@@ -41,14 +49,44 @@
 <body>
   <main class="card">
     <h1>Desktop Pet</h1>
-    <p>바탕화면에서 함께 지내는 작은 펫입니다.<br>준비가 되었다면 시작해 보세요.</p>
+    <p>바탕화면에서 함께 지내는 작은 펫입니다.<br>함께할 캐릭터를 선택해 주세요.</p>
+    <div class="choices">
+      <button class="choice selected" data-character="neukgu" type="button">
+        <span class="choice-neukgu" aria-hidden="true">🐶</span>
+        <strong>늑구</strong><span>Desktop Pet 기본 캐릭터</span>
+      </button>
+      <button class="choice" data-character="growlithe" type="button">
+        <img src="assets/characters/growlithe-hgss.png" alt="가디">
+        <strong>가디</strong><span>Growlithe · HG/SS</span>
+      </button>
+      <button class="choice" data-character="royce" type="button">
+        <img src="assets/characters/royce.svg" alt="로이스">
+        <strong>로이스</strong><span>Royce · 특별 캐릭터</span>
+      </button>
+    </div>
+    <div class="tip" id="tip">캐릭터를 선택해 주세요.</div>
     <div class="buttons">
       <button id="manual" type="button">설명서</button>
       <button id="start" type="button">시작</button>
     </div>
   </main>
   <script>
-    document.getElementById('start').addEventListener('click', () => window.startAPI.start());
+    let selectedCharacter = 'neukgu';
+    const tips = {
+      neukgu: '늑구는 Desktop Pet의 기본 캐릭터입니다.',
+      growlithe: '가디를 선택한 후 캐릭터를 클릭하고 <b>pocketmon</b>을 입력한 뒤 Enter를 눌러보세요.',
+      royce: '로이스를 선택한 후 캐릭터를 클릭하고 <b>royce</b>를 입력한 뒤 Enter를 눌러보세요.'
+    };
+    const tip = document.getElementById('tip');
+    document.querySelectorAll('.choice').forEach((choice) => {
+      choice.addEventListener('click', () => {
+        document.querySelectorAll('.choice').forEach((item) => item.classList.remove('selected'));
+        choice.classList.add('selected');
+        selectedCharacter = choice.dataset.character;
+        tip.innerHTML = tips[selectedCharacter];
+      });
+    });
+    document.getElementById('start').addEventListener('click', () => window.startAPI.start(selectedCharacter));
     document.getElementById('manual').addEventListener('click', () => window.startAPI.openManual());
   </script>
 </body>

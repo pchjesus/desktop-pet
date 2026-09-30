@@ -1,4 +1,4 @@
-# Desktop Pet v0.1.8
+# Desktop Pet v0.1.12
 
 AI-assisted desktop pet MVP.
 
@@ -16,7 +16,26 @@ Symptom → reproduce → root cause → affected scope → fix → regression t
 The human decides important UX/product choices; the AI is expected to inspect the current code, implement changes, run checks, look for regressions, and iterate instead of assuming generated code is correct.
 
 ## Character architecture
-The renderer uses a lightweight character boundary. The current dog remains visually unchanged, while `src/characters/dog.js` owns dog-specific DOM state classes and facing animation. Future characters can implement the same small surface without changing Electron Main/IPC or the pure behavior engine.
+The renderer uses a lightweight character boundary. The current Neukgu character uses the shared dog-style visual structure, while `src/characters/neukgu.js` owns Neukgu-specific state classes and facing behavior. `GrowlitheCharacter` implements the same shared surface and keeps Growlithe-specific resource handling inside the character module. Future characters can implement the same small surface without changing Electron Main/IPC or the pure behavior engine.
+
+Shared character surface:
+- `setState()`
+- `setFacing()`
+- `render()`
+
+Character-specific capabilities are optional and must not be moved into `pet-engine.js`.
+
+## Characters
+- Startup character selection: Neukgu, Growlithe, or Royce
+- Growlithe uses the supplied HG/SS 80×80 original sprite as its base visual resource.
+- Growlithe WALK uses original-resource-based pixel editing rather than a newly redrawn character.
+- Growlithe uses left/right facing like Neukgu. The Pet Engine moves the desktop window; the character module controls the visual direction and motion resource.
+- Growlithe SLEEP uses a closed-eye resource; REACT uses the supplied native reaction animation.
+- Growlithe has a small fan-project Easter egg: after clicking Growlithe, type `pocketmon` and press Enter.
+- Royce uses the Neukgu visual structure with a black/tan color treatment and has five click reactions: `멍!`, `쓰담?`, `좋아!`, `화이팅!`, and `보고 싶어!`.
+- Royce has a dedicated Desktop Pet popup Easter egg: after clicking Royce, type `royce` and press Enter to open a custom popup showing `우재민 화이팅!`.
+
+See `CHARACTER-RESOURCE-RULES.md` for the project-wide character asset policy.
 
 ## Current MVP
 - Electron transparent frameless always-on-top window
@@ -29,7 +48,9 @@ The renderer uses a lightweight character boundary. The current dog remains visu
 - Screen/work-area clamping
 - Small behavior engine: idle / walk / sit / sleep / drag / react
 - Pure movement/state tests
-- Final dog character visual and character boundary
+- Final Neukgu character visual and character boundary
+- Startup character selection for Neukgu, Growlithe, and Royce
+- Royce-specific click reactions and Desktop Pet popup Easter egg
 - Startup screen and in-app manual window
 
 ## 시작 및 설명서
@@ -64,19 +85,19 @@ It performs:
 4. syntax + desktop-shell regression checks
 5. portable EXE build and artifact existence check
 
-The resulting portable `.exe` is expected at `dist/DesktopPet-0.1.8-portable.exe`.
+The resulting portable `.exe` is expected at `dist/DesktopPet-0.1.12-portable.exe`.
 
 For a direct command-line build, run `npm run dist` after the Electron preflight has passed.
 For the NSIS installer, run `npm run dist:installer`.
 
 `INSTALL-WINDOWS.bat` is a development-run helper; it launches the source app and is not the EXE build script.
 
-After a successful build, run `VERIFY-WINDOWS.bat` to repeat the automated checks and launch the packaged EXE for a 5-second process smoke test. Manual visual checks are still required for the Windows overlay interactions.
+After a successful build, run `VERIFY-WINDOWS.bat` to repeat the automated checks and launch the packaged EXE for a short process smoke test. Manual visual checks are still required for the Windows overlay interactions. See `RELEASE-GUIDE.md` for the v0.1.12 Windows release and GitHub Release checklist.
 
 ## Open-source references reviewed
 - coglabss/deskcat: Electron, transparent always-on-top click-through desktop pet, drag/click interactions, behavior/movement logic with 36 Jest tests.
 - kokoronoka/desktopPet: Electron overlay, click-through switching, drag IPC, screen work-area clamping, renderer/main separation for walking.
-- Evanfan007/desktop-pet: Electron desktop companion with transparent frameless always-on-top window, draggable dog, click bubble, and state-machine animation.
+- Evanfan007/desktop-pet: Electron desktop companion with transparent frameless always-on-top window, draggable Neukgu, click bubble, and state-machine animation.
 
 These are references for architecture and behavior patterns, not code to copy wholesale.
 

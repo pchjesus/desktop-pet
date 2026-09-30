@@ -5,8 +5,60 @@ const {
   stepToward: petStepToward
 } = window.PetEngine;
 const pet = document.getElementById('pet');
-const character = new globalThis.DogCharacter(document.getElementById('wolf'), PET_STATES);
+const requestedCharacter = new URLSearchParams(location.search).get('character');
+const selectedCharacter = ['growlithe', 'royce'].includes(requestedCharacter) ? requestedCharacter : 'neukgu';
+document.body.dataset.character = selectedCharacter;
+const character = selectedCharacter === 'growlithe'
+  ? new globalThis.GrowlitheCharacter(document.getElementById('growlithe'), PET_STATES)
+  : selectedCharacter === 'royce'
+    ? new globalThis.RoyceCharacter(document.getElementById('royce'), PET_STATES)
+    : new globalThis.NeukguCharacter(document.getElementById('neukgu'), PET_STATES);
 const bubble = document.getElementById('bubble');
+
+let easterEggEligibleUntil = 0;
+let easterEggBuffer = '';
+
+function armEasterEgg() {
+  if (selectedCharacter !== 'growlithe' && selectedCharacter !== 'royce') return;
+  easterEggEligibleUntil = Date.now() + 5000;
+  easterEggBuffer = '';
+}
+
+function showEasterEgg() {
+  if (selectedCharacter === 'growlithe') {
+    window.petAPI.openFanProject();
+  } else if (selectedCharacter === 'royce') {
+    window.petAPI.showRoyceMessage();
+  }
+  easterEggEligibleUntil = 0;
+  easterEggBuffer = '';
+}
+
+function easterEggCode() {
+  if (selectedCharacter === 'growlithe') return 'pocketmon';
+  if (selectedCharacter === 'royce') return 'royce';
+  return '';
+}
+
+window.addEventListener('keydown', (event) => {
+  if ((selectedCharacter !== 'growlithe' && selectedCharacter !== 'royce') || Date.now() > easterEggEligibleUntil) return;
+
+  if (event.key === 'Enter') {
+    if (easterEggBuffer === easterEggCode()) showEasterEgg();
+    else easterEggBuffer = '';
+    return;
+  }
+
+  if (event.key === 'Backspace') {
+    easterEggBuffer = easterEggBuffer.slice(0, -1);
+    return;
+  }
+
+  if (/^[a-zA-Z]$/.test(event.key)) {
+    easterEggBuffer = (easterEggBuffer + event.key.toLowerCase()).slice(-20);
+  }
+});
+
 
 let state = PET_STATES.IDLE;
 const PET_DEBUG = new URLSearchParams(location.search).has('pet-debug');
@@ -43,9 +95,6 @@ function render() {
   character.render();
 }
 
-function updateFacing(nextFacing) {
-  character.setFacing(nextFacing);
-}
 
 async function initPosition() {
   windowInfo = await window.petAPI.getWindow();
@@ -64,28 +113,28 @@ function desktopTarget() {
   };
 }
 
-window.addEventListener('mousemove', (event) => {
+function handleDragMove(event) {
   if (!dragging) return;
   const distance = Math.hypot(event.screenX - pointerStart.x, event.screenY - pointerStart.y);
   if (distance >= 6) didDrag = true;
   window.petAPI.dragMove(event.screenX, event.screenY);
-});
+}
+
+window.addEventListener('pointermove', handleDragMove);
 
 pet.addEventListener('contextmenu', async (event) => {
   event.preventDefault();
   await window.petAPI.quit();
 });
 
-pet.addEventListener('mousedown', (event) => {
-  if (event.button !== 0) return;
-  dragging = true; didDrag = false; pointerStart = { x:event.screenX, y:event.screenY };
-  pet.classList.add('dragging'); setState(PET_STATES.DRAG);
-  window.petAPI.dragStart(event.screenX, event.screenY);
-});
-
-window.addEventListener('mouseup', (event) => {
+function finishPointerInteraction(event) {
   if (!dragging) return;
-  dragging = false; pet.classList.remove('dragging'); window.petAPI.dragEnd();
+  dragging = false;
+  pet.classList.remove('dragging');
+  if (event?.pointerId != null && pet.hasPointerCapture?.(event.pointerId)) {
+    try { pet.releasePointerCapture(event.pointerId); } catch {}
+  }
+  window.petAPI.dragEnd();
 
   // Main owns the real OS window position during drag. Re-sync the
   // renderer's local position before autonomous movement resumes.
@@ -96,22 +145,45 @@ window.addEventListener('mouseup', (event) => {
   });
 
   if (!didDrag) {
-    setState(PET_STATES.REACT); showBubble(['멍!','쓰담?','좋아!'][Math.floor(Math.random()*3)]);
+    setState(PET_STATES.REACT);
+    armEasterEgg();
+    const clickMessages = {
+      neukgu: ['멍!', '쓰담?', '좋아!'],
+      growlithe: ['왈!', '쓰담?', '좋아!'],
+      royce: ['멍!', '쓰담?', '좋아!', '화이팅!', '보고 싶어!']
+    };
+    const messages = clickMessages[selectedCharacter] || clickMessages.neukgu;
+    showBubble(messages[Math.floor(Math.random() * messages.length)]);
     setTimeout(() => setState(PET_STATES.IDLE), 800);
   } else setState(PET_STATES.IDLE);
   nextDecision = performance.now() + 1200;
+}
+
+pet.addEventListener('pointerdown', (event) => {
+  if (event.button !== 0) return;
+  dragging = true; didDrag = false; pointerStart = { x:event.screenX, y:event.screenY };
+  pet.classList.add('dragging'); setState(PET_STATES.DRAG);
+  try { pet.setPointerCapture(event.pointerId); } catch {}
+  window.petAPI.dragStart(event.screenX, event.screenY);
 });
+
+pet.addEventListener('pointerup', finishPointerInteraction);
+pet.addEventListener('pointercancel', finishPointerInteraction);
+window.addEventListener('blur', () => { if (dragging) finishPointerInteraction(); });
 
 function tick(now) {
   const dt = Math.min(50, now-last); last = now;
   if (!dragging) {
     if (now >= nextDecision) chooseAction();
     if (state === PET_STATES.WALK) {
+      const previousPosition = position;
       const result = petStepToward(position, target, 0.18, dt);
       position = result.position;
       window.petAPI.setPosition(position.x, position.y);
       if (PET_DEBUG && Math.random() < 0.02) debugLog('walk', position);
-      if (result.direction) updateFacing(result.direction);
+      if (typeof character.setMovementDirection === 'function') {
+        character.setMovementDirection({ x: position.x - previousPosition.x, y: position.y - previousPosition.y });
+      }
       if (result.arrived) chooseAction();
     }
   }

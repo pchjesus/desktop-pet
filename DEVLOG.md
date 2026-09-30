@@ -1,3 +1,52 @@
+# v0.1.12 — Neukgu naming update
+
+- Renamed the default character from the generic `Dog`/`dog` identifier to **Neukgu / 늑구** in the current character system, startup screen, manual, renderer, tests, and documentation.
+- Renamed the character module to `src/characters/neukgu.js` and the class to `NeukguCharacter`.
+- Kept Growlithe, Royce, Pet Engine, IPC, movement, drag, and Easter egg behavior unchanged.
+- Included the final Royce preview resource fix from the v0.1.11 refinement.
+- Current character set: **늑구(Neukgu), 가디(Growlithe), 로이스(Royce)**.
+- Royce retains five click reactions and the `royce` → `우재민 화이팅!` Desktop Pet popup Easter egg.
+- Automated tests: 41/41 passed before release packaging.
+- Windows Portable EXE and major GUI interactions were manually verified on the user's Windows environment.
+- v0.1.12 is the current release candidate for the Windows Portable GitHub Release.
+- Historical DEVLOG/PATCH entries retain their original terminology so the development history remains traceable.
+
+# v0.1.11 — Royce visual and popup refinement
+
+- Slimmed Royce's front legs in the existing SVG-based character resource without changing the shared character structure.
+- Replaced the Royce native Electron message box with a dedicated `royce-message.html` BrowserWindow, reusing the existing desktop-window approach used by the project.
+- Kept the `royce` Easter egg trigger and `우재민 화이팅!` message unchanged.
+- Existing Dog/Growlithe behavior and the shared Pet Engine remain unchanged.
+
+## Validation
+
+- Automated tests: 41/41 pass.
+- Windows GUI validation: still required before treating v0.1.11 as stable.
+
+# DEVLOG — v0.1.9-patch-02
+
+### Changed
+- Replaced the Growlithe WALK presentation with the supplied HeartGold/SoulSilver overworld #058 sprites.
+- Added direction-aware 2-frame pixel-art walk sheets for down/left/right/up.
+- Growlithe now chooses the overworld direction from its actual movement vector while the existing shared movement engine continues to own movement and probabilities.
+- Growlithe click reaction continues to use the supplied 23-frame animation-derived reaction sheet.
+- Reworked drag input to Pointer Events with pointer capture, pointer cancellation, and window-blur cleanup so releasing the mouse does not leave the pet stuck in drag state.
+
+### Risk review
+- DogCharacter and Pet Engine behavior probabilities were not changed.
+- OS window movement remains main-process-owned.
+- The existing click-vs-drag threshold and Growlithe Easter egg flow remain intact.
+- The supplied overworld sprites are 32×32 source assets; they are scaled with nearest-neighbor rendering inside the existing Growlithe visual layer to preserve pixel edges.
+
+### Validation
+- Node test suite: 31/31 passed.
+- JavaScript syntax checks: passed.
+- Windows GUI runtime still requires manual validation on the user's Windows environment.
+
+### Next
+- Verify the visual feel of the four-direction walk animation and click reaction on Windows.
+- If needed, tune only animation timing/scale; do not replace the supplied source sprites without a UX decision.
+
 # DEVLOG — v0.1.8-patch-01
 
 ### Added
@@ -174,3 +223,82 @@
 ### Validation
 - Automated tests and syntax checks should be run after applying this patch.
 - Final startup/manual visual behavior should be checked on Windows together with the existing pet regression checklist.
+
+
+# v0.1.9 — Growlithe character expansion
+
+- Added character selection to the startup screen for the existing dog and Growlithe.
+- Added `GrowlitheCharacter` without changing the shared Pet Engine state probabilities or OS window/drag ownership.
+- Added local HG/SS Growlithe 80×80 static sprite and the supplied 23-frame animated PNG as the click-reaction resource.
+- Kept the original dog DOM/character implementation intact and added regression tests for both character modules and selection flow.
+- Added the Growlithe-only `pocketmon` + Enter fan-project Easter egg, armed only after a normal Growlithe click so it does not interfere with click-vs-drag handling.
+- Added the fan-project information window using the previously agreed wording.
+- Automated tests and JavaScript syntax checks are required before the Windows GUI validation step.
+
+
+# v0.1.9-patch-01 — Growlithe sprite animation
+
+### Changed
+- Replaced the Growlithe-only parent bounce/position animation with actual pixel-art frame animation inside the character layer.
+- Derived a 22-frame idle/walk sprite sheet from frames 0–11 of the supplied 23-frame HG/SS animation, mirrored into a ping-pong loop to avoid the original final 2.5-second hold.
+- Derived a 10-frame reaction sprite sheet from frames 12–21 for a deterministic click reaction.
+- Kept the original static PNG and supplied animated PNG in the project as source assets.
+- Kept facing direction on the outer character element so sprite animation cannot overwrite the shared left/right facing transform.
+
+### Impact / regression review
+- Pet Engine state probabilities and movement logic were not changed.
+- DogCharacter and the dog SVG were not changed.
+- Drag/click classification, window movement ownership, and Growlithe Easter egg input flow were not changed.
+- Growlithe sleep still uses the original static frame with a small positional breathing effect; the supplied source animation does not contain a dedicated closed-eye sleep pose, so no artificial eye pixels were added.
+
+### Validation
+- Full automated test suite: 30/30 passed.
+- JavaScript syntax checks: passed.
+- Final Windows GUI validation remains required on the user's machine.
+
+# v0.1.9 — Stabilization baseline
+
+## Added
+- Established `v0.1.9 Growlithe ExactPixel` as the current working baseline after Windows GUI validation by the user.
+- Added a shared character-contract regression suite for `DogCharacter` and `GrowlitheCharacter`.
+- Added `CHARACTER-RESOURCE-RULES.md` to record the project-wide character resource policy.
+
+## Character contract
+- Shared minimum interface: `setState()`, `setFacing()`, `render()`.
+- Character-specific methods are optional and must not be added to `PetEngine`.
+- Current Growlithe-specific `setMovementDirection()` remains an optional character capability used by the renderer.
+
+## Resource policy
+- Use verified original character resources as the visual baseline.
+- For new motions, edit the original pixels minimally rather than redrawing a visually similar replacement.
+- AI-generated images are reference material only, not the default final character asset.
+- Validate each animation state incrementally before expanding to the next state.
+
+## Validation
+- Full automated test suite: 38/38 passed.
+- JavaScript syntax checks: passed.
+- Windows GUI behavior already validated by the user for the current Growlithe baseline: character selection, Growlithe movement animation, facing direction, drag, click reaction, sleep presentation, and `pocketmon` Easter egg.
+
+## Next
+- Keep the `v0.1.9 Growlithe ExactPixel` behavior stable.
+- Begin Pachirisu work in a new development phase after this baseline remains unchanged.
+
+
+# v0.1.10 — Royce character
+
+## Added
+- Added the `Royce` character using the existing dog character structure and a black/tan visual treatment based on the supplied reference photos.
+- Added Royce to the startup character selection.
+- Preserved the existing dog click reactions and added `화이팅!` and `보고 싶어!`, for five total Royce click reactions.
+- Added the Royce-only `royce` + Enter Easter egg, which opens a native Electron message box displaying `우재민 화이팅!`.
+- Added startup-screen guidance for the Growlithe and Royce Easter eggs.
+
+## Impact / regression review
+- Pet Engine state selection and movement math were not changed.
+- Existing Dog and Growlithe character modules were not changed.
+- Existing click-vs-drag classification remains unchanged; the Royce Easter egg uses the same post-click arming model as Growlithe.
+- Main/IPC changes are limited to accepting the `royce` character id and exposing the native Royce message box.
+
+## Validation
+- Automated tests and JavaScript syntax checks must pass before Windows GUI validation.
+- Windows GUI validation remains required for the final packaged EXE, including character selection, Royce appearance, movement, facing, drag, click reactions, `royce` Easter egg, and existing Dog/Growlithe behavior.

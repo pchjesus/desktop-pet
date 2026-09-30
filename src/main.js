@@ -7,6 +7,8 @@ const fs = require('fs');
 let win;
 let startWin;
 let manualWin;
+let fanProjectWin;
+let royceMessageWin;
 let tray;
 let dragging = false;
 let dragStart = null;
@@ -90,8 +92,8 @@ function updateDraggedWindow() {
   win.setPosition(next.x, next.y, false);
 }
 
-// Current wolf visual bounds inside the transparent 180x150 window.
-// The window may extend beyond the screen so the wolf itself can reach the edge.
+// Current Neukgu visual bounds inside the transparent 180x150 window.
+// The window may extend beyond the screen so Neukgu itself can reach the edge.
 const PET_VISUAL_BOUNDS = Object.freeze({
   left: 60,
   top: 50,
@@ -150,7 +152,8 @@ function stopMouseHitTesting() {
   hitTestTimer = null;
 }
 
-function createPetWindow() {
+function createPetWindow(characterId = 'neukgu') {
+  const selectedCharacter = characterId === 'growlithe' || characterId === 'royce' ? characterId : 'neukgu';
   win = new BrowserWindow({
     width: 180,
     height: 150,
@@ -172,7 +175,7 @@ function createPetWindow() {
 
   win.setAlwaysOnTop(true, 'floating');
   win.webContents.once('did-finish-load', markSmokeReady);
-  win.loadFile(path.join(__dirname, 'index.html'));
+  win.loadFile(path.join(__dirname, 'index.html'), { query: { character: selectedCharacter } });
 
   ipcMain.handle('pet:get-window', () => {
     if (!win) return null;
@@ -206,7 +209,69 @@ function createPetWindow() {
     return false;
   });
 
+  ipcMain.on('pet:open-fan-project', () => createFanProjectWindow());
+
+  ipcMain.handle('pet:show-royce-message', () => {
+    if (!win || selectedCharacter !== 'royce') return false;
+    createRoyceMessageWindow();
+    return true;
+  });
+
   win.on('closed', () => { win = null; });
+}
+
+
+function createRoyceMessageWindow() {
+  if (royceMessageWin && !royceMessageWin.isDestroyed()) {
+    royceMessageWin.focus();
+    return;
+  }
+
+  royceMessageWin = new BrowserWindow({
+    width: 380,
+    height: 240,
+    minWidth: 380,
+    minHeight: 240,
+    maxWidth: 380,
+    maxHeight: 240,
+    title: 'Desktop Pet',
+    resizable: false,
+    autoHideMenuBar: true,
+    center: true,
+    alwaysOnTop: true,
+    parent: win || undefined,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false
+    }
+  });
+
+  royceMessageWin.loadFile(path.join(__dirname, 'royce-message.html'));
+  royceMessageWin.on('closed', () => { royceMessageWin = null; });
+}
+
+
+function createFanProjectWindow() {
+  if (fanProjectWin && !fanProjectWin.isDestroyed()) {
+    fanProjectWin.focus();
+    return;
+  }
+
+  fanProjectWin = new BrowserWindow({
+    width: 620,
+    height: 500,
+    minWidth: 560,
+    minHeight: 440,
+    title: 'Pokémon Fan Project',
+    resizable: true,
+    autoHideMenuBar: true,
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false
+    }
+  });
+  fanProjectWin.loadFile(path.join(__dirname, 'fan-project.html'));
+  fanProjectWin.on('closed', () => { fanProjectWin = null; });
 }
 
 function createManualWindow() {
@@ -234,8 +299,8 @@ function createManualWindow() {
 
 function createStartWindow() {
   startWin = new BrowserWindow({
-    width: 420,
-    height: 340,
+    width: 500,
+    height: 500,
     resizable: false,
     title: 'Desktop Pet',
     autoHideMenuBar: true,
@@ -252,11 +317,11 @@ function createStartWindow() {
   });
 }
 
-ipcMain.on('start:launch-pet', () => {
+ipcMain.on('start:launch-pet', (_event, characterId) => {
   if (win || launchingPet) return;
   launchingPet = true;
   if (startWin && !startWin.isDestroyed()) startWin.close();
-  createPetWindow();
+  createPetWindow(characterId);
   startMouseHitTesting();
   launchingPet = false;
 });

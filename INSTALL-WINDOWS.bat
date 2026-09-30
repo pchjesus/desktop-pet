@@ -4,7 +4,7 @@ cd /d "%~dp0"
 title Desktop Pet - Development Run
 
 echo ========================================
-echo Desktop Pet v0.1.6 Development Run
+echo Desktop Pet v0.1.12 Development Run
  echo ========================================
 echo.
 echo This script runs the app from source. It does NOT build the portable EXE.

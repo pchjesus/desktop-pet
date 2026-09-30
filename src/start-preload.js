@@ -1,6 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('startAPI', {
-  start: () => ipcRenderer.send('start:launch-pet'),
+  start: (characterId) => ipcRenderer.send('start:launch-pet', characterId),
   openManual: () => ipcRenderer.send('start:open-manual')
 });

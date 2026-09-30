@@ -4,7 +4,7 @@ cd /d "%~dp0"
 title Desktop Pet - Windows Build
 
 echo ========================================
-echo Desktop Pet Windows Build v0.1.8
+echo Desktop Pet Windows Build v0.1.12
 echo ========================================
 echo.
 
@@ -36,14 +36,14 @@ echo [5/5] Building portable Windows EXE...
 CALL npm.cmd run dist
 if errorlevel 1 goto :error
 
-if not exist "dist\DesktopPet-0.1.8-portable.exe" goto :artifact_error
+if not exist "dist\DesktopPet-0.1.12-portable.exe" goto :artifact_error
 
 echo.
 echo ========================================
 echo BUILD SUCCESS
 echo ========================================
 echo.
-echo EXE: dist\DesktopPet-0.1.8-portable.exe
+echo EXE: dist\DesktopPet-0.1.12-portable.exe
 echo.
 echo NOTE: The EXE artifact was created. Visual Windows runtime validation is a separate step.
 echo.
