@@ -153,7 +153,7 @@ function stopMouseHitTesting() {
 }
 
 function createPetWindow(characterId = 'neukgu') {
-  const selectedCharacter = characterId === 'growlithe' || characterId === 'royce' ? characterId : 'neukgu';
+  const selectedCharacter = ['growlithe', 'royce', 'spheal'].includes(characterId) ? characterId : 'neukgu';
   win = new BrowserWindow({
     width: 180,
     height: 150,

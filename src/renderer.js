@@ -6,26 +6,28 @@ const {
 } = window.PetEngine;
 const pet = document.getElementById('pet');
 const requestedCharacter = new URLSearchParams(location.search).get('character');
-const selectedCharacter = ['growlithe', 'royce'].includes(requestedCharacter) ? requestedCharacter : 'neukgu';
+const selectedCharacter = ['growlithe', 'royce', 'spheal'].includes(requestedCharacter) ? requestedCharacter : 'neukgu';
 document.body.dataset.character = selectedCharacter;
 const character = selectedCharacter === 'growlithe'
   ? new globalThis.GrowlitheCharacter(document.getElementById('growlithe'), PET_STATES)
   : selectedCharacter === 'royce'
     ? new globalThis.RoyceCharacter(document.getElementById('royce'), PET_STATES)
-    : new globalThis.NeukguCharacter(document.getElementById('neukgu'), PET_STATES);
+    : selectedCharacter === 'spheal'
+      ? new globalThis.SphealCharacter(document.getElementById('spheal'), PET_STATES)
+      : new globalThis.NeukguCharacter(document.getElementById('neukgu'), PET_STATES);
 const bubble = document.getElementById('bubble');
 
 let easterEggEligibleUntil = 0;
 let easterEggBuffer = '';
 
 function armEasterEgg() {
-  if (selectedCharacter !== 'growlithe' && selectedCharacter !== 'royce') return;
+  if (selectedCharacter !== 'growlithe' && selectedCharacter !== 'royce' && selectedCharacter !== 'spheal') return;
   easterEggEligibleUntil = Date.now() + 5000;
   easterEggBuffer = '';
 }
 
 function showEasterEgg() {
-  if (selectedCharacter === 'growlithe') {
+  if (selectedCharacter === 'growlithe' || selectedCharacter === 'spheal') {
     window.petAPI.openFanProject();
   } else if (selectedCharacter === 'royce') {
     window.petAPI.showRoyceMessage();
@@ -37,13 +39,28 @@ function showEasterEgg() {
 function easterEggCode() {
   if (selectedCharacter === 'growlithe') return 'pocketmon';
   if (selectedCharacter === 'royce') return 'royce';
+  if (selectedCharacter === 'spheal') return 'pocketmon';
   return '';
 }
 
+function handleSphealSpecialCode() {
+  if (selectedCharacter !== 'spheal' || !character?.startSpecialAction) return false;
+  if (easterEggBuffer !== 'watergun') return false;
+  if (character.startSpecialAction('watergun')) {
+    nextDecision = performance.now() + 1800;
+    easterEggEligibleUntil = 0;
+    easterEggBuffer = '';
+    showBubble('물대포!');
+    return true;
+  }
+  return false;
+}
+
 window.addEventListener('keydown', (event) => {
-  if ((selectedCharacter !== 'growlithe' && selectedCharacter !== 'royce') || Date.now() > easterEggEligibleUntil) return;
+  if ((selectedCharacter !== 'growlithe' && selectedCharacter !== 'royce' && selectedCharacter !== 'spheal') || Date.now() > easterEggEligibleUntil) return;
 
   if (event.key === 'Enter') {
+    if (handleSphealSpecialCode()) return;
     if (easterEggBuffer === easterEggCode()) showEasterEgg();
     else easterEggBuffer = '';
     return;
@@ -68,6 +85,7 @@ let position = { x: 0, y: 0 };
 let windowInfo = null;
 let last = performance.now();
 let nextDecision = last + 1200;
+let nextSphealClap = last + 30000 + Math.random() * 30000;
 let dragging = false;
 let pointerStart = null;
 let didDrag = false;
@@ -150,11 +168,23 @@ function finishPointerInteraction(event) {
     const clickMessages = {
       neukgu: ['멍!', '쓰담?', '좋아!'],
       growlithe: ['왈!', '쓰담?', '좋아!'],
-      royce: ['멍!', '쓰담?', '좋아!', '화이팅!', '보고 싶어!']
+      royce: ['멍!', '쓰담?', '좋아!', '화이팅!', '보고 싶어!'],
+      spheal: ['뿌우!', '짝짝!', '좋아!']
     };
     const messages = clickMessages[selectedCharacter] || clickMessages.neukgu;
     showBubble(messages[Math.floor(Math.random() * messages.length)]);
-    setTimeout(() => setState(PET_STATES.IDLE), 800);
+    if (selectedCharacter === 'spheal') {
+      const finishSphealReaction = () => {
+        if (character?.isSpecialActionActive?.()) {
+          setTimeout(finishSphealReaction, 50);
+          return;
+        }
+        if (state === PET_STATES.REACT) setState(PET_STATES.IDLE);
+      };
+      setTimeout(finishSphealReaction, 50);
+    } else {
+      setTimeout(() => setState(PET_STATES.IDLE), 800);
+    }
   } else setState(PET_STATES.IDLE);
   nextDecision = performance.now() + 1200;
 }
@@ -174,10 +204,23 @@ window.addEventListener('blur', () => { if (dragging) finishPointerInteraction()
 function tick(now) {
   const dt = Math.min(50, now-last); last = now;
   if (!dragging) {
-    if (now >= nextDecision) chooseAction();
+    if (character?.isSpecialActionActive?.()) {
+      render();
+      return;
+    }
+    let autonomousSpecialStarted = false;
+    if (selectedCharacter === 'spheal' && state === PET_STATES.IDLE && now >= nextSphealClap) {
+      if (character.startAutonomousSpecial?.(now)) {
+        nextSphealClap = now + 30000 + Math.random() * 30000;
+        nextDecision = now + 1000;
+        autonomousSpecialStarted = true;
+      }
+    }
+    if (!autonomousSpecialStarted && now >= nextDecision) chooseAction();
     if (state === PET_STATES.WALK) {
       const previousPosition = position;
-      const result = petStepToward(position, target, 0.18, dt);
+      const movementSpeed = typeof character.getMovementSpeed === 'function' ? character.getMovementSpeed() : 0.18;
+      const result = petStepToward(position, target, movementSpeed, dt);
       position = result.position;
       window.petAPI.setPosition(position.x, position.y);
       if (PET_DEBUG && Math.random() < 0.02) debugLog('walk', position);

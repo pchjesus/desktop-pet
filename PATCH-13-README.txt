@@ -1,8 +1,35 @@
-v0.1.9 Patch 13 — Growlithe exact-source pixel animation
+PATCH 13 — 대굴레오 박수/물대포 모션 개선
 
-- Base Growlithe appearance uses the supplied HG/SS 80x80 PNG byte-for-byte.
-- WALK uses a 6-frame APNG derived directly from that source: only tiny lower-leg pixel regions are shifted; no redraw/SVG/sprite-sheet CSS.
-- REACT uses the supplied 23-frame APNG.
-- SLEEP uses the supplied base sprite with only the eye pixels edited into a closed-eye pose.
-- Left/right facing continues to follow actual horizontal movement direction.
-- Dog behavior and shared Pet Engine are unchanged.
+기준
+- Desktop Pet v0.1.12(2) / Patch 12 작업본
+- 기존 기본 대굴레오와 ROLL은 유지
+
+변경
+- 박수 모션을 8프레임 one-shot으로 재구성
+- 박수의 접촉 구간을 2프레임으로 확보해 동작을 더 명확하게 표현
+- 박수 중 행복한 눈/웃는 표정 오버레이 추가
+- 박수 접촉 순간의 작은 픽셀 임팩트 효과 추가
+- 물대포 모션을 8프레임 one-shot으로 재구성
+- 물대포 기존의 얇은 선 표현을 제거하고 별도 픽셀 물줄기 효과로 교체
+- 물줄기를 입에서 현재 방향으로 길고 두꺼운 직선 형태로 표시
+- 물대포 중 행복한 눈/입 표정과 작은 몸 반동 추가
+- Water Gun은 170ms/frame, 박수는 180ms/frame으로 재생
+- 공통 입력 구조와 Pet Engine은 변경하지 않음
+
+알파/외곽선
+- Patch 12에서 수정한 기본 스프라이트와 ROLL은 변경하지 않음
+- 이번 패치에서 새 효과는 투명 PNG 기반으로 제작
+- 흰 배경 외곽선 자글거림은 별도 미해결 문제로 남겨둠
+
+검증
+- npm test: 53 passed, 0 failed
+- npm run check: passed
+- 기본 spheal-base.png SHA-256 유지
+- roll-01.png SHA-256 유지
+- 모든 박수/물대포 본체 프레임 80x80 확인
+- 물줄기 효과 프레임 100x24 확인
+- 실제 Electron/Windows 시각 검증은 아직 수행하지 않음
+
+주의
+- 구현 완료와 실제 화면 검증 완료를 동일하게 보지 않음.
+- 실제 Electron에서 박수/물대포의 위치, 표정, 물줄기 방향/두께, 외곽선 자글거림을 확인해야 한다.

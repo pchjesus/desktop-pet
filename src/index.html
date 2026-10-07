@@ -4,8 +4,8 @@
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}
 #pet{position:absolute;left:50%;top:50%;width:110px;height:110px;transform:translate(-50%,-50%);cursor:grab;user-select:none}
 .shadow{position:absolute;left:18px;bottom:10px;width:72px;height:14px;border-radius:50%;background:rgba(0,0,0,.20)}
-body[data-character="growlithe"] .neukgu,body[data-character="royce"] .neukgu{display:none}
-body[data-character="neukgu"] .royce,body[data-character="growlithe"] .royce{display:none}
+body[data-character="growlithe"] .neukgu,body[data-character="royce"] .neukgu,body[data-character="spheal"] .neukgu{display:none}
+body[data-character="neukgu"] .royce,body[data-character="growlithe"] .royce,body[data-character="spheal"] .royce{display:none}
 .neukgu,.royce{position:absolute;left:20px;bottom:10px;width:78px;height:72px;image-rendering:pixelated;transform-origin:50% 82%;will-change:transform}
 .neukgu-svg{width:100%;height:100%;overflow:visible;shape-rendering:crispEdges}.sleep-z{visibility:hidden}
 .royce{left:20px;bottom:10px;width:78px;height:72px}
@@ -13,7 +13,7 @@ body[data-character="neukgu"] .royce,body[data-character="growlithe"] .royce{dis
 .idle{animation:breathe .9s infinite alternate ease-in-out}.idle .ear1{animation:earTwitch 3.2s ease-in-out infinite}.idle .ear2{animation:earTwitch 3.2s .52s ease-in-out infinite}.idle .eye-open{animation:blink 5.2s ease-in-out infinite}.idle .tail{animation:idleTail 3.8s ease-in-out infinite alternate}
 .sit .tail{animation:sitTail 1.5s ease-in-out infinite alternate;transform-origin:100% 100%}.sleep .head{animation:sleepHead 1.8s ease-in-out infinite alternate}.sleep .eye-open{display:none}.sleep .eye-closed{display:inline}.sleep .sleep-z{visibility:visible;animation:sleepZ 1.5s ease-in-out infinite}.react{animation:bounce .22s 4 alternate}
 @keyframes step{to{transform:translateY(-3px)}}@keyframes wag{to{transform:rotate(10deg)}}@keyframes idleTail{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(5deg)}}@keyframes breathe{to{transform:translateY(-2px)}}@keyframes blink{0%,88%,100%{opacity:1}90%,94%{opacity:0}}@keyframes bounce{to{transform:translateY(-7px) rotate(-3deg)}}@keyframes earTwitch{0%,82%,100%{transform:rotate(0)}87%{transform:rotate(-8deg)}92%{transform:rotate(4deg)}}@keyframes sitTail{to{transform:rotate(8deg)}}@keyframes sleepHead{to{transform:translateY(1px)}}@keyframes sleepZ{0%,100%{transform:translate(0,0);opacity:.45}50%{transform:translate(3px,-5px);opacity:1}}
-body[data-character="neukgu"] .growlithe,body[data-character="royce"] .growlithe{display:none}
+body[data-character="neukgu"] .growlithe,body[data-character="royce"] .growlithe,body[data-character="spheal"] .growlithe{display:none}
 .growlithe{position:absolute;left:0;bottom:5px;width:120px;height:100px;transform-origin:50% 82%;will-change:transform;display:block}
 .growlithe-sprite{position:absolute;left:20px;top:6px;width:80px;height:80px;display:block;image-rendering:pixelated;image-rendering:crisp-edges;object-fit:contain;object-position:center;will-change:transform;user-select:none;-webkit-user-drag:none}
 .growlithe.idle .growlithe-sprite{animation:g-exact-idle 1.05s ease-in-out infinite alternate}
@@ -25,6 +25,7 @@ body[data-character="neukgu"] .growlithe,body[data-character="royce"] .growlithe
 @keyframes g-exact-sleep{from{transform:translateY(1px)}to{transform:translateY(3px)}}
 @keyframes g-react-pop{from{transform:translateY(0)}to{transform:translateY(-2px)}}
 @keyframes g-exact-drag{from{transform:translateY(0)}to{transform:translateY(-1px)}}
+body[data-character="neukgu"] .spheal,body[data-character="growlithe"] .spheal,body[data-character="royce"] .spheal{position:absolute;left:0;bottom:5px;width:120px;height:100px;transform-origin:50% 82%;will-change:transform;display:block}.spheal-sprite{position:absolute;left:20px;top:6px;width:80px;height:80px;display:block;image-rendering:pixelated;image-rendering:crisp-edges;object-fit:contain;user-select:none;-webkit-user-drag:none;z-index:1}.spheal.special-clap .spheal-sprite{animation:spheal-clap-bounce 1.44s ease-in-out 1}.spheal.special-watergun .spheal-sprite{left:0;width:120px;height:80px;animation:spheal-water-recoil 2.1s ease-in-out 1}.spheal.walk .spheal-sprite{transform:translateY(-1px)}@keyframes spheal-clap-bounce{0%{transform:translateY(0)}45%{transform:translateY(-3px)}100%{transform:translateY(0)}}@keyframes spheal-water-recoil{0%,67%{transform:translate(0,0) rotate(0deg)}72%{transform:translate(-1px,1px) rotate(-1deg)}77%{transform:translate(2px,0) rotate(1.5deg)}82%{transform:translate(-2px,1px) rotate(-1.5deg)}87%{transform:translate(1px,0) rotate(.8deg)}93%,100%{transform:translate(0,0) rotate(0deg)}}55%{transform:translate(-1px,1px) rotate(-1deg)}62%{transform:translate(2px,0) rotate(1.5deg)}69%{transform:translate(-2px,1px) rotate(-1.5deg)}76%{transform:translate(1px,0) rotate(.8deg)}84%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(0,0) rotate(0deg)}}
 #bubble{position:absolute;left:50%;top:12px;transform:translate(-50%,-100%);background:#fff;color:#333;padding:5px 9px;border-radius:9px;font:700 12px system-ui;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.16);display:none}
 </style></head><body><div id="pet"><div id="bubble"></div><div class="shadow"></div>
 
@@ -77,4 +78,5 @@ body[data-character="neukgu"] .growlithe,body[data-character="royce"] .growlithe
 <rect x="58" y="27" width="6" height="6" fill="#a96d3d"/>
 </g>
 <text class="sleep-z" visibility="hidden" x="70" y="9" font-size="10" font-family="system-ui" font-weight="700" fill="#555">z</text>
-</svg></div></div><script src="pet-engine.js"></script><script src="characters/neukgu.js"></script><script src="characters/growlithe.js"></script><script src="characters/royce.js"></script><script src="renderer.js"></script></body></html>
+</svg></div>
+<div class="spheal idle" id="spheal" aria-label="Spheal"><img class="spheal-sprite" src="assets/characters/spheal/spheal-base.png" alt=""></div></div><script src="pet-engine.js"></script><script src="characters/neukgu.js"></script><script src="characters/growlithe.js"></script><script src="characters/royce.js"></script><script src="characters/spheal.js"></script><script src="renderer.js"></script></body></html>

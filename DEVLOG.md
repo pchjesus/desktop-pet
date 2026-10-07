@@ -302,3 +302,59 @@
 ## Validation
 - Automated tests and JavaScript syntax checks must pass before Windows GUI validation.
 - Windows GUI validation remains required for the final packaged EXE, including character selection, Royce appearance, movement, facing, drag, click reactions, `royce` Easter egg, and existing Dog/Growlithe behavior.
+
+
+# v0.1.12 — Spheal stabilization patch
+
+## Changed
+- Spheal mouse hit testing now uses the actual character DOM bounds reported by the renderer instead of the previous fixed 110×110 window rectangle.
+- Rebuilt the Spheal clap and Water Gun playback resources as clean one-shot frame sequences using the approved existing visual forms, removing neighboring-frame artifacts from the original crops.
+- Spheal startup/base image now uses the cleaned idle presentation.
+- Water Gun and clap remain one-shot actions and return to the normal state after the sequence.
+
+## Impact / regression review
+- Pet Engine state selection and existing character modules were not changed.
+- Spheal ROLL assets and playback logic were not changed.
+- Growlithe, Neukgu, and Royce behavior remains on the shared renderer/input path.
+
+## Validation
+- Automated test suite: 49/49 passed.
+- JavaScript syntax checks: passed.
+- Windows Electron visual validation of the new hitbox and animation presentation remains required.
+
+# v0.1.12 — Spheal patch 09
+
+## Changed
+- Restored the original `spheal-base.png` artwork as the runtime and startup base image; the alternate idle artwork is no longer used as the default presentation.
+- Preserved the original base artwork RGB pixels while normalizing all non-transparent pixels to opaque alpha, preventing the same white body spots/highlights from changing appearance against different backgrounds.
+- Rebuilt REACT and Water Gun PNG frames from the supplied sheets by isolating the intended Spheal/effect pixels and removing neighboring-frame/source-sheet artifacts.
+- Removed stray source-sheet text/artifacts from Water Gun frames.
+- Slowed special-action playback to 140 ms/frame for clap and 160 ms/frame for Water Gun.
+
+## Impact / regression review
+- ROLL assets and playback logic were not changed.
+- Pet Engine, shared input handling, IPC, window movement, and existing character modules were not changed.
+- Spheal remains a character-module-only feature; no character-specific logic was added to Pet Engine.
+
+## Verification
+- Automated test suite: 52/52 passed.
+- JavaScript syntax checks: passed.
+- Static asset inspection: base RGB unchanged from patch 08; non-transparent base pixels are now fully opaque; REACT/Water Gun frames contain the intended isolated frame content without the previous neighboring full-character artifacts.
+- Actual Electron/Windows visual verification remains required.
+
+
+## Spheal Patch 10
+- Replaced the previous Spheal clap and Water Gun frame sets with newly constructed fixed-position animations.
+- Kept the original Spheal base artwork and corrected only obvious stray saturated pixels plus transparent eye pixels.
+- Special action timing changed to 180 ms/frame for clap and 200 ms/frame for Water Gun.
+- Roll and shared input architecture were intentionally left unchanged.
+- Verification: 52/52 tests passed; JavaScript syntax check passed; image-level artifact/eye checks passed.
+- Manual Electron/Windows visual verification remains required.
+
+## Patch 13 — Spheal base-eye alpha fix
+
+- Restored `spheal-base.png` to the known-good source used by patch07.
+- Preserved RGB values exactly.
+- Fixed only non-transparent pixels inside the two eye regions by normalizing their alpha to 255.
+- ROLL frames, common input handling, renderer logic, and other characters were not changed.
+- Runtime visual verification remains required.

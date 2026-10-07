@@ -60,7 +60,7 @@ test('UI keeps all MVP behavior states', () => {
 test('main process performs OS-level hit testing for the pet interaction area', () => {
   assert.match(main, /function updateMouseHitTesting\(\)/);
   assert.match(main, /screen\.getCursorScreenPoint\(\)/);
-  assert.match(main, /win\.setIgnoreMouseEvents\(!overPet, \{ forward: true \}\)/);
+  assert.match(main, /win\.setIgnoreMouseEvents\(!overPet, \{ forward: true \}\);/);
   assert.match(main, /setInterval\(updateMouseHitTesting, 30\)/);
 });
 
@@ -128,11 +128,12 @@ test('smoke mode bypasses the start screen so packaged renderer readiness remain
 
 
 test('character selection passes only the supported character ids into the pet window', () => {
-  assert.match(main, /characterId === 'growlithe' \|\| characterId === 'royce' \? characterId : 'neukgu'/);
+  assert.match(main, /\['growlithe', 'royce', 'spheal'\]\.includes\(characterId\)/);
   assert.match(main, /loadFile\(path\.join\(__dirname, 'index\.html'\), \{ query: \{ character: selectedCharacter \} \}\)/);
   assert.match(startHtml, /data-character="neukgu"/);
   assert.match(startHtml, /data-character="growlithe"/);
   assert.match(startHtml, /data-character="royce"/);
+  assert.match(startHtml, /data-character="spheal"/);
   assert.match(startPreload, /start: \(characterId\) => ipcRenderer\.send\('start:launch-pet', characterId\)/);
   assert.match(startHtml, /id="tip"/);
   assert.match(startHtml, /pocketmon/);
@@ -168,4 +169,12 @@ test('growlithe Easter egg input is armed only after a growlithe click', () => {
   assert.match(main, /royce-message\.html/);
   assert.match(roycePopup, /우재민 화이팅!/);
   assert.match(roycePopup, /id="close"/);
+});
+
+
+test('main accepts spheal as a selectable pet character', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const main = fs.readFileSync(path.join(__dirname, '..', 'src', 'main.js'), 'utf8');
+  assert.match(main, /\['growlithe', 'royce', 'spheal'\]\.includes\(characterId\)/);
 });

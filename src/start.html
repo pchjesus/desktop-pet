@@ -23,7 +23,7 @@
   }
   h1 { margin: 0; font-size: 28px; letter-spacing: -0.04em; }
   p { margin: 10px 0 18px; color: #666; font-size: 13px; line-height: 1.6; }
-  .choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 12px; }
+  .choices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 0 0 12px; }
   .choice { border: 1px solid #ddd; border-radius: 14px; padding: 12px 8px 10px; background: #fff; cursor: pointer; }
   .choice.selected { box-shadow: 0 0 0 2px #333 inset; }
   .choice-neukgu { width: 86px; height: 86px; display: grid; place-items: center; font-size: 52px; margin: 0 auto 5px; }
@@ -63,6 +63,10 @@
         <img src="assets/characters/royce.svg" alt="로이스">
         <strong>로이스</strong><span>Royce · 특별 캐릭터</span>
       </button>
+      <button class="choice" data-character="spheal" type="button">
+        <img src="assets/characters/spheal/spheal-base.png" alt="대굴레오">
+        <strong>대굴레오</strong><span>Spheal · 롤링 펫</span>
+      </button>
     </div>
     <div class="tip" id="tip">캐릭터를 선택해 주세요.</div>
     <div class="buttons">
@@ -75,7 +79,8 @@
     const tips = {
       neukgu: '늑구는 Desktop Pet의 기본 캐릭터입니다.',
       growlithe: '가디를 선택한 후 캐릭터를 클릭하고 <b>pocketmon</b>을 입력한 뒤 Enter를 눌러보세요.',
-      royce: '로이스를 선택한 후 캐릭터를 클릭하고 <b>royce</b>를 입력한 뒤 Enter를 눌러보세요.'
+      royce: '로이스를 선택한 후 캐릭터를 클릭하고 <b>royce</b>를 입력한 뒤 Enter를 눌러보세요.',
+      spheal: '대굴레오를 선택한 후 클릭하고 <b>pocketmon</b> 또는 <b>watergun</b>을 입력한 뒤 Enter를 눌러보세요.'
     };
     const tip = document.getElementById('tip');
     document.querySelectorAll('.choice').forEach((choice) => {

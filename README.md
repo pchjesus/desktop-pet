@@ -1,76 +1,105 @@
-# Desktop Pet
+# Desktop Pet v0.1.12
 
-화면 위를 자유롭게 돌아다니며 다양한 행동을 하는 데스크톱 상호작용 펫입니다.
+AI-assisted desktop pet MVP.
 
-## Characters
+## Goal
+A Windows desktop pet that floats above other apps, walks autonomously, reacts to clicks, and can be dragged.
 
-- **늑구 (Neukgu)**
-- **가디 (Growlithe)**
-- **로이스 (Royce)**
+## Development direction
+The project is designed for an automated AI-assisted development loop:
 
-각 캐릭터는 걷기, 앉기, 자기, 끌기, 클릭 반응 등의 기본적인 상호작용을 제공합니다.
+Understand → requirements → model → impact analysis → plan → prototype → implement → test → regression test → review → refactor → document → version.
 
-## Features
+Bug loop:
+Symptom → reproduce → root cause → affected scope → fix → regression test.
 
-- 데스크톱 위 자유 이동
-- 캐릭터 자동 행동 및 상태 전환
-- 클릭 및 드래그 상호작용
-- 이동 방향에 따른 캐릭터 방향 전환
-- 캐릭터별 고유 클릭 반응
-- 캐릭터별 이스터에그
-- Windows Portable EXE 지원
+The human decides important UX/product choices; the AI is expected to inspect the current code, implement changes, run checks, look for regressions, and iterate instead of assuming generated code is correct.
 
-## Easter Eggs
+## Character architecture
+The renderer uses a lightweight character boundary. The current Neukgu character uses the shared dog-style visual structure, while `src/characters/neukgu.js` owns Neukgu-specific state classes and facing behavior. `GrowlitheCharacter` implements the same shared surface and keeps Growlithe-specific resource handling inside the character module. Future characters can implement the same small surface without changing Electron Main/IPC or the pure behavior engine.
 
-### 가디 (Growlithe)
+Shared character surface:
+- `setState()`
+- `setFacing()`
+- `render()`
 
-가디를 클릭한 상태에서
-
-`pocketmon`
-
-을 입력하고 Enter를 누르면 가디 전용 메시지가 출력됩니다.
-
-### 로이스 (Royce)
-
-로이스를 클릭한 상태에서
-
-`royce`
-
-를 입력하고 Enter를 누르면
-
-**"우재민 화이팅!"**
-
-메시지가 출력됩니다.
+Character-specific capabilities are optional and must not be moved into `pet-engine.js`.
 
 ## Characters
+- Startup character selection: Neukgu, Growlithe, or Royce
+- Growlithe uses the supplied HG/SS 80×80 original sprite as its base visual resource.
+- Growlithe WALK uses original-resource-based pixel editing rather than a newly redrawn character.
+- Growlithe uses left/right facing like Neukgu. The Pet Engine moves the desktop window; the character module controls the visual direction and motion resource.
+- Growlithe SLEEP uses a closed-eye resource; REACT uses the supplied native reaction animation.
+- Growlithe has a small fan-project Easter egg: after clicking Growlithe, type `pocketmon` and press Enter.
+- Royce uses the Neukgu visual structure with a black/tan color treatment and has five click reactions: `멍!`, `쓰담?`, `좋아!`, `화이팅!`, and `보고 싶어!`.
+- Royce has a dedicated Desktop Pet popup Easter egg: after clicking Royce, type `royce` and press Enter to open a custom popup showing `우재민 화이팅!`.
 
-### 늑구 (Neukgu)
+See `CHARACTER-RESOURCE-RULES.md` for the project-wide character asset policy.
 
-기본 데스크톱 펫 캐릭터입니다.
+## Current MVP
+- Electron transparent frameless always-on-top window
+- Desktop overlay rather than browser-only rendering
+- Click-through on transparent/empty area
+- Startup screen with Start / Manual
+- Click reaction
+- Right-click → quit confirmation
+- Click-and-drag repositioning
+- Screen/work-area clamping
+- Small behavior engine: idle / walk / sit / sleep / drag / react
+- Pure movement/state tests
+- Final Neukgu character visual and character boundary
+- Startup character selection for Neukgu, Growlithe, and Royce
+- Royce-specific click reactions and Desktop Pet popup Easter egg
+- Startup screen and in-app manual window
 
-### 가디 (Growlithe)
+## 시작 및 설명서
 
-포켓몬스터의 가디(Growlithe)를 모티브로 한 캐릭터입니다.
+- 프로그램 실행 시 시작 화면 표시
+- **시작**: 시작 화면을 닫고 현재 펫 실행
+- **설명서**: 별도 설명서 창 열기
 
-### 로이스 (Royce)
+## 종료 방법
 
-검정색과 갈색 털을 가진 강아지를 모티브로 제작한 캐릭터입니다.
+- 일반 종료: 펫 위에서 **마우스 우클릭** → 종료 확인 → 확인
+- 강제 종료: 작업 관리자(`Ctrl + Shift + Esc`)에서 실행 중인 **Electron** 프로세스를 찾아 작업 끝내기
+- 개발 실행(CMD/터미널): 실행 중인 터미널에서 `Ctrl + C`로 종료
 
-## Current Version
+현재 버전은 시스템 트레이 종료 메뉴를 사용하지 않는다. 투명 영역은 기존과 같이 마우스 입력이 통과하므로, 종료하려면 펫 본체 위에서 우클릭한다.
 
-**v0.1.12**
+## Run in development
+1. Install Node.js LTS.
+2. Open this folder in a terminal.
+3. `npm install`
+4. `npm test`
+5. `npm run check`
+6. `npm start` (or double-click `RUN-WINDOWS.bat`)
 
-## Tech Stack
+## Build a clickable Windows app
+For the full Windows build-and-check flow, double-click `BUILD-WINDOWS.bat`.
 
-- Electron
-- HTML / CSS / JavaScript
-- Node.js
-- electron-builder
+It performs:
+1. dependency installation
+2. Electron runtime preflight (and Electron rebuild/download if the Windows binary is missing)
+3. automated tests
+4. syntax + desktop-shell regression checks
+5. portable EXE build and artifact existence check
 
-## Build
+The resulting portable `.exe` is expected at `dist/DesktopPet-0.1.12-portable.exe`.
 
-Windows 환경에서 Portable EXE 형태로 빌드할 수 있습니다.
+For a direct command-line build, run `npm run dist` after the Electron preflight has passed.
+For the NSIS installer, run `npm run dist:installer`.
 
-빌드 결과:
+`INSTALL-WINDOWS.bat` is a development-run helper; it launches the source app and is not the EXE build script.
 
-`dist/DesktopPet-0.1.12-portable.exe`
+After a successful build, run `VERIFY-WINDOWS.bat` to repeat the automated checks and launch the packaged EXE for a short process smoke test. Manual visual checks are still required for the Windows overlay interactions. See `RELEASE-GUIDE.md` for the v0.1.12 Windows release and GitHub Release checklist.
+
+## Open-source references reviewed
+- coglabss/deskcat: Electron, transparent always-on-top click-through desktop pet, drag/click interactions, behavior/movement logic with 36 Jest tests.
+- kokoronoka/desktopPet: Electron overlay, click-through switching, drag IPC, screen work-area clamping, renderer/main separation for walking.
+- Evanfan007/desktop-pet: Electron desktop companion with transparent frameless always-on-top window, draggable Neukgu, click bubble, and state-machine animation.
+
+These are references for architecture and behavior patterns, not code to copy wholesale.
+
+## Verification boundary
+The repository tests and build-flow checks are automated. A Windows machine must still perform the final packaged-EXE smoke test and manual GUI checks because this development environment cannot execute Windows GUI binaries.

@@ -1,22 +1,17 @@
-Desktop Pet v0.1.8 patch-09 — Startup screen + manual
+Spheal patch 09
 
-Apply this patch to the existing v0.1.8-patch-08 source.
+Fixed:
+- Restored the original Spheal base dot as the runtime/startup artwork instead of the alternate idle artwork.
+- Normalized non-transparent base pixels to opaque pixels so body highlights/white spots do not composite differently against light and dark backgrounds.
+- Rebuilt the clap and Water Gun frame PNGs from the supplied sprite sheets by removing neighboring-frame/source-sheet artifacts while preserving the existing motion forms.
+- Removed stray source-sheet text/artifacts from Water Gun frames.
+- Slowed clap playback to 140 ms/frame (1.12 s total) and Water Gun to 160 ms/frame (1.28 s total).
 
-Changed files:
-- src/main.js
-- src/start.html
-- src/start-preload.js
-- src/manual.html
-- test/desktop-shell.test.js
-- README.md
-- PROJECT_SPEC.md
-- DEVLOG.md
+Not changed:
+- ROLL artwork/playback.
+- Shared Pet Engine/input architecture.
+- Existing character behavior.
 
-Do not copy node_modules or build artifacts.
-
-Behavior:
-- Normal launch opens the startup screen.
-- 설명서 opens a separate manual window.
-- 시작 closes the startup screen and launches the existing dog pet.
-- --smoke-test bypasses the startup screen so the existing packaged smoke check still works.
-- Existing dog visual/behavior code is unchanged.
+Verification:
+- Automated tests and JS syntax checks required before Windows GUI verification.
+- Actual Electron/Windows visual verification remains required.
