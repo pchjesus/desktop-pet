@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대굴레오 애니메이션 프레임 검수표</title>
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #edf1f5;
+      color: #20252b;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    header {
+      padding: 28px max(24px, calc((100% - 1200px) / 2));
+      background: #fff;
+      border-bottom: 1px solid #d9e0e7;
+    }
+    h1 { margin: 0; font-size: 25px; }
+    header p { margin: 8px 0 0; color: #59636e; line-height: 1.55; }
+    main { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    .guide {
+      margin: 0 0 24px;
+      padding: 14px 16px;
+      border-left: 4px solid #3388cc;
+      border-radius: 6px;
+      background: #fff;
+      line-height: 1.65;
+    }
+    section { margin: 30px 0; }
+    h2 { margin: 0 0 6px; font-size: 20px; }
+    .description { margin: 0 0 14px; color: #59636e; }
+    .frames {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 14px;
+    }
+    .frame {
+      overflow: hidden;
+      border: 1px solid #ccd5de;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+    }
+    .frame h3 { margin: 0; padding: 9px 10px 3px; font-size: 14px; }
+    .frame p { min-height: 36px; margin: 0; padding: 0 10px 9px; color: #65707b; font-size: 12px; line-height: 1.4; }
+    .preview {
+      display: grid;
+      min-height: 128px;
+      place-items: center;
+      padding: 12px;
+      background-color: #fff;
+      background-image:
+        linear-gradient(45deg, #e2e8ee 25%, transparent 25%),
+        linear-gradient(-45deg, #e2e8ee 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #e2e8ee 75%),
+        linear-gradient(-45deg, transparent 75%, #e2e8ee 75%);
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+      background-size: 16px 16px;
+    }
+    .preview.white { background: #fff; }
+    .preview img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    .watergun .preview img { width: 120px; }
+    .file { display: block; padding: 7px 10px; border-top: 1px solid #e3e8ed; color: #7a8590; font: 11px ui-monospace, Consolas, monospace; overflow-wrap: anywhere; }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .legend span { padding: 4px 8px; border-radius: 999px; background: #fff; border: 1px solid #d9e0e7; color: #59636e; font-size: 12px; }
+    @media (max-width: 480px) { main { padding: 16px; } .frames { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>대굴레오 애니메이션 프레임 검수표</h1>
+    <p>현재 <code>src/characters/spheal.js</code>가 실제로 순서대로 재생하는 PNG 프레임입니다.</p>
+  </header>
+  <main>
+    <p class="guide">
+      수정할 프레임은 <strong>동작 이름 + 번호</strong>로 알려주세요. 예: <code>ROLL 05</code>, <code>박수 03</code>, <code>물대포 09</code>.<br>
+      투명 픽셀 경계도 확인할 수 있도록 기본은 체커보드 배경이며, 기본 외형은 흰 배경도 함께 제공합니다.
+    </p>
+
+    <section>
+      <h2>기본 외형</h2>
+      <p class="description">IDLE, SIT, SLEEP, DRAG 및 특수 동작 종료 후에 사용하는 기본 이미지입니다.</p>
+      <div class="frames">
+        <article class="frame"><h3>BASE</h3><p>체커보드 배경</p><div class="preview"><img src="src/assets/characters/spheal/spheal-base.png" alt="대굴레오 기본 외형"></div><span class="file">spheal-base.png</span></article>
+        <article class="frame"><h3>BASE · 흰 배경</h3><p>외곽선/반투명 픽셀 확인용</p><div class="preview white"><img src="src/assets/characters/spheal/spheal-base.png" alt="흰 배경의 대굴레오 기본 외형"></div><span class="file">spheal-base.png</span></article>
+      </div>
+    </section>
+
+    <section>
+      <h2>ROLL · 이동</h2>
+      <p class="description">WALK 상태에서 01–02로 시작하고, 03–08을 반복합니다. 이동 종료 시 09–12를 순서대로 재생합니다.</p>
+      <div class="frames" id="roll-frames"></div>
+    </section>
+
+    <section>
+      <h2>박수 · CLAP</h2>
+      <p class="description">클릭 REACT 및 대기 중 자율 박수. 01부터 08까지 한 번만 재생합니다. 프레임당 180ms입니다.</p>
+      <div class="frames" id="clap-frames"></div>
+    </section>
+
+    <section class="watergun">
+      <h2>물대포 · WATER GUN</h2>
+      <p class="description">클릭 후 <code>watergun</code> 입력 및 Enter로 실행됩니다. 120×80 프레임이며 01부터 12까지 한 번만 재생합니다. 프레임당 175ms입니다.</p>
+      <div class="frames" id="watergun-frames"></div>
+    </section>
+
+    <div class="legend"><span>ROLL: 12프레임</span><span>박수: 8프레임</span><span>물대포: 12프레임</span><span>특수 모션은 one-shot</span></div>
+  </main>
+  <script>
+    function addFrames(containerId, prefix, count, folder, label, note) {
+      const container = document.getElementById(containerId);
+      for (let index = 1; index <= count; index += 1) {
+        const number = String(index).padStart(2, '0');
+        const filename = `${prefix}-${number}.png`;
+        const article = document.createElement('article');
+        article.className = 'frame';
+        article.innerHTML = `
+          <h3>${label} ${number}</h3>
+          <p>${note(index)}</p>
+          <div class="preview"><img src="src/assets/characters/spheal/${folder}${filename}" alt="${label} ${number}"></div>
+          <span class="file">${folder}${filename}</span>`;
+        container.append(article);
+      }
+    }
+
+    addFrames('roll-frames', 'roll', 12, '', 'ROLL', (index) => {
+      if (index <= 2) return '이동 시작';
+      if (index <= 8) return '이동 반복 구간';
+      return '이동 종료';
+    });
+    addFrames('clap-frames', 'clap', 8, 'animations/clap/', '박수', () => 'one-shot');
+    addFrames('watergun-frames', 'watergun', 12, 'animations/watergun/', '물대포', (index) => index <= 8 ? '발사 구간' : '반동/복귀 구간');
+  </script>
+</body>
+</html>
