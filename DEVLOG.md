@@ -358,3 +358,11 @@
 - Fixed only non-transparent pixels inside the two eye regions by normalizing their alpha to 255.
 - ROLL frames, common input handling, renderer logic, and other characters were not changed.
 - Runtime visual verification remains required.
+
+## Spheal Patch 21 — clap anatomy and watergun mouth alignment
+
+- Rebuilt clap sprites as two attached flippers over a clean rounded body, removing residual limb silhouettes and rectangular belly overwrites.
+- Repositioned the firing mouth within the original snout on Water Gun frames 04-08; retained a single contiguous stream and unchanged shake frames 09-11.
+- Removed stale duplicate CSS water-recoil keyframe fragments.
+- No Pet Engine/ROLL/common input or persistence changes.
+- Automated tests and real Electron visual verification are reported separately in PATCH-21-README.txt.
