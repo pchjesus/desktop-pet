@@ -366,3 +366,10 @@
 - Removed stale duplicate CSS water-recoil keyframe fragments.
 - No Pet Engine/ROLL/common input or persistence changes.
 - Automated tests and real Electron visual verification are reported separately in PATCH-21-README.txt.
+
+## Spheal Patch 22 — partial flipper shadow and flowing single water column
+
+- Recolored pixels only within existing clap flipper fills (8 frames), increasing differentiation without duplicating hands or changing silhouettes.
+- Animated the Water Gun beam in frames 04–08 with short 2–3-tone accents, changing length and subtly jagged contour; left the mouth and shake frames untouched.
+- Kept ROLL, shared state/input, base/idle, character scale and all other character assets unchanged.
+- Requires Windows Electron visual confirmation despite automated test results.
