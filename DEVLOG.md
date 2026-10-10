@@ -373,3 +373,12 @@
 - Animated the Water Gun beam in frames 04–08 with short 2–3-tone accents, changing length and subtly jagged contour; left the mouth and shake frames untouched.
 - Kept ROLL, shared state/input, base/idle, character scale and all other character assets unchanged.
 - Requires Windows Electron visual confirmation despite automated test results.
+
+## Spheal Patch 23 — localized CLAP fin creases and tapered WATER GUN
+
+- Baseline: Patch 22 `661e7c5a87280056f4487cf209bdc9ee9adbf15e`; preserved Patch 21 `fcadadbffb9e8fda35f3fcd1b619a401d5d6d729` as the clean CLAP artwork reference.
+- CLAP 01–08: removed Patch 22's broad horizontal belly/flipper shadow by restoring the corresponding Patch 21 pixel base. In CLAP 03–06, added eight localized cream-tone pixels per frame (four pixels per flipper) as short diagonally staggered fold shadows. No extra limbs, black outlines, sprite geometry or timing changes.
+- WATER GUN 04–08: reshaped the outer beam caps into stepped/tapered endpoints, moved short highlight/shadow dashes between firing frames and fixed frame 06's fully cropped rectangular leading edge. Only x<=32,y=36–48 in the firing PNGs were eligible for modification; mouth, head and body x>=33 were preserved.
+- WATER GUN 01–03 and 09–12, shake/droplets, ROLL, base/idle, JS/CSS, shared input and other characters were not edited.
+- Added bright/dark frame contact sheets and a Patch 22→23 visual comparison guide in `docs/spheal-patch23/`.
+- Verified via PNG decode/re-encode roundtrips, constrained changed-pixel masks, firing beam per-column continuity, and rendered contact sheets. **Node test suite and Windows Electron / EXE visual tests were not executed in this environment and remain mandatory manual follow-up.**
