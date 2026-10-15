@@ -1,0 +1,34 @@
+name: Desktop Pet Fast Regression
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Private-ready B+: superseded PR checks may be cancelled; main is protected.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  fast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked metadata without downloading Electron runtime
+        run: npm ci --ignore-scripts
+      - name: JavaScript syntax
+        run: npm run check
+      - name: Node-only existing regression
+        run: npm test
+# Windows .exe building, window hit-testing and end-user device validation remain
+# separate manual/Windows release checks and are NOT covered by this Linux job.
