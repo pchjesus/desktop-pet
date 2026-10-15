@@ -20,15 +20,28 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: B+ risk classification
+        id: scope
+        env:
+          CI_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          bash scripts/ci-scope.sh --self-test
+          bash scripts/ci-scope.sh
       - uses: actions/setup-node@v4
+        if: steps.scope.outputs.tier != 'docs'
         with:
           node-version: '22'
           cache: npm
       - name: Install locked metadata without downloading Electron runtime
+        if: steps.scope.outputs.tier != 'docs'
         run: npm ci --ignore-scripts
       - name: JavaScript syntax
+        if: steps.scope.outputs.tier != 'docs'
         run: npm run check
       - name: Node-only existing regression
+        if: steps.scope.outputs.tier != 'docs'
         run: npm test
 # Windows .exe building, window hit-testing and end-user device validation remain
 # separate manual/Windows release checks and are NOT covered by this Linux job.
