@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / 'src/assets/characters/spheal'
 BASELINE = '8960f70fb409684bb69ad07a5e035282a963af52'
 POLISH_BASELINE = 'a4f66fef0fb70576bdeef8ea303d3593e438ce1d'
+CLEANUP_BASELINE = '0dfdb4d4ec38fefa22b1d82c1e7ab962fce57a37'
 
 
 def frame(kind, index):
@@ -22,6 +23,32 @@ def original(relative, commit=BASELINE):
 
 
 class SphealAssets(unittest.TestCase):
+    def assert_cleanup_only(self, before, after, dx=20, face_polish=False, ice=False):
+        """Old regression comparisons allow only this task's body-edge deletions.
+
+        This preserves their original face/effect constraints while permitting
+        the requested cleanup. New body-provenance checks validate the mask.
+        """
+        old_base = original('spheal-base.png', CLEANUP_BASELINE)
+        new_base = Image.open(ASSETS / 'spheal-base.png').convert('RGBA')
+        removed = {(x + dx, y) for y in range(80) for x in range(80)
+                   if old_base.getpixel((x, y)) != new_base.getpixel((x, y))}
+        for y in range(80):
+            for x in range(120):
+                old, new = before.getpixel((x, y)), after.getpixel((x, y))
+                if old == new:
+                    continue
+                if (x, y) in removed and new[3] == 0:
+                    continue
+                if face_polish and 30 <= x < 80 and 19 <= y < 34:
+                    self.assertEqual(old[3], new[3], ('face alpha', x, y))
+                    continue
+                if ice and new[:3] == (174, 231, 249) and new[3] == old[3] and any(
+                    (x + ox, y + oy) in removed for ox in [-1, 0, 1] for oy in [-1, 0, 1]
+                ):
+                    continue  # Existing coating follows the corrected contour.
+                self.fail(f'Unexpected change outside body cleanup/approved face: {(x, y, old, new)}')
+
     def test_dimensions_alpha_and_margin(self):
         for kind, count, size in [('clap', 8, (80, 80)), ('watergun', 12, (120, 80)), ('icebeam', 14, (120, 80))]:
             for index in range(1, count + 1):
@@ -51,24 +78,25 @@ class SphealAssets(unittest.TestCase):
 
     def test_water_preparation_and_recovery_are_unchanged(self):
         for i in [1, 2, 3, 12]:
-            self.assertEqual(frame('watergun', i).tobytes(), original(f'animations/watergun/watergun-{i:02}.png').tobytes())
+            self.assert_cleanup_only(original(f'animations/watergun/watergun-{i:02}.png'), frame('watergun', i))
 
     def test_polish_only_changes_face_pixels_and_preserves_alpha_effects_and_mouth(self):
         for kind, indices in [('watergun', range(9, 12)), ('icebeam', range(10, 14))]:
             for i in indices:
                 before = original(f'animations/{kind}/{kind}-{i:02}.png', POLISH_BASELINE)
                 after = frame(kind, i)
-                self.assertEqual(before.getchannel('A').tobytes(), after.getchannel('A').tobytes())
+                dx = 20 + ({10: -1, 11: 2, 12: -2, 13: 1}.get(i, 0) if kind == 'icebeam' else 0)
+                self.assert_cleanup_only(before, after, dx, face_polish=True, ice=kind == 'icebeam')
                 changes = []
                 for y in range(80):
                     for x in range(120):
                         if before.getpixel((x, y)) != after.getpixel((x, y)):
                             changes.append((x, y))
-                            self.assertTrue(30 <= x < 80 and 19 <= y < 34, (kind, i, x, y))
+                            # Face-region changes from the prior polish remain.
+                            # All other edits were checked above against cleanup.
                 self.assertTrue(changes)
-                self.assertEqual(before.crop((0, 34, 120, 80)).tobytes(), after.crop((0, 34, 120, 80)).tobytes())
         for i in list(range(1, 10)) + [14]:
-            self.assertEqual(frame('icebeam', i).tobytes(), original(f'animations/icebeam/icebeam-{i:02}.png', POLISH_BASELINE).tobytes())
+            self.assert_cleanup_only(original(f'animations/icebeam/icebeam-{i:02}.png', POLISH_BASELINE), frame('icebeam', i), ice=True)
 
     def test_shake_and_shatter_have_exactly_two_inward_closed_eyes(self):
         left = {(36 + j, 22 + j) for j in range(4)} | {(39 - j, 25 + j) for j in range(4)}
@@ -130,6 +158,69 @@ class SphealAssets(unittest.TestCase):
             if kind == 'icebeam':
                 self.assertEqual(freeze, [frame('icebeam', 9).tobytes()])
             im.close()
+
+    def test_body_cleanup_is_deletion_only_and_keeps_strong_connected_artwork(self):
+        for relative in ['spheal-base.png'] + [f'roll-{i:02}.png' for i in range(1, 13)]:
+            old = original(relative, CLEANUP_BASELINE)
+            new = Image.open(ASSETS / relative).convert('RGBA')
+            self.assertEqual(new.size, old.size)
+            core = {(x, y) for y in range(80) for x in range(80) if old.getpixel((x, y))[3] >= 240}
+            # Seed on the body center; all strong, connected body/outline pixels
+            # must be byte-identical. Cropped neighbors cannot cross this test.
+            seed = min(core, key=lambda p: (p[0] - 40) ** 2 + (p[1] - 40) ** 2)
+            pending, body = [seed], set()
+            while pending:
+                x, y = pending.pop()
+                if (x, y) in body or (x, y) not in core:
+                    continue
+                body.add((x, y))
+                pending.extend((x + dx, y + dy) for dx in [-1, 0, 1] for dy in [-1, 0, 1])
+            self.assertGreater(len(body), 1500)
+            for p in body:
+                self.assertEqual(new.getpixel(p), old.getpixel(p), (relative, p))
+            for y in range(80):
+                for x in range(80):
+                    pixel = new.getpixel((x, y))
+                    if pixel != old.getpixel((x, y)):
+                        self.assertEqual(pixel, (0, 0, 0, 0), (relative, x, y, 'repainted body'))
+            self.assertGreater(sum(0 < a < 255 for a in new.getchannel('A').tobytes()), 1500)
+            self.assertGreater(sum(0 < a < 240 for a in new.getchannel('A').tobytes()), 0,
+                               'real translucent contour coverage must survive')
+        # Eye-hole fix, face, nose/tusks stay exact, rather than a new portrait.
+        old = original('spheal-base.png', CLEANUP_BASELINE)
+        new = Image.open(ASSETS / 'spheal-base.png').convert('RGBA')
+        for box in [(15, 20, 24, 29), (32, 20, 43, 31), (22, 28, 32, 33), (27, 36, 38, 45)]:
+            self.assertEqual(new.crop(box).tobytes(), old.crop(box).tobytes())
+
+    def test_reviewed_crop_fragments_and_floor_specks_are_absent(self):
+        examples = {'spheal-base.png': [(27, 8), (50, 71), (51, 71)],
+                    'roll-02.png': [(7, 44), (73, 39)], 'roll-03.png': [(7, 50), (45, 13)],
+                    'roll-04.png': [(6, 40)], 'roll-06.png': [(37, 6)],
+                    'roll-07.png': [(73, 36)], 'roll-10.png': [(73, 40)]}
+        for relative, positions in examples.items():
+            old, new = original(relative, CLEANUP_BASELINE), Image.open(ASSETS / relative).convert('RGBA')
+            for p in positions:
+                self.assertGreater(old.getpixel(p)[3], 0, (relative, p, 'bad source fixture'))
+                self.assertEqual(new.getpixel(p)[3], 0, (relative, p, 'residue returned'))
+
+    def test_effects_outside_source_body_and_all_clap_frames_remain_exact(self):
+        raw = original('spheal-base.png', CLEANUP_BASELINE)
+        for kind, count in [('watergun', 12), ('icebeam', 14)]:
+            for i in range(1, count + 1):
+                old = original(f'animations/{kind}/{kind}-{i:02}.png', CLEANUP_BASELINE)
+                new = frame(kind, i)
+                dx = 20 + ({10: -1, 11: 2, 12: -2, 13: 1}.get(i, 0) if kind == 'icebeam' else 0)
+                effects = 0
+                for y in range(80):
+                    for x in range(120):
+                        outside = not (0 <= x - dx < 80) or raw.getpixel((x - dx, y))[3] == 0
+                        if outside and old.getpixel((x, y))[3]:
+                            self.assertEqual(new.getpixel((x, y)), old.getpixel((x, y)), (kind, i, x, y))
+                            effects += 1
+                if (kind == 'watergun' and 4 <= i <= 11) or (kind == 'icebeam' and 1 <= i <= 8):
+                    self.assertGreater(effects, 0)
+        for i in range(1, 9):
+            self.assertEqual(frame('clap', i).tobytes(), original(f'animations/clap/clap-{i:02}.png', CLEANUP_BASELINE).tobytes())
 
 
 if __name__ == '__main__':

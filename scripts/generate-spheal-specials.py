@@ -8,6 +8,7 @@ import subprocess
 from pathlib import Path
 
 from PIL import Image, ImageDraw
+from spheal_cleanup import clean_body, clean_inherited_base
 
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE = '8960f70fb409684bb69ad07a5e035282a963af52'
@@ -16,9 +17,21 @@ EVIDENCE = ROOT / 'docs/spheal-specials'
 NEAREST = Image.Resampling.NEAREST
 
 
-def original(relative, commit=BASELINE):
+def raw_original(relative, commit=BASELINE):
     data = subprocess.check_output(['git', 'show', f'{commit}:{ASSETS / relative}'], cwd=ROOT)
     return Image.open(io.BytesIO(data)).convert('RGBA')
+
+
+def original(relative, commit=BASELINE):
+    source = raw_original(relative, commit)
+    if commit != BASELINE:
+        return source  # Historical comparison images stay historical.
+    if relative == 'spheal-base.png' or relative.startswith('roll-'):
+        return clean_body(source)
+    if relative.startswith('animations/watergun/'):
+        base = raw_original('spheal-base.png')
+        return clean_inherited_base(source, base, clean_body(base))
+    return source
 
 
 def save(im, relative):
@@ -238,6 +251,10 @@ def sheet(frames, title, columns=4):
 
 def main():
     EVIDENCE.mkdir(parents=True, exist_ok=True)
+    # Rebuild runtime body assets from pinned originals, never from the portrait.
+    # Clean before adding droplets/crystals/coating, so intentional FX survive.
+    for relative in ['spheal-base.png'] + [f'roll-{i:02}.png' for i in range(1, 13)]:
+        save(original(relative), relative)
     for name, count, generator, durations in [
         ('clap', 8, clap, [180] * 8),
         ('watergun', 12, water, [175] * 12),
@@ -251,7 +268,7 @@ def main():
         frames[0].save(EVIDENCE / f'{name}-playback.png', save_all=True,
                        append_images=frames[1:], duration=durations, loop=0,
                        disposal=0, blend=0)
-    before = [original('animations/clap/clap-04.png'), original('animations/watergun/watergun-06.png')]
+    before = [raw_original('animations/clap/clap-04.png'), raw_original('animations/watergun/watergun-06.png')]
     after = [clap(4), water(6)]
     sheet([before[0], after[0], before[1], after[1]], 'before / after').save(EVIDENCE / 'comparison.png')
     polish_baseline = 'a4f66fef0fb70576bdeef8ea303d3593e438ce1d'

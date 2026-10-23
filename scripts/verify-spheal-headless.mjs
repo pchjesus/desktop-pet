@@ -1,7 +1,7 @@
 // Linux headless integration only. Uses the installed Electron and Node 24 built-ins.
 // --no-sandbox is restricted to trusted local repository content in the isolated cloud.
 import { fileURLToPath } from 'node:url';
-import { spawn } from 'node:child_process';
+import { spawn, execFileSync } from 'node:child_process';
 import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
 
@@ -45,7 +45,7 @@ async function evaluate(target, expression, method = 'Runtime.evaluate') {
       pending.delete(response.id);
       clearTimeout(task.timer);
       if (response.error || response.result?.exceptionDetails) task.reject(new Error(JSON.stringify(response)));
-      else task.resolve(response.result?.result?.value);
+      else task.resolve(response.result?.result?.value ?? response.result);
     });
     connection = {socket,pending};
     connections.set(target.webSocketDebuggerUrl, connection);
@@ -94,11 +94,59 @@ try {
     })()`);
     console.log('PASS: idle breathing preserves facing and full body width in both directions');
     const loaded = await evaluate(pet, `(async () => {
-      const paths = [...character.reactFrames, ...character.waterGunFrames, ...character.iceBeamFrames];
+      const paths = [character.baseSrc, ...character.rollFrames, ...character.reactFrames, ...character.waterGunFrames, ...character.iceBeamFrames];
       await Promise.all(paths.map(src => new Promise((resolve,reject) => {const image = new Image(); image.onload=resolve; image.onerror=reject; image.src=src;})));
       return paths.length;
     })()`);
-    if (loaded !== 34) throw new Error('Frame decoding failed');
+    if (loaded !== 47) throw new Error('Frame decoding failed');
+    if (process.argv.includes('--cleanup-review')) {
+      const evidence = `${root}/docs/spheal-runtime-cleanup`;
+      await mkdir(evidence, {recursive:true});
+      const before = execFileSync('git', ['show', '0dfdb4d4ec38fefa22b1d82c1e7ab962fce57a37:src/assets/characters/spheal/spheal-base.png'], {cwd:root}).toString('base64');
+      await evaluate(pet, 'clearInterval(behaviorTimer); true');
+      for (const bg of ['white', 'dark']) {
+        for (const version of ['before', 'after']) {
+          const src = version === 'before' ? `data:image/png;base64,${before}` : 'assets/characters/spheal/spheal-base.png';
+          const dimensions = await evaluate(pet, `(async () => {
+            document.body.style.background = '${bg === 'white' ? '#fff' : '#252b38'}';
+            character.sprite.src = ${JSON.stringify(src)};
+            await character.sprite.decode();
+            document.getAnimations().forEach(a=>a.pause());
+            const rect=character.sprite.getBoundingClientRect();
+            return [character.sprite.naturalWidth,character.sprite.naturalHeight,rect.width,rect.height];
+          })()`);
+          if (dimensions.some(n=>n!==80)) throw new Error('base not rendered at exact native 80px');
+          const shot = await evaluate(pet, {format:'png'}, 'Page.captureScreenshot');
+          await writeFile(`${evidence}/electron-${bg}-${version}.png`, Buffer.from(shot.data,'base64'));
+        }
+      }
+      await evaluate(pet, 'startBehaviorLoop(); true');
+      console.log('PASS: actual Electron base screenshots on white/dark at native 80x80 (no scale change)');
+    }
+    const roll = await evaluate(pet, `(async () => {
+      nextDecision=performance.now()+60000;
+      const seen=[];
+      character.setState(PET_STATES.WALK);
+      const start=performance.now();
+      while(performance.now()-start<750) {
+        character.render();
+        const name=character.sprite.src.split('/').pop();
+        if(seen.at(-1)!==name) seen.push(name);
+        await new Promise(resolve=>setTimeout(resolve,20));
+      }
+      character.setState(PET_STATES.IDLE);
+      const ending=performance.now();
+      while(performance.now()-ending<450) {
+        character.render();
+        const name=character.sprite.src.split('/').pop();
+        if(seen.at(-1)!==name) seen.push(name);
+        await new Promise(resolve=>setTimeout(resolve,20));
+      }
+      return seen;
+    })()`);
+    for(let i=1;i<=12;i++) if(!roll.includes('roll-'+String(i).padStart(2,'0')+'.png')) throw new Error('ROLL frame missing '+i);
+    if(roll.at(-1)!=='spheal-base.png') throw new Error('ROLL did not restore base');
+    console.log('PASS: actual ROLL 12-frame entry/loop/exit playback and base recovery');
     const result = await evaluate(pet, `(() => {
       setState(PET_STATES.IDLE);
       const node = document.getElementById('pet');
@@ -129,7 +177,7 @@ try {
     await evaluate(pet, `character.special.startedAt = performance.now() - 2950; character.render(); true`);
     const clean = await evaluate(pet, `!character.special && character.sprite.src.endsWith('spheal-base.png')`);
     if (!clean) throw new Error('ice remains after completion');
-    console.log('PASS: 34 PNGs decoded, real icebeam input, still freeze, cleanup and both facing bounds in emulated 180x150 viewport', JSON.stringify(result));
+    console.log('PASS: 47 PNGs decoded, real icebeam input, still freeze, cleanup and both facing bounds in emulated 180x150 viewport', JSON.stringify(result));
     const playback = await evaluate(pet, `(async () => {
       const result = {};
       nextDecision = performance.now() + 60000;
