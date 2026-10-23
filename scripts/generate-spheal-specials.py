@@ -8,6 +8,7 @@ import subprocess
 from pathlib import Path
 
 from PIL import Image, ImageDraw
+from spheal_cleanup import clean_body, clean_inherited_base
 
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE = '8960f70fb409684bb69ad07a5e035282a963af52'
@@ -16,9 +17,21 @@ EVIDENCE = ROOT / 'docs/spheal-specials'
 NEAREST = Image.Resampling.NEAREST
 
 
-def original(relative, commit=BASELINE):
+def raw_original(relative, commit=BASELINE):
     data = subprocess.check_output(['git', 'show', f'{commit}:{ASSETS / relative}'], cwd=ROOT)
     return Image.open(io.BytesIO(data)).convert('RGBA')
+
+
+def original(relative, commit=BASELINE):
+    source = raw_original(relative, commit)
+    if commit != BASELINE:
+        return source  # Historical comparison images stay historical.
+    if relative == 'spheal-base.png' or relative.startswith('roll-'):
+        return clean_body(source)
+    if relative.startswith('animations/watergun/'):
+        base = raw_original('spheal-base.png')
+        return clean_inherited_base(source, base, clean_body(base))
+    return source
 
 
 def save(im, relative):
@@ -114,6 +127,35 @@ def squint_face():
     return clean
 
 
+# Short, round water droplets: phase 09 starts, 10 fans outward, 11 trails off.
+# Coordinates are local to the 120x80 sprite; never repaint existing pixels.
+SHAKE_DROPS = {
+    9: [[22,23,1],[16,38,2],[22,53,1],[29,10,1],[45,5,1],[91,18,2],[102,32,1],[105,49,2],[94,64,1],[73,7,1],[13,58,1]],
+    10: [[14,21,2],[10,39,1],[14,57,2],[27,71,1],[36,5,1],[103,17,2],[112,36,2],[111,57,1],[98,69,2],[58,4,1],[88,5,2],[7,51,1],[108,27,1]],
+    11: [[10,27,1],[7,46,1],[17,67,1],[34,73,1],[106,23,1],[113,41,1],[111,62,2],[92,71,1],[45,4,1],[88,3,1]],
+}
+SHAKE_PALETTE = ((58, 151, 206, 255), (95, 199, 232, 255), (213, 247, 255, 255))
+
+
+def shake_footprint(size):
+    if size == 1:
+        return ((0, 0, 0), (0, -1, 2))
+    return ((0, -2, 2), (-1, -1, 1), (0, -1, 1), (1, -1, 0),
+            (-1, 0, 0), (0, 0, 1), (1, 0, 1), (0, 1, 0))
+
+
+def shake_droplets(im, index):
+    for x, y, size in SHAKE_DROPS[index]:
+        footprint = [(x + dx, y + dy, shade) for dx, dy, shade in shake_footprint(size)]
+        # Existing silhouette and already-approved effects take precedence.
+        if any(not (1 <= px < 119 and 1 <= py < 79) or im.getpixel((px, py))[3]
+               for px, py, _ in footprint):
+            continue
+        for px, py, shade in footprint:
+            im.putpixel((px, py), SHAKE_PALETTE[shade])
+    return im
+
+
 def water(index):
     old = original(f'animations/watergun/watergun-{index:02}.png')
     if 9 <= index <= 11:
@@ -121,7 +163,7 @@ def water(index):
         alpha = old.getchannel('A')
         old.paste(squint_face().crop((32, 19, 78, 34)), (32, 19))
         old.putalpha(alpha)
-        return old
+        return shake_droplets(old, index)
     if index not in range(4, 9):
         return old
     im = open_mouth()
@@ -238,6 +280,10 @@ def sheet(frames, title, columns=4):
 
 def main():
     EVIDENCE.mkdir(parents=True, exist_ok=True)
+    # Rebuild runtime body assets from pinned originals, never from the portrait.
+    # Clean before adding droplets/crystals/coating, so intentional FX survive.
+    for relative in ['spheal-base.png'] + [f'roll-{i:02}.png' for i in range(1, 13)]:
+        save(original(relative), relative)
     for name, count, generator, durations in [
         ('clap', 8, clap, [180] * 8),
         ('watergun', 12, water, [175] * 12),
@@ -251,7 +297,7 @@ def main():
         frames[0].save(EVIDENCE / f'{name}-playback.png', save_all=True,
                        append_images=frames[1:], duration=durations, loop=0,
                        disposal=0, blend=0)
-    before = [original('animations/clap/clap-04.png'), original('animations/watergun/watergun-06.png')]
+    before = [raw_original('animations/clap/clap-04.png'), raw_original('animations/watergun/watergun-06.png')]
     after = [clap(4), water(6)]
     sheet([before[0], after[0], before[1], after[1]], 'before / after').save(EVIDENCE / 'comparison.png')
     polish_baseline = 'a4f66fef0fb70576bdeef8ea303d3593e438ce1d'
@@ -264,6 +310,19 @@ def main():
             d.text((column * 250 + 5, row + 4), label, fill='white')
     eyes.save(EVIDENCE / 'eyes-comparison.png')
 
+
+    # Reproducible approved before/after on white and dark backgrounds.
+    shake_before = [original(f'animations/watergun/watergun-{i:02}.png', '003aeb2fd33133db4bbe0b7631fc5739e97b83b0')
+                    for i in (9, 10, 11)]
+    shake_after = [water(i) for i in (9, 10, 11)]
+    comparison = Image.new('RGB', (240, 480))
+    for row, bg in enumerate(('#ffffff', '#252b38')):
+        for col, group in enumerate((shake_before, shake_after)):
+            for j, frame in enumerate(group):
+                tile = Image.new('RGB', (120, 80), bg)
+                tile.paste(frame, (0, 0), frame)
+                comparison.paste(tile, (col * 120, (row * 3 + j) * 80))
+    comparison.save(EVIDENCE / 'watergun-shake-comparison.png')
 
 if __name__ == '__main__':
     main()

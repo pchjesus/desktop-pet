@@ -1,0 +1,569 @@
+{
+  "baseline": "0dfdb4d4ec38fefa22b1d82c1e7ab962fce57a37",
+  "frames": [
+    {
+      "path": "spheal-base.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 357,
+      "deleted": 357,
+      "retained_translucent": 2788,
+      "before_rgba_sha256": "20ca34eb07433374dd7316d86e43e611bc678967213ced0fae54b37b924f5a70",
+      "after_rgba_sha256": "de231dc745d091b5202fb6b3504f5535c82f91a86febc86ffdf64e8b4745de00"
+    },
+    {
+      "path": "roll-01.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 366,
+      "deleted": 366,
+      "retained_translucent": 3066,
+      "before_rgba_sha256": "f45248798b4234e30ba1eff3a5e640a1566315bde73248d72bcae22946a58042",
+      "after_rgba_sha256": "b7403cb9f5de7d5954309e513af572496a4a4893891f6d0ef46e23f38003bedc"
+    },
+    {
+      "path": "roll-02.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 395,
+      "deleted": 395,
+      "retained_translucent": 1939,
+      "before_rgba_sha256": "0fea37eced3c34ddcd1605bd8bae68565fdfdfba36b5c0c4370caa96057285a6",
+      "after_rgba_sha256": "d2d4cd1f03d187fc4b62bd6cc1e2b4a69eaccd5bef0832e6db89af7fe9508a46"
+    },
+    {
+      "path": "roll-03.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 370,
+      "deleted": 370,
+      "retained_translucent": 2202,
+      "before_rgba_sha256": "3ceebc0c6af148d6f1edaed44b55d684771750130dc47e0c6043f7096b0dcfc1",
+      "after_rgba_sha256": "f462d3af9380f471ed37c1cd9abf585701aa0e21e3127458d72fc133d4dfd131"
+    },
+    {
+      "path": "roll-04.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 479,
+      "deleted": 479,
+      "retained_translucent": 2258,
+      "before_rgba_sha256": "2367ccd898f90d0d8f7ef81f61353178c95889aa45e7f39da532b9334c3508e3",
+      "after_rgba_sha256": "54797504212508ee5c2b836ac0f85b47f9f75038a79451be421415a47c252a02"
+    },
+    {
+      "path": "roll-05.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 456,
+      "deleted": 456,
+      "retained_translucent": 2402,
+      "before_rgba_sha256": "9ae8b27c655b3a2daf4a8aea7ceba83f7ec3403e3309f2735021fd4474f5b896",
+      "after_rgba_sha256": "e4067f2ce2089f8c8b34a69fc84b3d908959cacfa30c54164d8a0ff8e572b87d"
+    },
+    {
+      "path": "roll-06.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 385,
+      "deleted": 385,
+      "retained_translucent": 3223,
+      "before_rgba_sha256": "da0fe3092c05ea37db5ae20d6f8ab61f9a784e0f2365a01f88c4dcfe6dbd0fc5",
+      "after_rgba_sha256": "9c53e8f26c983926eddf91903c7a8b454f8956287d9b74a961d5a1c347c89729"
+    },
+    {
+      "path": "roll-07.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 446,
+      "deleted": 446,
+      "retained_translucent": 3032,
+      "before_rgba_sha256": "f784768c6431a13f4b702c5dc7bab221da1093ed5054990264b36ae2986e1dcf",
+      "after_rgba_sha256": "593d854244da94574209d9d2ca6ca9aea88ed0bff33cc921e5f75d8a3781ed52"
+    },
+    {
+      "path": "roll-08.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 430,
+      "deleted": 430,
+      "retained_translucent": 2396,
+      "before_rgba_sha256": "20956029a5e6ee6791394df7ae4c7f2f3c068a6936ff72f3ebe3648040bdc8ed",
+      "after_rgba_sha256": "e478aa3ee3ba80dc227edbb4578caeb8e405bc7cc400de723097bed6ac143720"
+    },
+    {
+      "path": "roll-09.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 322,
+      "deleted": 322,
+      "retained_translucent": 2055,
+      "before_rgba_sha256": "ff6c60be72dca488c5e2af40c6dcb1f54f59455932b049249a196ec7ed03d8bc",
+      "after_rgba_sha256": "b0aa94602b7f12189b27e3f805233b1e785fe49ccac7e60cc813385489329a23"
+    },
+    {
+      "path": "roll-10.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 406,
+      "deleted": 406,
+      "retained_translucent": 2279,
+      "before_rgba_sha256": "8e183c488c4575ca9aa39758e614d12c32cba6d07f043d1b9fc8279611a8bce3",
+      "after_rgba_sha256": "92b8e1234218b6c4b079f5750448e00976a8a5be5a8dddfb40e426468095120a"
+    },
+    {
+      "path": "roll-11.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 355,
+      "deleted": 355,
+      "retained_translucent": 2857,
+      "before_rgba_sha256": "c8c9e489bb7aea8e2e1e2d287533fb3f3d3bb92e07f8243c30acd3df36d2cc67",
+      "after_rgba_sha256": "42a6a1ab28b06bf2ea9ed3dd5b154255203dca32110053d2e8f48cafcf413071"
+    },
+    {
+      "path": "roll-12.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 362,
+      "deleted": 362,
+      "retained_translucent": 2542,
+      "before_rgba_sha256": "91cfbb7afabd0e239117bb85c7c687991c0c73351fca4cc920015a4d69a5ac7f",
+      "after_rgba_sha256": "735fb7789e461be99f3320bfd45566cf9af37a650b1c5290191d5ae6e70f317e"
+    },
+    {
+      "path": "animations/clap/clap-01.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 0,
+      "deleted": 0,
+      "retained_translucent": 0,
+      "before_rgba_sha256": "037d2ef22cead9d2cc7243bf00df7ce9a8a7ce3a4df933b199aaf5cc918c4f5c",
+      "after_rgba_sha256": "037d2ef22cead9d2cc7243bf00df7ce9a8a7ce3a4df933b199aaf5cc918c4f5c"
+    },
+    {
+      "path": "animations/clap/clap-02.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 0,
+      "deleted": 0,
+      "retained_translucent": 0,
+      "before_rgba_sha256": "422c5c354e702c60249263988743a0a83b134bf4d194f9c9ffd0d9b1c28e8a84",
+      "after_rgba_sha256": "422c5c354e702c60249263988743a0a83b134bf4d194f9c9ffd0d9b1c28e8a84"
+    },
+    {
+      "path": "animations/clap/clap-03.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 0,
+      "deleted": 0,
+      "retained_translucent": 0,
+      "before_rgba_sha256": "37106edb03448915cb7a9a1a46eba96f0a9a6dd0427bb1233d5ab017f08fc071",
+      "after_rgba_sha256": "37106edb03448915cb7a9a1a46eba96f0a9a6dd0427bb1233d5ab017f08fc071"
+    },
+    {
+      "path": "animations/clap/clap-04.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 0,
+      "deleted": 0,
+      "retained_translucent": 0,
+      "before_rgba_sha256": "7a13a75947c39d906cdf007db14686b268ebd24b8b87551d9d3eee18a3539a15",
+      "after_rgba_sha256": "7a13a75947c39d906cdf007db14686b268ebd24b8b87551d9d3eee18a3539a15"
+    },
+    {
+      "path": "animations/clap/clap-05.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 0,
+      "deleted": 0,
+      "retained_translucent": 0,
+      "before_rgba_sha256": "7a13a75947c39d906cdf007db14686b268ebd24b8b87551d9d3eee18a3539a15",
+      "after_rgba_sha256": "7a13a75947c39d906cdf007db14686b268ebd24b8b87551d9d3eee18a3539a15"
+    },
+    {
+      "path": "animations/clap/clap-06.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 0,
+      "deleted": 0,
+      "retained_translucent": 0,
+      "before_rgba_sha256": "c8e1b1ef1a774a5a1c030f4ec3bc81c61c11a34b7e379dcd481d405afe9937f3",
+      "after_rgba_sha256": "c8e1b1ef1a774a5a1c030f4ec3bc81c61c11a34b7e379dcd481d405afe9937f3"
+    },
+    {
+      "path": "animations/clap/clap-07.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 0,
+      "deleted": 0,
+      "retained_translucent": 0,
+      "before_rgba_sha256": "422c5c354e702c60249263988743a0a83b134bf4d194f9c9ffd0d9b1c28e8a84",
+      "after_rgba_sha256": "422c5c354e702c60249263988743a0a83b134bf4d194f9c9ffd0d9b1c28e8a84"
+    },
+    {
+      "path": "animations/clap/clap-08.png",
+      "size": [
+        80,
+        80
+      ],
+      "changed": 0,
+      "deleted": 0,
+      "retained_translucent": 0,
+      "before_rgba_sha256": "037d2ef22cead9d2cc7243bf00df7ce9a8a7ce3a4df933b199aaf5cc918c4f5c",
+      "after_rgba_sha256": "037d2ef22cead9d2cc7243bf00df7ce9a8a7ce3a4df933b199aaf5cc918c4f5c"
+    },
+    {
+      "path": "animations/watergun/watergun-01.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 357,
+      "deleted": 357,
+      "retained_translucent": 2788,
+      "before_rgba_sha256": "d0a5ee52c17a2147573aa483f5e6facd1e5653cf08f85a086e53371407e69175",
+      "after_rgba_sha256": "563a4758ecc84d4988aab0d5e8563f5975405370b233c3c25137c9bf81a723bf"
+    },
+    {
+      "path": "animations/watergun/watergun-02.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 357,
+      "deleted": 357,
+      "retained_translucent": 2788,
+      "before_rgba_sha256": "d0a5ee52c17a2147573aa483f5e6facd1e5653cf08f85a086e53371407e69175",
+      "after_rgba_sha256": "563a4758ecc84d4988aab0d5e8563f5975405370b233c3c25137c9bf81a723bf"
+    },
+    {
+      "path": "animations/watergun/watergun-03.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 357,
+      "deleted": 357,
+      "retained_translucent": 2788,
+      "before_rgba_sha256": "d0a5ee52c17a2147573aa483f5e6facd1e5653cf08f85a086e53371407e69175",
+      "after_rgba_sha256": "563a4758ecc84d4988aab0d5e8563f5975405370b233c3c25137c9bf81a723bf"
+    },
+    {
+      "path": "animations/watergun/watergun-04.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 357,
+      "deleted": 357,
+      "retained_translucent": 2420,
+      "before_rgba_sha256": "f833f28938d29776841956a0b3b3ed5fb758b394bac16c2f78539c7025aa9565",
+      "after_rgba_sha256": "43bd4b77e8c7504f758f63a099cb0dd61aed1d45d1238c5fccde9fe370e92c29"
+    },
+    {
+      "path": "animations/watergun/watergun-05.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 357,
+      "deleted": 357,
+      "retained_translucent": 2417,
+      "before_rgba_sha256": "e541f9b7ca510498081f2980e19cc648a2681d18b4090d7bfb83cb851317bd46",
+      "after_rgba_sha256": "a772fd29f74a324ecbca00cff51c05a2a5a30f39c01c0f83bae20d7167edebdc"
+    },
+    {
+      "path": "animations/watergun/watergun-06.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 357,
+      "deleted": 357,
+      "retained_translucent": 2420,
+      "before_rgba_sha256": "557869f0072aa7ca7dc65d84e90cb9278e25b748a47022d5099cb67db6b1f41f",
+      "after_rgba_sha256": "f1bf1848c34ce495aa0f8606334f155e02f6e7a4b3f3db76733f5bae6adcfbae"
+    },
+    {
+      "path": "animations/watergun/watergun-07.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 356,
+      "deleted": 356,
+      "retained_translucent": 2417,
+      "before_rgba_sha256": "0edc8b88604ebf1de1b7e46b7229fec1074cd51554b7dc752e544d5d454a5495",
+      "after_rgba_sha256": "55b307e8c4dc7bb7e1eb3385f06dbe760c24a95e5fde84f0e606d4b1162b71a4"
+    },
+    {
+      "path": "animations/watergun/watergun-08.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 357,
+      "deleted": 357,
+      "retained_translucent": 2417,
+      "before_rgba_sha256": "0826cdf589cdef7f7a6b3bd90f9c46a94a8ce7f44d59e26bf9f91b7a0c3365dc",
+      "after_rgba_sha256": "ecc8703d5cc9d3760e14865d3a76d948cc96296877828026515996dc20efe20e"
+    },
+    {
+      "path": "animations/watergun/watergun-09.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 327,
+      "deleted": 327,
+      "retained_translucent": 2528,
+      "before_rgba_sha256": "46838b314c222dca3c519762b5c07ad22475636570cad9083e88be4c8b587d42",
+      "after_rgba_sha256": "02b682e2a3bcbdda28deb9e31989065ee73a45c9ee7feee0dc2d770ddbe05dd1"
+    },
+    {
+      "path": "animations/watergun/watergun-10.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 327,
+      "deleted": 327,
+      "retained_translucent": 2528,
+      "before_rgba_sha256": "68c4b7a9f3198b50d4a0e39330da14728e440066730b3e5747e72c2d8078e76c",
+      "after_rgba_sha256": "badcfac12ea469316c03101b11c96928dad22058649703267c16ea5961012bd6"
+    },
+    {
+      "path": "animations/watergun/watergun-11.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 327,
+      "deleted": 327,
+      "retained_translucent": 2528,
+      "before_rgba_sha256": "b4e2fafd899e9d4c5a8c19d8f37b0063d60971982466818f3322a36fa6e872f0",
+      "after_rgba_sha256": "8709ba7023c68f2e548b7c5e5413f645a473ea1cc7436dc9122fc50a50d41ade"
+    },
+    {
+      "path": "animations/watergun/watergun-12.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 327,
+      "deleted": 327,
+      "retained_translucent": 2786,
+      "before_rgba_sha256": "cd1ee9383e2603027b1e378641ac74c53a8d9bd510152da7f4562d1ca69537dd",
+      "after_rgba_sha256": "744fab912858bbcb9d88b19a902cac16d77c0c2c21e2f0b79e43bb5a6cebaf14"
+    },
+    {
+      "path": "animations/icebeam/icebeam-01.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 353,
+      "deleted": 353,
+      "retained_translucent": 2461,
+      "before_rgba_sha256": "3026b8daf9b5732dd7c57bb6bc10f22f0265e5ed172f1406378c2f580ab5788b",
+      "after_rgba_sha256": "e65bbba9c1ccf079a2f3e6cf4e4aad64f047fc544c5ec4d6cd1f835c106321dc"
+    },
+    {
+      "path": "animations/icebeam/icebeam-02.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 353,
+      "deleted": 353,
+      "retained_translucent": 2456,
+      "before_rgba_sha256": "c61fd3b1690e57c877c647bd1af9aff57091bdf20a62ed62ea65d6ece090fc6d",
+      "after_rgba_sha256": "c0ec1a20ee510a75cc25ddb0c89e67adac39c3b84b912142f2f816d9ea71844a"
+    },
+    {
+      "path": "animations/icebeam/icebeam-03.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 355,
+      "deleted": 355,
+      "retained_translucent": 2397,
+      "before_rgba_sha256": "35f1e270bf72fa749200809b6f2d3f7d32834d4daf8ad381a55c72282542f1df",
+      "after_rgba_sha256": "32636370c248ff3f045905082c2a11eb52a1f6a8b2390543f33a2a4ac66ba71f"
+    },
+    {
+      "path": "animations/icebeam/icebeam-04.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 352,
+      "deleted": 352,
+      "retained_translucent": 2397,
+      "before_rgba_sha256": "ad6caadfcbc4d8e05f9819e726b74f8c2ee5cee16e646529c4946499274628da",
+      "after_rgba_sha256": "8e2a51f177d838e7ec1db5108a42212f7b2b5088374c057da383a8d1f86d49a7"
+    },
+    {
+      "path": "animations/icebeam/icebeam-05.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 355,
+      "deleted": 355,
+      "retained_translucent": 2398,
+      "before_rgba_sha256": "4879bee32ceed9be225653b34650eeddc8212ca2e5d3e1dda53a78f7d03ede44",
+      "after_rgba_sha256": "7b41a5d18f6ade0b9620f438f3ac399b7dea56a331f7117f82a83244caed7c2e"
+    },
+    {
+      "path": "animations/icebeam/icebeam-06.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 352,
+      "deleted": 352,
+      "retained_translucent": 2397,
+      "before_rgba_sha256": "c035d54ead38c286aa1fd2e8c11056f9dc3e0f7fb3e36bee52ef09c959686a23",
+      "after_rgba_sha256": "ad650a8d7f27afb2b9329c182d564f139b4d631d3d9b4eee09570664f52c65bc"
+    },
+    {
+      "path": "animations/icebeam/icebeam-07.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 355,
+      "deleted": 355,
+      "retained_translucent": 2397,
+      "before_rgba_sha256": "8e1ccb871b53b1ed6f59f04da02463b0ac11a62fbb78af19fc6159886831ee7e",
+      "after_rgba_sha256": "2b4be8ebfc42fb06184a9cf86e5af7a0187c81b4496b187f261f036524758523"
+    },
+    {
+      "path": "animations/icebeam/icebeam-08.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 352,
+      "deleted": 352,
+      "retained_translucent": 2398,
+      "before_rgba_sha256": "fc45ca6fddfc0161790817ca6a1695d7245663025163ea3ec37f8a92c30ebd9a",
+      "after_rgba_sha256": "c74c78a1b6a6233cd8887e29e965422ba1e57efa5d7d85e3a3625959e36296c1"
+    },
+    {
+      "path": "animations/icebeam/icebeam-09.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 369,
+      "deleted": 357,
+      "retained_translucent": 2788,
+      "before_rgba_sha256": "d63ab8ac1370f8c4f8954b53714f13997b28e441c96ad52b394dc06389986b55",
+      "after_rgba_sha256": "d4335dbcbde503dfe6dc9f9728ee081f352ff4eff7b88d88fb7ff5d490f5b0cc"
+    },
+    {
+      "path": "animations/icebeam/icebeam-10.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 363,
+      "deleted": 351,
+      "retained_translucent": 2752,
+      "before_rgba_sha256": "ecf0aa9e35fa4af13269488118cc251f597d66b10db1120bc539a4d1682a2808",
+      "after_rgba_sha256": "d4683606b3f52c3a8b1a48cfd738e5ac1e5fc32c14a2d8c145d1022f4d1c3e3a"
+    },
+    {
+      "path": "animations/icebeam/icebeam-11.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 364,
+      "deleted": 352,
+      "retained_translucent": 2757,
+      "before_rgba_sha256": "a0d7c89229876d56d81ede1b9b3344458d7a96e4c7d9041bc0ef4dad98bf8dcc",
+      "after_rgba_sha256": "d454f5a37ffca78fa1f63c0fdcfaab9b551986237b6aa8a95805c2fee55af294"
+    },
+    {
+      "path": "animations/icebeam/icebeam-12.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 357,
+      "deleted": 357,
+      "retained_translucent": 2776,
+      "before_rgba_sha256": "c3a28bb1add3dade62b039897a4960ff881f30b9a68476c3bcef751462b17545",
+      "after_rgba_sha256": "6c4c8fb54aa0d92e0b4e48114eac1aa4afb270f69875d010827c1d3f698577b8"
+    },
+    {
+      "path": "animations/icebeam/icebeam-13.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 357,
+      "deleted": 357,
+      "retained_translucent": 2776,
+      "before_rgba_sha256": "0163a02f99375d34d81a137ffc003f77660463b36f22a4f2345e6c98465f4928",
+      "after_rgba_sha256": "4513dd31b4d2f0d06c447323ee694b0f64cafead348077e925477814e82916cc"
+    },
+    {
+      "path": "animations/icebeam/icebeam-14.png",
+      "size": [
+        120,
+        80
+      ],
+      "changed": 357,
+      "deleted": 357,
+      "retained_translucent": 2788,
+      "before_rgba_sha256": "d0a5ee52c17a2147573aa483f5e6facd1e5653cf08f85a086e53371407e69175",
+      "after_rgba_sha256": "563a4758ecc84d4988aab0d5e8563f5975405370b233c3c25137c9bf81a723bf"
+    }
+  ]
+}

@@ -91,23 +91,24 @@ test('spheal uses the new fixed-position flipper animation and supports water gu
 });
 
 
-test('spheal uses the original base artwork for its base and startup card', () => {
+test('spheal keeps original runtime artwork and a separate startup portrait', () => {
   const characterSource = fs.readFileSync(path.join(__dirname, '..', 'src', 'characters', 'spheal.js'), 'utf8');
   const index = fs.readFileSync(path.join(__dirname, '..', 'src', 'index.html'), 'utf8');
   const start = fs.readFileSync(path.join(__dirname, '..', 'src', 'start.html'), 'utf8');
   assert.match(characterSource, /this\.baseSrc = `\$\{root\}spheal-base\.png`/);
   assert.match(index, /spheal-base\.png/);
-  assert.match(start, /spheal-base\.png/);
+  assert.match(start, /spheal-portrait\.png/);
+  assert.equal(fs.existsSync(path.join(__dirname, '..', 'src', 'assets', 'characters', 'spheal', 'spheal-portrait.png')), true);
   assert.doesNotMatch(characterSource, /this\.baseSrc = `\$\{root\}spheal-idle\.png`/);
   assert.doesNotMatch(index, /spheal-happy-face|spheal-watergun-effect|spheal-clap-impact/);
 });
 
-test('spheal base sprite uses the patch12 eye-hole-fixed asset', () => {
+test('spheal base and roll entry match the reviewed runtime cleanup assets', () => {
   const base = fs.readFileSync(path.join(__dirname, '..', 'src', 'assets', 'characters', 'spheal', 'spheal-base.png'));
   const roll01 = fs.readFileSync(path.join(__dirname, '..', 'src', 'assets', 'characters', 'spheal', 'roll-01.png'));
   const crypto = require('node:crypto');
-  assert.equal(crypto.createHash('sha256').update(base).digest('hex'), 'e0aaa87996727a6b4a8ee7cac72c9dfea86d2d137694f212fa2825304bac2997');
-  assert.equal(crypto.createHash('sha256').update(roll01).digest('hex'), '363f91e9aba03656e974f61955f133a6a0d4aad2afe7b5ce892e6bd42917f08c');
+  assert.equal(crypto.createHash('sha256').update(base).digest('hex'), '75962f96c2842d34020f7d9ae8a63ad2d5445bbffdbbcaaf2f7777887e636126');
+  assert.equal(crypto.createHash('sha256').update(roll01).digest('hex'), '443adc5a3629687b8b78d895922d8ae817d8c3267adcc3e339d9623fe5cca7dd');
 });
 
 test('spheal special playback uses full-body frame timing', () => {

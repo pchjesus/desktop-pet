@@ -1,0 +1,236 @@
+{
+  "before": {
+    "viewport": [
+      500,
+      461
+    ],
+    "scroll": [
+      499,
+      468
+    ],
+    "card": {
+      "left": 22.5,
+      "right": 462.5,
+      "top": -21.734375,
+      "bottom": 467.734375,
+      "width": 440,
+      "height": 489.46875
+    },
+    "buttons": [
+      {
+        "left": 52.5,
+        "right": 432.5,
+        "top": 343.734375,
+        "bottom": 387.734375,
+        "width": 380,
+        "height": 44
+      },
+      {
+        "left": 52.5,
+        "right": 432.5,
+        "top": 397.734375,
+        "bottom": 441.734375,
+        "width": 380,
+        "height": 44
+      }
+    ],
+    "choices": [
+      {
+        "left": 52.5,
+        "right": 156.5,
+        "top": 113.859375,
+        "bottom": 285.859375,
+        "width": 104,
+        "height": 172
+      },
+      {
+        "left": 166.5,
+        "right": 270.5,
+        "top": 113.859375,
+        "bottom": 285.859375,
+        "width": 104,
+        "height": 172
+      },
+      {
+        "left": 280.5,
+        "right": 384.5,
+        "top": 113.859375,
+        "bottom": 285.859375,
+        "width": 104,
+        "height": 172
+      },
+      {
+        "left": 394.5,
+        "right": 498.5,
+        "top": 113.859375,
+        "bottom": 285.859375,
+        "width": 104,
+        "height": 172
+      }
+    ],
+    "images": [
+      {
+        "src": "file:///workspace/desktop-pet/src/assets/characters/growlithe-hgss.png",
+        "natural": [
+          80,
+          80
+        ],
+        "rect": {
+          "left": 175.5,
+          "right": 261.5,
+          "top": 126.859375,
+          "bottom": 212.859375,
+          "width": 86,
+          "height": 86
+        }
+      },
+      {
+        "src": "file:///workspace/desktop-pet/src/assets/characters/royce.svg",
+        "natural": [
+          163,
+          150
+        ],
+        "rect": {
+          "left": 289.5,
+          "right": 375.5,
+          "top": 126.859375,
+          "bottom": 212.859375,
+          "width": 86,
+          "height": 86
+        }
+      },
+      {
+        "src": "file:///workspace/desktop-pet/src/assets/characters/spheal/spheal-base.png",
+        "natural": [
+          80,
+          80
+        ],
+        "rect": {
+          "left": 403.5,
+          "right": 489.5,
+          "top": 136.359375,
+          "bottom": 222.359375,
+          "width": 86,
+          "height": 86
+        }
+      }
+    ]
+  },
+  "after": {
+    "viewport": [
+      680,
+      560
+    ],
+    "scroll": [
+      680,
+      560
+    ],
+    "card": {
+      "left": 20,
+      "right": 660,
+      "top": 63.703125,
+      "bottom": 496.296875,
+      "width": 640,
+      "height": 432.59375
+    },
+    "buttons": [
+      {
+        "left": 44,
+        "right": 334,
+        "top": 432.296875,
+        "bottom": 476.296875,
+        "width": 290,
+        "height": 44
+      },
+      {
+        "left": 346,
+        "right": 636,
+        "top": 432.296875,
+        "bottom": 476.296875,
+        "width": 290,
+        "height": 44
+      }
+    ],
+    "choices": [
+      {
+        "left": 44,
+        "right": 183,
+        "top": 191.296875,
+        "bottom": 364.296875,
+        "width": 139,
+        "height": 173
+      },
+      {
+        "left": 195,
+        "right": 334,
+        "top": 191.296875,
+        "bottom": 364.296875,
+        "width": 139,
+        "height": 173
+      },
+      {
+        "left": 346,
+        "right": 485,
+        "top": 191.296875,
+        "bottom": 364.296875,
+        "width": 139,
+        "height": 173
+      },
+      {
+        "left": 497,
+        "right": 636,
+        "top": 191.296875,
+        "bottom": 364.296875,
+        "width": 139,
+        "height": 173
+      }
+    ],
+    "images": [
+      {
+        "src": "assets/characters/growlithe-hgss.png",
+        "natural": [
+          80,
+          80
+        ],
+        "rect": {
+          "left": 224.5,
+          "right": 304.5,
+          "top": 215.796875,
+          "bottom": 295.796875,
+          "width": 80,
+          "height": 80
+        }
+      },
+      {
+        "src": "assets/characters/royce.svg",
+        "natural": [
+          163,
+          150
+        ],
+        "rect": {
+          "left": 375.5,
+          "right": 455.5,
+          "top": 215.796875,
+          "bottom": 295.796875,
+          "width": 80,
+          "height": 80
+        }
+      },
+      {
+        "src": "assets/characters/spheal/spheal-portrait.png",
+        "natural": [
+          80,
+          80
+        ],
+        "rect": {
+          "left": 526.5,
+          "right": 606.5,
+          "top": 215.796875,
+          "bottom": 295.796875,
+          "width": 80,
+          "height": 80
+        }
+      }
+    ]
+  }
+}
