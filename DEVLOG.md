@@ -1,3 +1,22 @@
+# Home navigation, Growlithe size and diagonal meteors
+
+- Baseline main `958a2c89`; feature branch `feat/pet-home-size-meteors`.
+- Added native Home / Exit / Cancel; IPC registers once and reads the active pet.
+  Home clears drag/hit-test timers, closes the old renderer/auxiliary windows and
+  recreates one launcher; stale pet messages cannot affect the next character.
+- Growlithe ordinary sprites display at 92×92 (+15%). Special PNGs use the same
+  nearest-neighbor body size/anchor with an adjusted mouth; native window stays
+  180×150. Updated its body bounds; other characters retain their size.
+- Regenerated diagonal rear meteor frames/APNGs with facing-independent travel,
+  tilted tails, size/time differences and inset entry/exit fades. Berry stages,
+  foreground/body and 4400ms sequence remain unchanged.
+- Replaced duplicated/outdated manual text with the five characters, current
+  codes, Home switching and monitor notes. No new special or dependency.
+- Local syntax, Node 92/92, shell 15/15, PNG 15/15 and five-character headless
+  Electron checks PASS. Windows CI separately gates native repeated Home/Cancel/
+  Exit (scripted dialog responses), portable build and packaged startup smoke.
+  Physical Windows input/DPI/monitor and visual acceptance remain NOT VERIFIED.
+
 # Pachirisu / Growlithe integrated motion update
 
 - Selectively integrated the uploaded Pachirisu sprite/character/input additions

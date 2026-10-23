@@ -80,3 +80,22 @@ Rollback: keep `9dde4ea` and feature commits; revert integration commits in reve
 order on a new normal commit if needed. Do not reset main or force push. If all
 new development must be undone, choose the previous main `8960f70` only as a
 comparison point, never erase the preserved development history.
+
+
+## Home/size/diagonal follow-up (baseline 958a2c89)
+
+One branch, four scoped changes: 92×92 Growlithe ordinary/special body with fixed
+anchor and connected mouth; app-lifetime IPC plus Home/Exit/Cancel and old-renderer
+cleanup; screen-space diagonal meteors with regenerated facing variants/APNG;
+current five-character manual. No new special, library or native window size.
+The Growlithe profile grows with its body; the shared DIP/topology logic remains.
+
+Local checks: syntax, Node 92/92 (including repeated five-pet Home loops, duplicate
+handle rejection, cancel/exit/stale sender/timer cases), shell 15/15, PNG 15/15,
+and headless five-character input/facing/size/containment regression PASS.
+`size-comparison.png` and `meteor-direction-comparison.png` show the visual changes.
+Windows CI runs `verify-home-electron.cjs` with actual BrowserWindows and renderer
+IPC, scripted native-dialog responses, repeated selection and process exit. It
+must pass alongside EXE build/smoke before main advances. This does not claim
+manual native dialog clicking, physical monitor/DPI or visual approval.
+Revert this follow-up's commits normally to restore 958a2c89; retain prior history.
