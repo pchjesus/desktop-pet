@@ -23,10 +23,11 @@ is a separate NOT VERIFIED gate. Phase 1 gets its own reversible commit.
 
 Keep runtime dog SVGs and animations byte-identical. Place reviewed SVG concepts,
 white/dark comparisons and IDLE/WALK previews in a separate concept directory.
-Retain Neukgu's pale block-wolf identity and Royce's black/tan identity, with
-different proportions/anatomy rather than a palette swap. No 3D engine or new
-dependencies. Record pivots, contact constraints and six-state transition plans
-for a later, explicitly approved runtime implementation. Commit separately.
+The initial angular concepts were superseded by user feedback at `6aa9626`:
+round, soft sticker-style puppies, short muzzles/legs, dot eyes and simple fills.
+Keep Neukgu pale and Royce black/tan with distinct ears, faces, bodies and tails.
+No 3D engine or dependencies. Record gentle six-state motion/transition plans
+for a later, explicitly approved runtime implementation.
 
 ## Phase 1 findings and verification
 
@@ -62,15 +63,17 @@ for a later, explicitly approved runtime implementation. Commit separately.
 
 `design/character-concepts/` contains separate current/concept SVGs, a white/dark
 comparison, four normalized motion phases, a phase sheet/APNG and a standalone
-HTML preview with real IDLE/WALK clocks. XML validity, unique IDs and Electron
-loading/rendering (8 images, 4 inline SVGs, 22 animations) pass. Visual review of
+HTML preview with real IDLE/WALK clocks and a 78×72 small-size comparison.
+Revised concepts: XML validity, unique IDs and Electron
+loading/rendering (12 images, 4 inline SVGs, 20 animations) pass. Visual review of
 the rendered comparisons/phase sheet covers silhouette, contrast and limb joins;
 this is concept review, not acceptance of runtime animation or Windows rendering.
 Runtime canine SVGs/controllers and all Spheal/Growlithe assets remain unchanged.
 
-`ANIMATION-PLAN.md` in that directory defines six states, anatomy pivots, contact
-constraints, cancellation and later bounds measurement. Preview leg tracks are
-studies; joint-level contact solving and actual-size approval remain future work.
+`ANIMATION-PLAN.md` in that directory defines six gentle states, small breathing,
+tail wagging, light steps, cancellation and later bounds measurement. Preview
+leg tracks are studies; runtime speed integration and user approval remain future
+work. Anatomical joint analysis is no longer the design direction.
 
 ## Windows manual checklist (NOT VERIFIED)
 

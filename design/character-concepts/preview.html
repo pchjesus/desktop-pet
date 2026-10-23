@@ -1,275 +1,177 @@
 <!doctype html><html lang="ko"><meta charset="utf-8"><title>Neukgu &amp; Royce — concept review</title>
 <style>
 *{box-sizing:border-box}body{margin:0;padding:24px;background:#e9edf1;color:#243447;font:14px system-ui,sans-serif}h1{font-size:25px;margin:0 0 8px}header p{margin:4px 0;color:#536477}h2{font-size:15px;margin:15px 0 7px}.board,.motions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.board{padding:14px;border-radius:12px}.light{background:#fff}.dark{background:#202c3a;color:#edf3f7}.board article{text-align:center}h3{font-size:14px;margin:4px 0 8px}.board img{width:192px;height:176px;object-fit:contain}.board p{font-size:11px;margin:5px 0}.motion{background:#fff;padding:12px;text-align:center;border-radius:12px}.motion svg{width:192px;height:176px}.footer{font-size:12px;line-height:1.6;color:#536477;margin-top:16px}button{padding:7px 14px;background:#243c55;color:white;border:0;border-radius:6px;cursor:pointer;float:right}@media(max-width:900px){.board,.motions{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.small img{width:78px;height:72px}.small article{padding:10px;border-radius:10px}
 </style>
-<header><button id="pause">일시 정지</button><h1>늑구 · 로이스 외형 / 동작 시안</h1><p>검토 전용 · 기존 런타임 캐릭터/애니메이션 미교체 · 기준 6c97ae7</p><p>동일 표시 상자에서 비교합니다. 아래 IDLE/WALK는 승인 전 동작 연구이며 최종 애니메이션이 아닙니다.</p></header>
-<h2>밝은 배경 · 기존 / 개선</h2><section class="board light"><article><h3>늑구 · 기존</h3><img src="neukgu-current.svg" alt="늑구 기존"><p>기준 커밋의 런타임 SVG</p></article><article><h3>늑구 · 시안</h3><img src="neukgu-concept.svg" alt="늑구 시안"><p>세운 귀 · 날렵한 몸 · 연결된 풍성한 꼬리</p></article><article><h3>로이스 · 기존</h3><img src="royce-current.svg" alt="로이스 기존"><p>기준 커밋의 런타임 SVG</p></article><article><h3>로이스 · 시안</h3><img src="royce-concept.svg" alt="로이스 시안"><p>넓은 가슴 · 접힌 귀 · 황갈색 눈썹과 발</p></article></section><h2>어두운 배경 · 실루엣과 명암</h2><section class="board dark"><article><h3>늑구 · 기존</h3><img src="neukgu-current.svg" alt="늑구 기존"><p>기준 커밋의 런타임 SVG</p></article><article><h3>늑구 · 시안</h3><img src="neukgu-concept.svg" alt="늑구 시안"><p>세운 귀 · 날렵한 몸 · 연결된 풍성한 꼬리</p></article><article><h3>로이스 · 기존</h3><img src="royce-current.svg" alt="로이스 기존"><p>기준 커밋의 런타임 SVG</p></article><article><h3>로이스 · 시안</h3><img src="royce-concept.svg" alt="로이스 시안"><p>넓은 가슴 · 접힌 귀 · 황갈색 눈썹과 발</p></article></section>
-<h2>연속 동작 미리보기 · 발 접지와 네 발의 위상 차이</h2><section class="motions"><article class="motion"><h3>늑구 · IDLE</h3><svg xmlns="http://www.w3.org/2000/svg" class="neukgu-concept" data-motion="idle" viewBox="0 0 96 88" role="img" aria-labelledby="neukgu-idle-title neukgu-idle-desc">
-<title id="neukgu-idle-title">Neukgu — angular silver wolf concept</title>
-<desc id="neukgu-idle-desc">Original block-wolf identity, tapered cheek planes, upright ears, connected bushy tail, articulated paws. Review concept only.</desc>
+<header><button id="pause">일시 정지</button><h1>늑구 · 로이스 외형 / 동작 시안</h1><p>검토 전용 · 기존 런타임 캐릭터/애니메이션 미교체 · 디자인 재검토 기준 6aa9626</p><p>동일 표시 상자에서 비교합니다. 둥근 실루엣 · 점눈 · 짧은 주둥이 · 말랑한 데스크탑 강아지. 런타임 적용 전 시안입니다.</p></header>
+<h2>밝은 배경 · 기존 / 개선</h2><section class="board light"><article><h3>늑구 · 기존</h3><img src="neukgu-current.svg" alt="늑구 기존"><p>기준 커밋의 런타임 SVG</p></article><article><h3>늑구 · 시안</h3><img src="neukgu-concept.svg" alt="늑구 시안"><p>둥근 세운 귀 · 뽀얀 통통 몸 · 말린 꼬리</p></article><article><h3>로이스 · 기존</h3><img src="royce-current.svg" alt="로이스 기존"><p>기준 커밋의 런타임 SVG</p></article><article><h3>로이스 · 시안</h3><img src="royce-concept.svg" alt="로이스 시안"><p>처진 귀 · 넓고 둥근 얼굴 · 황갈색 눈썹과 발</p></article></section><h2>어두운 배경 · 실루엣과 명암</h2><section class="board dark"><article><h3>늑구 · 기존</h3><img src="neukgu-current.svg" alt="늑구 기존"><p>기준 커밋의 런타임 SVG</p></article><article><h3>늑구 · 시안</h3><img src="neukgu-concept.svg" alt="늑구 시안"><p>둥근 세운 귀 · 뽀얀 통통 몸 · 말린 꼬리</p></article><article><h3>로이스 · 기존</h3><img src="royce-current.svg" alt="로이스 기존"><p>기준 커밋의 런타임 SVG</p></article><article><h3>로이스 · 시안</h3><img src="royce-concept.svg" alt="로이스 시안"><p>처진 귀 · 넓고 둥근 얼굴 · 황갈색 눈썹과 발</p></article></section>
+<h2>연속 동작 미리보기 · 통통 호흡 / 꼬리 살랑 / 가벼운 발걸음</h2><section class="motions"><article class="motion"><h3>늑구 · IDLE</h3><svg xmlns="http://www.w3.org/2000/svg" class="neukgu-concept" data-motion="idle" viewBox="0 0 96 88" role="img" aria-labelledby="neukgu-idle-title neukgu-idle-desc">
+<title id="neukgu-idle-title">Neukgu — soft cream puppy</title>
+<desc id="neukgu-idle-desc">Rounded sticker-style puppy, dot eyes, short muzzle and little paws. Review concept only; not a runtime replacement.</desc>
 <style>
-.neukgu-concept{--cycle:900ms;overflow:visible}
+.neukgu-concept{--cycle:840ms;overflow:visible}
 .neukgu-concept .eye-closed{display:none}
-.neukgu-concept[data-motion="idle"] .core{animation:n-breathe 2400ms ease-in-out infinite}
-.neukgu-concept[data-motion="idle"] .tail{transform-box:view-box;transform-origin:30px 44px;animation:n-tail 3200ms ease-in-out infinite}
-.neukgu-concept[data-motion="idle"] .ear-near{transform-origin:66px 25px;animation:n-ear 4600ms ease-in-out infinite}
-.neukgu-concept[data-motion="idle"] .eye-open{animation:n-blink 5200ms steps(1) infinite}
-.neukgu-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:n-lid 5200ms steps(1) infinite}
-.neukgu-concept[data-motion="walk"] .core{animation:n-load var(--cycle) ease-in-out infinite}
-.neukgu-concept[data-motion="walk"] .leg-track{animation:n-stride var(--cycle) linear infinite}
-.neukgu-concept[data-motion="walk"] .far-front{animation-delay:-450ms}
-.neukgu-concept[data-motion="walk"] .near-hind{animation-delay:-675ms}
-.neukgu-concept[data-motion="walk"] .far-hind{animation-delay:-225ms}
-.neukgu-concept[data-motion="walk"] .head{animation:n-head var(--cycle) ease-in-out infinite}
-@keyframes n-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-1)}}
-@keyframes n-tail{0%,100%{transform:rotate(0)}50%{transform:rotate(-4deg)}}
-@keyframes n-ear{0%,85%,100%{transform:rotate(0)}90%{transform:rotate(-5deg)}94%{transform:rotate(2deg)}}
-@keyframes n-blink{0%,93%,97%,100%{opacity:1}94%,96%{opacity:0}}
-@keyframes n-load{0%,50%,100%{transform:translateY(.6px)}25%,75%{transform:translateY(-.4px)}}
-@keyframes n-head{0%,50%,100%{transform:translateY(-.4px)}25%,75%{transform:translateY(.3px)}}
-@keyframes n-stride{0%{transform:translate(3px,0)}60%{transform:translate(-3px,0)}72%{transform:translate(-2px,-4px)}86%{transform:translate(1px,-4px)}100%{transform:translate(3px,0)}}
-@keyframes n-lid{0%,93%,97%,100%{opacity:0}94%,96%{opacity:1}}
+.neukgu-concept .tail{transform-origin:26px 53px}
+.neukgu-concept[data-motion="idle"] .core{animation:n-breathe 2400ms ease-in-out infinite;transform-origin:46px 73px}
+.neukgu-concept[data-motion="idle"] .eye-open{animation:n-blink 4800ms steps(1) infinite}
+.neukgu-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:n-lid 4800ms steps(1) infinite}
+.neukgu-concept:not([data-motion="idle"]) .tail{animation:n-wag 1600ms ease-in-out infinite}
+.neukgu-concept[data-motion="walk"] .core{animation:n-bob var(--cycle) ease-in-out infinite}
+.neukgu-concept[data-motion="walk"] .leg-track{animation:n-step var(--cycle) linear infinite}
+.neukgu-concept[data-motion="walk"] .far-front{animation-delay:-420ms}
+.neukgu-concept[data-motion="walk"] .near-hind{animation-delay:-630ms}
+.neukgu-concept[data-motion="walk"] .far-hind{animation-delay:-210ms}
+@keyframes n-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.025)}}
+@keyframes n-wag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@keyframes n-bob{0%,50%,100%{transform:translateY(.6px)}25%,75%{transform:translateY(-.6px)}}
+@keyframes n-step{0%{transform:translate(1.6px,0)}60%{transform:translate(-1.6px,0)}75%{transform:translate(-1px,-2px)}88%{transform:translate(1px,-2px)}100%{transform:translate(1.6px,0)}}
+@keyframes n-blink{0%,92%,97%,100%{opacity:1}93%,96%{opacity:0}}
+@keyframes n-lid{0%,92%,97%,100%{opacity:0}93%,96%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.neukgu-concept *{animation:none!important}}
 </style>
-<g class="model" stroke-linejoin="round">
- <g id="neukgu-idle-leg-far-hind" class="leg-track far-hind" data-pivot="32,51">
-  <path d="M28 49h10l-1 12-4 6v9h-9v-4l3-2 1-11z" fill="#8e9bab"/>
-  <path d="M25 73h9v4H23v-2z" fill="#c8d2dc"/>
- </g>
- <g id="neukgu-idle-leg-far-front" class="leg-track far-front" data-pivot="58,49">
-  <path d="M54 46h9l-1 18-2 9 4 2v3H52l1-7z" fill="#93a0ae"/>
-  <path d="M53 74h9l2 2v2H52z" fill="#c8d2dc"/>
- </g>
- <g class="core" id="neukgu-idle-core">
-  <g id="neukgu-idle-tail" class="tail" data-pivot="30,44">
-   <path d="M31 48 20 46 13 41 10 33 11 25 17 19 19 29 23 34 34 39Z" fill="#a8b5c3" stroke="#65758a" stroke-width="1"/>
-   <path d="M14 26 17 22 19 30 23 35 31 39 29 43 20 40 15 35Z" fill="#f0f3f4"/>
-  </g>
-  <g id="neukgu-idle-body">
-   <path d="M25 39 35 34 52 34 63 38 68 47 63 58 52 62 29 60 22 53 22 45Z" fill="#d9e1e6" stroke="#78889b" stroke-width="1"/>
-   <path d="M27 39 37 36 53 36 62 40 53 44 31 44Z" fill="#f8faf8"/>
-   <path d="M24 51 33 55 53 56 64 49 62 58 51 61 30 59Z" fill="#b5c2cf"/>
-   <path d="M29 45h17l-3 7H28Z" fill="#e8edf0"/>
-  </g>
-  <g id="neukgu-idle-neck">
-   <path d="M54 46 51 34 57 25 68 27 75 43 68 56 61 57Z" fill="#c7d3dd" stroke="#78889b" stroke-width="1"/>
-   <path d="M58 31 65 30 69 40 65 48 59 44Z" fill="#f2f5f3"/>
-   <path d="m62 45 4 4-4 7-5-6Z" fill="#edf2f2"/>
-  </g>
-  <g id="neukgu-idle-head" class="head" data-pivot="64,37">
-   <g id="neukgu-idle-ear-far"><path d="m75 23 4-14 6 4 2 16Z" fill="#bdcad5" stroke="#65758a"/><path d="m79 15 3-2 1 10Z" fill="#d5afb0"/></g>
-   <path d="M59 24 68 19 81 21 88 28 88 40 80 48 66 45 58 35Z" fill="#e4ebed" stroke="#65758a"/>
-   <path d="m60 26 9-4 11 2 5 5-17 2Z" fill="#fafbf8"/>
-   <path d="m60 33 8 2 3 8-6 1-6-7Z" fill="#b1c1ce"/>
-   <path d="m81 25 5 4-1 10-6 5-2-6Z" fill="#c3d1db"/>
-   <g id="neukgu-idle-ear-near" class="ear-near" data-pivot="66,25"><path d="m61 26-2-15 5-3 10 14-3 5Z" fill="#e1e8eb" stroke="#65758a"/><path d="m63 14 6 9-5-1Z" fill="#d4a4a7"/><path d="m60 12 3-2 2 5-3 3Z" fill="#fafbf8"/></g>
-   <g id="neukgu-idle-eyes-open" class="eye-open" fill="#33485e"><path d="M65 30h6v6h-5l-1-2Z"/><path d="M79 30h5v6h-5Z"/><path d="M66 30h2v2h-2ZM80 30h2v2h-2Z" fill="#fff"/></g>
-   <g id="neukgu-idle-eyes-closed" class="eye-closed" stroke="#33485e" fill="none"><path d="m65 34 3-1 3 1m8 0 3-1 2 1"/></g>
-   <path d="m72 36 11-2 8 4 1 6-6 3-13-2-4-5Z" fill="#f5f1e7" stroke="#84919b" stroke-width=".8"/>
-   <path d="m74 42 10 1 6-2-1 4-6 2-9-2Z" fill="#d4d9d7"/>
-   <path d="M87 36h6l1 3-2 3h-5l-2-3Z" fill="#293d50"/>
-   <path d="M88 37h3v1h-3Z" fill="#6f8190"/>
-   <path d="m85 42-1 2-5 1-3-1" fill="none" stroke="#617586" stroke-width=".8"/>
-  </g>
- </g>
- <g id="neukgu-idle-leg-near-hind" class="leg-track near-hind" data-pivot="30,53">
-  <path d="M24 50 33 49 38 55 35 63 30 68 30 74 34 75v4H22v-5l3-5 2-8-4-4Z" fill="#d1dce2" stroke="#7c8c9d"/>
-  <path d="m26 52 5-1 3 4-2 7-4 3 2-9Z" fill="#f2f6f4"/>
-  <path d="M23 75h9l2 2v2H22Z" fill="#e6ecec"/><path d="M26 77v2m4-2v2" stroke="#a5b4be" stroke-width=".8"/>
- </g>
- <g id="neukgu-idle-leg-near-front" class="leg-track near-front" data-pivot="65,49">
-  <path d="M61 47h9l-1 13-3 13 5 2v4H57l1-6 2-15Z" fill="#dde5e8" stroke="#7c8c9d"/>
-  <path d="M63 50h4l-2 17h-3Z" fill="#f7f9f6"/>
-  <path d="M59 75h9l3 2v2H57Z" fill="#eff3f0"/><path d="M62 77v2m4-2v2" stroke="#a5b4be" stroke-width=".8"/>
- </g>
-</g>
-</svg>
+<g class="model" fill="#fff9ee" stroke="#80766d" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<g id="neukgu-idle-leg-far-hind" class="leg-track far-hind"><rect x="35" y="60" width="10" height="15" rx="5" fill="#e4ded4"/></g>
+<g id="neukgu-idle-leg-far-front" class="leg-track far-front"><rect x="57" y="60" width="10" height="15" rx="5" fill="#e4ded4"/></g>
+<g id="neukgu-idle-core" class="core">
+<g id="neukgu-idle-tail" class="tail"><path d="M27 56C10 59 6 46 12 39C16 35 22 39 19 44C17 47 19 49 27 47"/></g>
+<g id="neukgu-idle-body"><ellipse cx="43" cy="57" rx="24" ry="17"/></g>
+<g id="neukgu-idle-head" class="head">
+<path d="M50 26C44 22 43 11 48 10C52 9 60 17 61 23" fill="#fff9ee"/><path d="M72 20C74 12 79 8 82 11C86 15 85 25 82 28" fill="#fff9ee"/><path d="M49 16Q49 21 53 22M79 16Q77 20 78 23" stroke="#e8bdb0" stroke-width="3" fill="none"/><path d="M47 40C44 28 50 19 63 18C78 15 88 24 88 37C90 49 82 57 68 58C55 59 47 52 47 40Z"/>
+<ellipse cx="73" cy="45" rx="12" ry="8" fill="#fff1df" stroke="none"/>
+<g id="neukgu-idle-eyes-open" class="eye-open" fill="#423e3c" stroke="none"><circle cx="59" cy="37" r="2.1"/><circle cx="78" cy="36.5" r="2.1"/></g>
+<g id="neukgu-idle-eyes-closed" class="eye-closed" fill="none" stroke="#423e3c" stroke-width="1.7"><path d="M57 37q2-2 4 0M76 36.5q2-2 4 0"/></g>
+<ellipse cx="54" cy="43" rx="3.2" ry="1.7" fill="#f1cebf" stroke="none"/>
+<path d="M72 40Q76 38 79 40Q79 43 76 43Q73 43 72 40Z" fill="#423e3c" stroke="none"/>
+<path d="M76 43v2q-3 4-6 1m6-1q2 3 5 0" fill="none" stroke="#665346" stroke-width="1.4"/>
+</g></g><g id="neukgu-idle-leg-near-hind" class="leg-track near-hind"><path d="M26 61Q31 58 36 61V72Q36 77 31 77H27Q23 77 24 73L26 67" fill="#fff9ee"/><path d="M28 74v1" fill="none" stroke-width="1.4"/></g>
+<g id="neukgu-idle-leg-near-front" class="leg-track near-front"><path d="M58 61Q63 58 68 61V72Q68 77 63 77H59Q55 77 56 73L58 67" fill="#fff9ee"/><path d="M60 74v1" fill="none" stroke-width="1.4"/></g>
+</g></svg>
 </article><article class="motion"><h3>늑구 · WALK</h3><svg xmlns="http://www.w3.org/2000/svg" class="neukgu-concept" data-motion="walk" viewBox="0 0 96 88" role="img" aria-labelledby="neukgu-walk-title neukgu-walk-desc">
-<title id="neukgu-walk-title">Neukgu — angular silver wolf concept</title>
-<desc id="neukgu-walk-desc">Original block-wolf identity, tapered cheek planes, upright ears, connected bushy tail, articulated paws. Review concept only.</desc>
+<title id="neukgu-walk-title">Neukgu — soft cream puppy</title>
+<desc id="neukgu-walk-desc">Rounded sticker-style puppy, dot eyes, short muzzle and little paws. Review concept only; not a runtime replacement.</desc>
 <style>
-.neukgu-concept{--cycle:900ms;overflow:visible}
+.neukgu-concept{--cycle:840ms;overflow:visible}
 .neukgu-concept .eye-closed{display:none}
-.neukgu-concept[data-motion="idle"] .core{animation:n-breathe 2400ms ease-in-out infinite}
-.neukgu-concept[data-motion="idle"] .tail{transform-box:view-box;transform-origin:30px 44px;animation:n-tail 3200ms ease-in-out infinite}
-.neukgu-concept[data-motion="idle"] .ear-near{transform-origin:66px 25px;animation:n-ear 4600ms ease-in-out infinite}
-.neukgu-concept[data-motion="idle"] .eye-open{animation:n-blink 5200ms steps(1) infinite}
-.neukgu-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:n-lid 5200ms steps(1) infinite}
-.neukgu-concept[data-motion="walk"] .core{animation:n-load var(--cycle) ease-in-out infinite}
-.neukgu-concept[data-motion="walk"] .leg-track{animation:n-stride var(--cycle) linear infinite}
-.neukgu-concept[data-motion="walk"] .far-front{animation-delay:-450ms}
-.neukgu-concept[data-motion="walk"] .near-hind{animation-delay:-675ms}
-.neukgu-concept[data-motion="walk"] .far-hind{animation-delay:-225ms}
-.neukgu-concept[data-motion="walk"] .head{animation:n-head var(--cycle) ease-in-out infinite}
-@keyframes n-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-1)}}
-@keyframes n-tail{0%,100%{transform:rotate(0)}50%{transform:rotate(-4deg)}}
-@keyframes n-ear{0%,85%,100%{transform:rotate(0)}90%{transform:rotate(-5deg)}94%{transform:rotate(2deg)}}
-@keyframes n-blink{0%,93%,97%,100%{opacity:1}94%,96%{opacity:0}}
-@keyframes n-load{0%,50%,100%{transform:translateY(.6px)}25%,75%{transform:translateY(-.4px)}}
-@keyframes n-head{0%,50%,100%{transform:translateY(-.4px)}25%,75%{transform:translateY(.3px)}}
-@keyframes n-stride{0%{transform:translate(3px,0)}60%{transform:translate(-3px,0)}72%{transform:translate(-2px,-4px)}86%{transform:translate(1px,-4px)}100%{transform:translate(3px,0)}}
-@keyframes n-lid{0%,93%,97%,100%{opacity:0}94%,96%{opacity:1}}
+.neukgu-concept .tail{transform-origin:26px 53px}
+.neukgu-concept[data-motion="idle"] .core{animation:n-breathe 2400ms ease-in-out infinite;transform-origin:46px 73px}
+.neukgu-concept[data-motion="idle"] .eye-open{animation:n-blink 4800ms steps(1) infinite}
+.neukgu-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:n-lid 4800ms steps(1) infinite}
+.neukgu-concept:not([data-motion="walk"]) .tail{animation:n-wag 1600ms ease-in-out infinite}
+.neukgu-concept[data-motion="walk"] .core{animation:n-bob var(--cycle) ease-in-out infinite}
+.neukgu-concept[data-motion="walk"] .leg-track{animation:n-step var(--cycle) linear infinite}
+.neukgu-concept[data-motion="walk"] .far-front{animation-delay:-420ms}
+.neukgu-concept[data-motion="walk"] .near-hind{animation-delay:-630ms}
+.neukgu-concept[data-motion="walk"] .far-hind{animation-delay:-210ms}
+@keyframes n-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.025)}}
+@keyframes n-wag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@keyframes n-bob{0%,50%,100%{transform:translateY(.6px)}25%,75%{transform:translateY(-.6px)}}
+@keyframes n-step{0%{transform:translate(1.6px,0)}60%{transform:translate(-1.6px,0)}75%{transform:translate(-1px,-2px)}88%{transform:translate(1px,-2px)}100%{transform:translate(1.6px,0)}}
+@keyframes n-blink{0%,92%,97%,100%{opacity:1}93%,96%{opacity:0}}
+@keyframes n-lid{0%,92%,97%,100%{opacity:0}93%,96%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.neukgu-concept *{animation:none!important}}
 </style>
-<g class="model" stroke-linejoin="round">
- <g id="neukgu-walk-leg-far-hind" class="leg-track far-hind" data-pivot="32,51">
-  <path d="M28 49h10l-1 12-4 6v9h-9v-4l3-2 1-11z" fill="#8e9bab"/>
-  <path d="M25 73h9v4H23v-2z" fill="#c8d2dc"/>
- </g>
- <g id="neukgu-walk-leg-far-front" class="leg-track far-front" data-pivot="58,49">
-  <path d="M54 46h9l-1 18-2 9 4 2v3H52l1-7z" fill="#93a0ae"/>
-  <path d="M53 74h9l2 2v2H52z" fill="#c8d2dc"/>
- </g>
- <g class="core" id="neukgu-walk-core">
-  <g id="neukgu-walk-tail" class="tail" data-pivot="30,44">
-   <path d="M31 48 20 46 13 41 10 33 11 25 17 19 19 29 23 34 34 39Z" fill="#a8b5c3" stroke="#65758a" stroke-width="1"/>
-   <path d="M14 26 17 22 19 30 23 35 31 39 29 43 20 40 15 35Z" fill="#f0f3f4"/>
-  </g>
-  <g id="neukgu-walk-body">
-   <path d="M25 39 35 34 52 34 63 38 68 47 63 58 52 62 29 60 22 53 22 45Z" fill="#d9e1e6" stroke="#78889b" stroke-width="1"/>
-   <path d="M27 39 37 36 53 36 62 40 53 44 31 44Z" fill="#f8faf8"/>
-   <path d="M24 51 33 55 53 56 64 49 62 58 51 61 30 59Z" fill="#b5c2cf"/>
-   <path d="M29 45h17l-3 7H28Z" fill="#e8edf0"/>
-  </g>
-  <g id="neukgu-walk-neck">
-   <path d="M54 46 51 34 57 25 68 27 75 43 68 56 61 57Z" fill="#c7d3dd" stroke="#78889b" stroke-width="1"/>
-   <path d="M58 31 65 30 69 40 65 48 59 44Z" fill="#f2f5f3"/>
-   <path d="m62 45 4 4-4 7-5-6Z" fill="#edf2f2"/>
-  </g>
-  <g id="neukgu-walk-head" class="head" data-pivot="64,37">
-   <g id="neukgu-walk-ear-far"><path d="m75 23 4-14 6 4 2 16Z" fill="#bdcad5" stroke="#65758a"/><path d="m79 15 3-2 1 10Z" fill="#d5afb0"/></g>
-   <path d="M59 24 68 19 81 21 88 28 88 40 80 48 66 45 58 35Z" fill="#e4ebed" stroke="#65758a"/>
-   <path d="m60 26 9-4 11 2 5 5-17 2Z" fill="#fafbf8"/>
-   <path d="m60 33 8 2 3 8-6 1-6-7Z" fill="#b1c1ce"/>
-   <path d="m81 25 5 4-1 10-6 5-2-6Z" fill="#c3d1db"/>
-   <g id="neukgu-walk-ear-near" class="ear-near" data-pivot="66,25"><path d="m61 26-2-15 5-3 10 14-3 5Z" fill="#e1e8eb" stroke="#65758a"/><path d="m63 14 6 9-5-1Z" fill="#d4a4a7"/><path d="m60 12 3-2 2 5-3 3Z" fill="#fafbf8"/></g>
-   <g id="neukgu-walk-eyes-open" class="eye-open" fill="#33485e"><path d="M65 30h6v6h-5l-1-2Z"/><path d="M79 30h5v6h-5Z"/><path d="M66 30h2v2h-2ZM80 30h2v2h-2Z" fill="#fff"/></g>
-   <g id="neukgu-walk-eyes-closed" class="eye-closed" stroke="#33485e" fill="none"><path d="m65 34 3-1 3 1m8 0 3-1 2 1"/></g>
-   <path d="m72 36 11-2 8 4 1 6-6 3-13-2-4-5Z" fill="#f5f1e7" stroke="#84919b" stroke-width=".8"/>
-   <path d="m74 42 10 1 6-2-1 4-6 2-9-2Z" fill="#d4d9d7"/>
-   <path d="M87 36h6l1 3-2 3h-5l-2-3Z" fill="#293d50"/>
-   <path d="M88 37h3v1h-3Z" fill="#6f8190"/>
-   <path d="m85 42-1 2-5 1-3-1" fill="none" stroke="#617586" stroke-width=".8"/>
-  </g>
- </g>
- <g id="neukgu-walk-leg-near-hind" class="leg-track near-hind" data-pivot="30,53">
-  <path d="M24 50 33 49 38 55 35 63 30 68 30 74 34 75v4H22v-5l3-5 2-8-4-4Z" fill="#d1dce2" stroke="#7c8c9d"/>
-  <path d="m26 52 5-1 3 4-2 7-4 3 2-9Z" fill="#f2f6f4"/>
-  <path d="M23 75h9l2 2v2H22Z" fill="#e6ecec"/><path d="M26 77v2m4-2v2" stroke="#a5b4be" stroke-width=".8"/>
- </g>
- <g id="neukgu-walk-leg-near-front" class="leg-track near-front" data-pivot="65,49">
-  <path d="M61 47h9l-1 13-3 13 5 2v4H57l1-6 2-15Z" fill="#dde5e8" stroke="#7c8c9d"/>
-  <path d="M63 50h4l-2 17h-3Z" fill="#f7f9f6"/>
-  <path d="M59 75h9l3 2v2H57Z" fill="#eff3f0"/><path d="M62 77v2m4-2v2" stroke="#a5b4be" stroke-width=".8"/>
- </g>
-</g>
-</svg>
+<g class="model" fill="#fff9ee" stroke="#80766d" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<g id="neukgu-walk-leg-far-hind" class="leg-track far-hind"><rect x="35" y="60" width="10" height="15" rx="5" fill="#e4ded4"/></g>
+<g id="neukgu-walk-leg-far-front" class="leg-track far-front"><rect x="57" y="60" width="10" height="15" rx="5" fill="#e4ded4"/></g>
+<g id="neukgu-walk-core" class="core">
+<g id="neukgu-walk-tail" class="tail"><path d="M27 56C10 59 6 46 12 39C16 35 22 39 19 44C17 47 19 49 27 47"/></g>
+<g id="neukgu-walk-body"><ellipse cx="43" cy="57" rx="24" ry="17"/></g>
+<g id="neukgu-walk-head" class="head">
+<path d="M50 26C44 22 43 11 48 10C52 9 60 17 61 23" fill="#fff9ee"/><path d="M72 20C74 12 79 8 82 11C86 15 85 25 82 28" fill="#fff9ee"/><path d="M49 16Q49 21 53 22M79 16Q77 20 78 23" stroke="#e8bdb0" stroke-width="3" fill="none"/><path d="M47 40C44 28 50 19 63 18C78 15 88 24 88 37C90 49 82 57 68 58C55 59 47 52 47 40Z"/>
+<ellipse cx="73" cy="45" rx="12" ry="8" fill="#fff1df" stroke="none"/>
+<g id="neukgu-walk-eyes-open" class="eye-open" fill="#423e3c" stroke="none"><circle cx="59" cy="37" r="2.1"/><circle cx="78" cy="36.5" r="2.1"/></g>
+<g id="neukgu-walk-eyes-closed" class="eye-closed" fill="none" stroke="#423e3c" stroke-width="1.7"><path d="M57 37q2-2 4 0M76 36.5q2-2 4 0"/></g>
+<ellipse cx="54" cy="43" rx="3.2" ry="1.7" fill="#f1cebf" stroke="none"/>
+<path d="M72 40Q76 38 79 40Q79 43 76 43Q73 43 72 40Z" fill="#423e3c" stroke="none"/>
+<path d="M76 43v2q-3 4-6 1m6-1q2 3 5 0" fill="none" stroke="#665346" stroke-width="1.4"/>
+</g></g><g id="neukgu-walk-leg-near-hind" class="leg-track near-hind"><path d="M26 61Q31 58 36 61V72Q36 77 31 77H27Q23 77 24 73L26 67" fill="#fff9ee"/><path d="M28 74v1" fill="none" stroke-width="1.4"/></g>
+<g id="neukgu-walk-leg-near-front" class="leg-track near-front"><path d="M58 61Q63 58 68 61V72Q68 77 63 77H59Q55 77 56 73L58 67" fill="#fff9ee"/><path d="M60 74v1" fill="none" stroke-width="1.4"/></g>
+</g></svg>
 </article><article class="motion"><h3>로이스 · IDLE</h3><svg xmlns="http://www.w3.org/2000/svg" class="royce-concept" data-motion="idle" viewBox="0 0 96 88" role="img" aria-labelledby="royce-idle-title royce-idle-desc">
-<title id="royce-idle-title">Royce — black and tan companion concept</title>
-<desc id="royce-idle-desc">Broader chest, shorter grounded legs, folded ear tips, warm eyebrow markings and low connected tail distinguish Royce from Neukgu. Review concept only.</desc>
+<title id="royce-idle-title">Royce — round black and tan companion</title>
+<desc id="royce-idle-desc">Rounded sticker-style puppy, dot eyes, short muzzle and little paws. Review concept only; not a runtime replacement.</desc>
 <style>
-.royce-concept{--cycle:1100ms;overflow:visible}
+.royce-concept{--cycle:1000ms;overflow:visible}
 .royce-concept .eye-closed{display:none}
-.royce-concept[data-motion="idle"] .core{animation:r-breathe 2800ms ease-in-out infinite}
-.royce-concept[data-motion="idle"] .tail{transform-origin:27px 47px;animation:r-tail 2400ms ease-in-out infinite}
-.royce-concept[data-motion="idle"] .ear-near{transform-origin:65px 27px;animation:r-ear 5000ms ease-in-out infinite}
-.royce-concept[data-motion="idle"] .eye-open{animation:r-blink 5700ms steps(1) infinite}
-.royce-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:r-lid 5700ms steps(1) infinite}
-.royce-concept[data-motion="walk"] .core{animation:r-load var(--cycle) ease-in-out infinite}
-.royce-concept[data-motion="walk"] .leg-track{animation:r-stride var(--cycle) linear infinite}
-.royce-concept[data-motion="walk"] .far-front{animation-delay:-550ms}
-.royce-concept[data-motion="walk"] .near-hind{animation-delay:-825ms}
-.royce-concept[data-motion="walk"] .far-hind{animation-delay:-275ms}
-.royce-concept[data-motion="walk"] .head{animation:r-head var(--cycle) ease-in-out infinite}
-@keyframes r-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-.7px)}}
-@keyframes r-tail{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(5deg)}}
-@keyframes r-ear{0%,89%,100%{transform:rotate(0)}93%{transform:rotate(4deg)}97%{transform:rotate(-1deg)}}
-@keyframes r-blink{0%,94%,98%,100%{opacity:1}95%,97%{opacity:0}}
-@keyframes r-load{0%,50%,100%{transform:translateY(.8px)}25%,75%{transform:translateY(-.3px)}}
-@keyframes r-head{0%,50%,100%{transform:translateY(-.5px)}25%,75%{transform:translateY(.2px)}}
-@keyframes r-stride{0%{transform:translate(2.5px,0)}64%{transform:translate(-2.5px,0)}76%{transform:translate(-1.5px,-3px)}88%{transform:translate(1.5px,-3px)}100%{transform:translate(2.5px,0)}}
-@keyframes r-lid{0%,94%,98%,100%{opacity:0}95%,97%{opacity:1}}
+.royce-concept .tail{transform-origin:24px 54px}
+.royce-concept[data-motion="idle"] .core{animation:r-breathe 2800ms ease-in-out infinite;transform-origin:46px 73px}
+.royce-concept[data-motion="idle"] .eye-open{animation:r-blink 4800ms steps(1) infinite}
+.royce-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:r-lid 4800ms steps(1) infinite}
+.royce-concept:not([data-motion="idle"]) .tail{animation:r-wag 1600ms ease-in-out infinite}
+.royce-concept[data-motion="walk"] .core{animation:r-bob var(--cycle) ease-in-out infinite}
+.royce-concept[data-motion="walk"] .leg-track{animation:r-step var(--cycle) linear infinite}
+.royce-concept[data-motion="walk"] .far-front{animation-delay:-500ms}
+.royce-concept[data-motion="walk"] .near-hind{animation-delay:-750ms}
+.royce-concept[data-motion="walk"] .far-hind{animation-delay:-250ms}
+@keyframes r-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.025)}}
+@keyframes r-wag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@keyframes r-bob{0%,50%,100%{transform:translateY(.6px)}25%,75%{transform:translateY(-.6px)}}
+@keyframes r-step{0%{transform:translate(1.6px,0)}60%{transform:translate(-1.6px,0)}75%{transform:translate(-1px,-2px)}88%{transform:translate(1px,-2px)}100%{transform:translate(1.6px,0)}}
+@keyframes r-blink{0%,92%,97%,100%{opacity:1}93%,96%{opacity:0}}
+@keyframes r-lid{0%,92%,97%,100%{opacity:0}93%,96%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.royce-concept *{animation:none!important}}
 </style>
-<g class="model" stroke-linejoin="round">
- <g id="royce-idle-leg-far-hind" class="leg-track far-hind" data-pivot="31,55"><path d="M26 52h12l-2 12-5 6v7h-9v-4l4-5Z" fill="#67452f"/><path d="M23 74h9l2 2v3H21v-3Z" fill="#a77549"/></g>
- <g id="royce-idle-leg-far-front" class="leg-track far-front" data-pivot="58,53"><path d="M54 49h11l-2 19-2 7 4 1v3H51l1-8Z" fill="#6d4933"/><path d="M52 75h11l2 2v2H51Z" fill="#b18053"/></g>
- <g id="royce-idle-core" class="core">
-  <g id="royce-idle-tail" class="tail" data-pivot="27,47"><path d="M29 44 21 43 15 40 11 34 6 35 5 41 11 48 20 52 30 51Z" fill="#252f3b" stroke="#5a6875"/><path d="m6 36 4-1 4 6-3 3-4-3Z" fill="#a76f41"/><path d="m15 43 9 3 5 1-1 2-9-1Z" fill="#46505b"/></g>
-  <g id="royce-idle-body"><path d="M24 40 34 35 52 35 65 40 72 51 68 62 57 66 31 64 22 57 20 48Z" fill="#252f3b" stroke="#5a6875"/><path d="m26 41 10-3 18 1 9 5-5 5-26-1Z" fill="#3e4b57"/><path d="M22 50 31 57 53 59 69 52l-3 10-11 3-23-2-8-5Z" fill="#192430"/><path d="M47 47 57 44l9 8-7 10-10-1Z" fill="#684b37"/></g>
-  <g id="royce-idle-neck"><path d="m56 46-2-14 10-6 12 7 1 18-9 13-9-5Z" fill="#303c48" stroke="#5a6875"/><path d="m62 40 9-1 1 12-7 10-6-5Z" fill="#b18153"/><path d="m65 43 6-2-1 10-5 7-3-3Z" fill="#d5a16a"/></g>
-  <g id="royce-idle-head" class="head" data-pivot="66,39">
-   <g id="royce-idle-ear-far"><path d="m77 26 1-13 7 3 4 9-6 9Z" fill="#1c2733" stroke="#5a6875"/><path d="m80 17 5 3-2 8-3-3Z" fill="#71503d"/></g>
-   <path d="M59 26 68 21 82 23 89 30 89 43 82 50 66 48 58 40 56 32Z" fill="#2d3946" stroke="#5a6875"/>
-   <path d="m60 28 10-4 11 2 4 5-13 2Z" fill="#46525c"/>
-   <g id="royce-idle-ear-near" class="ear-near" data-pivot="64,28"><path d="M58 29V16l6-2 9 10-5 10-6-3Z" fill="#28333f" stroke="#5a6875"/><path d="m61 18 7 6-3 7-3-3Z" fill="#87583c"/><path d="m58 16 6-1 5 5-7 4-4-2Z" fill="#3d4953"/></g>
-   <path d="m64 29 6-1 2 3-7 1Zm15 0 5 1v3l-6-2Z" fill="#c28b52"/>
-   <g id="royce-idle-eyes-open" class="eye-open"><path d="M65 33h6v6h-5l-1-2Zm14 0h5v6h-5Z" fill="#100f12"/><path d="M67 35h3v3h-3Zm13 0h3v3h-3Z" fill="#a56d3e"/><path d="M66 33h2v2h-2Zm14 0h2v2h-2Z" fill="#fff3d9"/></g>
-   <g id="royce-idle-eyes-closed" class="eye-closed" stroke="#c7915b" fill="none"><path d="m65 36 3-1 3 1m8 0 3-1 2 1"/></g>
-   <path d="m66 39 7-1 7-1 9 2 5 5-2 5-9 3-13-4-6-4Z" fill="#bc8956" stroke="#604c3e" stroke-width=".8"/>
-   <path d="m72 45 10 2 10-2-1 4-9 3-9-3Z" fill="#d5a571"/>
-   <path d="m86 38 7 1 2 3-3 3-6-1-2-3Z" fill="#14212c"/><path d="m87 39 4 1v1h-4Z" fill="#54616a"/>
-   <path d="m85 45-2 2-5 1-4-2" fill="none" stroke="#674935" stroke-width=".9"/>
-  </g>
- </g>
- <g id="royce-idle-leg-near-hind" class="leg-track near-hind" data-pivot="31,56"><path d="m24 52 10-1 6 6-2 9-6 5v5l5 1v3H21v-5l5-6 1-8-4-4Z" fill="#97683f" stroke="#5d4836"/><path d="m27 55 5-1 4 4-2 7-5 3 1-8Z" fill="#bd8c58"/><path d="M23 76h10l4 2v2H21Z" fill="#d0a06a"/><path d="M27 78v2m4-2v2" stroke="#916c49" stroke-width=".8"/></g>
- <g id="royce-idle-leg-near-front" class="leg-track near-front" data-pivot="67,54"><path d="M61 51h12l-1 14-3 11 5 1v3H57l1-6 2-13Z" fill="#b4824f" stroke="#654b36"/><path d="M64 55h5l-2 16h-5Z" fill="#d09c62"/><path d="M59 76h12l3 2v2H57Z" fill="#deb47e"/><path d="M63 78v2m5-2v2" stroke="#9a754c" stroke-width=".8"/></g>
-</g>
-</svg>
+<g class="model" fill="#4c4b50" stroke="#796c64" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<g id="royce-idle-leg-far-hind" class="leg-track far-hind"><rect x="35" y="60" width="10" height="15" rx="5" fill="#b68a61"/></g>
+<g id="royce-idle-leg-far-front" class="leg-track far-front"><rect x="57" y="60" width="10" height="15" rx="5" fill="#b68a61"/></g>
+<g id="royce-idle-core" class="core">
+<g id="royce-idle-tail" class="tail"><path d="M26 59C15 60 7 53 8 45C9 39 15 39 17 44C19 50 22 49 27 49"/></g>
+<g id="royce-idle-body"><path d="M19 55C19 44 31 40 44 41C59 41 71 48 71 59C71 71 59 74 42 74C27 74 19 68 19 55Z"/><path d="M56 53C62 49 69 53 68 60C68 66 63 70 58 69C54 65 53 58 56 53Z" fill="#d7a773" stroke="none"/></g>
+<g id="royce-idle-head" class="head">
+<path d="M52 23C45 17 36 23 38 34C39 42 44 45 48 40L55 29" fill="#45444a"/><path d="M79 23C87 20 93 26 91 35C89 43 84 45 81 39L77 29" fill="#45444a"/><path d="M46 38C45 25 55 21 67 21C80 20 88 28 88 40C88 53 80 59 66 59C53 59 45 51 46 38Z"/><path d="M56 32Q59 29 62 31M75 31Q78 29 81 32" stroke="#e5b580" stroke-width="3.5" fill="none"/>
+<ellipse cx="73" cy="45" rx="12" ry="8" fill="#edc396" stroke="none"/>
+<g id="royce-idle-eyes-open" class="eye-open" fill="#423e3c" stroke="none"><circle cx="59" cy="37" r="2.1"/><circle cx="78" cy="36.5" r="2.1"/></g>
+<g id="royce-idle-eyes-closed" class="eye-closed" fill="none" stroke="#423e3c" stroke-width="1.7"><path d="M57 37q2-2 4 0M76 36.5q2-2 4 0"/></g>
+<ellipse cx="54" cy="43" rx="3.2" ry="1.7" fill="#cd9e7c" stroke="none"/>
+<path d="M72 40Q76 38 79 40Q79 43 76 43Q73 43 72 40Z" fill="#423e3c" stroke="none"/>
+<path d="M76 43v2q-3 4-6 1m6-1q2 3 5 0" fill="none" stroke="#665346" stroke-width="1.4"/>
+</g></g><g id="royce-idle-leg-near-hind" class="leg-track near-hind"><path d="M25 61Q30 58 35 61V72Q35 77 30 77H26Q22 77 23 73L25 67" fill="#e5b580"/><path d="M27 74v1" fill="none" stroke-width="1.4"/></g>
+<g id="royce-idle-leg-near-front" class="leg-track near-front"><path d="M59 61Q64 58 69 61V72Q69 77 64 77H60Q56 77 57 73L59 67" fill="#e5b580"/><path d="M61 74v1" fill="none" stroke-width="1.4"/></g>
+</g></svg>
 </article><article class="motion"><h3>로이스 · WALK</h3><svg xmlns="http://www.w3.org/2000/svg" class="royce-concept" data-motion="walk" viewBox="0 0 96 88" role="img" aria-labelledby="royce-walk-title royce-walk-desc">
-<title id="royce-walk-title">Royce — black and tan companion concept</title>
-<desc id="royce-walk-desc">Broader chest, shorter grounded legs, folded ear tips, warm eyebrow markings and low connected tail distinguish Royce from Neukgu. Review concept only.</desc>
+<title id="royce-walk-title">Royce — round black and tan companion</title>
+<desc id="royce-walk-desc">Rounded sticker-style puppy, dot eyes, short muzzle and little paws. Review concept only; not a runtime replacement.</desc>
 <style>
-.royce-concept{--cycle:1100ms;overflow:visible}
+.royce-concept{--cycle:1000ms;overflow:visible}
 .royce-concept .eye-closed{display:none}
-.royce-concept[data-motion="idle"] .core{animation:r-breathe 2800ms ease-in-out infinite}
-.royce-concept[data-motion="idle"] .tail{transform-origin:27px 47px;animation:r-tail 2400ms ease-in-out infinite}
-.royce-concept[data-motion="idle"] .ear-near{transform-origin:65px 27px;animation:r-ear 5000ms ease-in-out infinite}
-.royce-concept[data-motion="idle"] .eye-open{animation:r-blink 5700ms steps(1) infinite}
-.royce-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:r-lid 5700ms steps(1) infinite}
-.royce-concept[data-motion="walk"] .core{animation:r-load var(--cycle) ease-in-out infinite}
-.royce-concept[data-motion="walk"] .leg-track{animation:r-stride var(--cycle) linear infinite}
-.royce-concept[data-motion="walk"] .far-front{animation-delay:-550ms}
-.royce-concept[data-motion="walk"] .near-hind{animation-delay:-825ms}
-.royce-concept[data-motion="walk"] .far-hind{animation-delay:-275ms}
-.royce-concept[data-motion="walk"] .head{animation:r-head var(--cycle) ease-in-out infinite}
-@keyframes r-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-.7px)}}
-@keyframes r-tail{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(5deg)}}
-@keyframes r-ear{0%,89%,100%{transform:rotate(0)}93%{transform:rotate(4deg)}97%{transform:rotate(-1deg)}}
-@keyframes r-blink{0%,94%,98%,100%{opacity:1}95%,97%{opacity:0}}
-@keyframes r-load{0%,50%,100%{transform:translateY(.8px)}25%,75%{transform:translateY(-.3px)}}
-@keyframes r-head{0%,50%,100%{transform:translateY(-.5px)}25%,75%{transform:translateY(.2px)}}
-@keyframes r-stride{0%{transform:translate(2.5px,0)}64%{transform:translate(-2.5px,0)}76%{transform:translate(-1.5px,-3px)}88%{transform:translate(1.5px,-3px)}100%{transform:translate(2.5px,0)}}
-@keyframes r-lid{0%,94%,98%,100%{opacity:0}95%,97%{opacity:1}}
+.royce-concept .tail{transform-origin:24px 54px}
+.royce-concept[data-motion="idle"] .core{animation:r-breathe 2800ms ease-in-out infinite;transform-origin:46px 73px}
+.royce-concept[data-motion="idle"] .eye-open{animation:r-blink 4800ms steps(1) infinite}
+.royce-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:r-lid 4800ms steps(1) infinite}
+.royce-concept:not([data-motion="walk"]) .tail{animation:r-wag 1600ms ease-in-out infinite}
+.royce-concept[data-motion="walk"] .core{animation:r-bob var(--cycle) ease-in-out infinite}
+.royce-concept[data-motion="walk"] .leg-track{animation:r-step var(--cycle) linear infinite}
+.royce-concept[data-motion="walk"] .far-front{animation-delay:-500ms}
+.royce-concept[data-motion="walk"] .near-hind{animation-delay:-750ms}
+.royce-concept[data-motion="walk"] .far-hind{animation-delay:-250ms}
+@keyframes r-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.025)}}
+@keyframes r-wag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@keyframes r-bob{0%,50%,100%{transform:translateY(.6px)}25%,75%{transform:translateY(-.6px)}}
+@keyframes r-step{0%{transform:translate(1.6px,0)}60%{transform:translate(-1.6px,0)}75%{transform:translate(-1px,-2px)}88%{transform:translate(1px,-2px)}100%{transform:translate(1.6px,0)}}
+@keyframes r-blink{0%,92%,97%,100%{opacity:1}93%,96%{opacity:0}}
+@keyframes r-lid{0%,92%,97%,100%{opacity:0}93%,96%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.royce-concept *{animation:none!important}}
 </style>
-<g class="model" stroke-linejoin="round">
- <g id="royce-walk-leg-far-hind" class="leg-track far-hind" data-pivot="31,55"><path d="M26 52h12l-2 12-5 6v7h-9v-4l4-5Z" fill="#67452f"/><path d="M23 74h9l2 2v3H21v-3Z" fill="#a77549"/></g>
- <g id="royce-walk-leg-far-front" class="leg-track far-front" data-pivot="58,53"><path d="M54 49h11l-2 19-2 7 4 1v3H51l1-8Z" fill="#6d4933"/><path d="M52 75h11l2 2v2H51Z" fill="#b18053"/></g>
- <g id="royce-walk-core" class="core">
-  <g id="royce-walk-tail" class="tail" data-pivot="27,47"><path d="M29 44 21 43 15 40 11 34 6 35 5 41 11 48 20 52 30 51Z" fill="#252f3b" stroke="#5a6875"/><path d="m6 36 4-1 4 6-3 3-4-3Z" fill="#a76f41"/><path d="m15 43 9 3 5 1-1 2-9-1Z" fill="#46505b"/></g>
-  <g id="royce-walk-body"><path d="M24 40 34 35 52 35 65 40 72 51 68 62 57 66 31 64 22 57 20 48Z" fill="#252f3b" stroke="#5a6875"/><path d="m26 41 10-3 18 1 9 5-5 5-26-1Z" fill="#3e4b57"/><path d="M22 50 31 57 53 59 69 52l-3 10-11 3-23-2-8-5Z" fill="#192430"/><path d="M47 47 57 44l9 8-7 10-10-1Z" fill="#684b37"/></g>
-  <g id="royce-walk-neck"><path d="m56 46-2-14 10-6 12 7 1 18-9 13-9-5Z" fill="#303c48" stroke="#5a6875"/><path d="m62 40 9-1 1 12-7 10-6-5Z" fill="#b18153"/><path d="m65 43 6-2-1 10-5 7-3-3Z" fill="#d5a16a"/></g>
-  <g id="royce-walk-head" class="head" data-pivot="66,39">
-   <g id="royce-walk-ear-far"><path d="m77 26 1-13 7 3 4 9-6 9Z" fill="#1c2733" stroke="#5a6875"/><path d="m80 17 5 3-2 8-3-3Z" fill="#71503d"/></g>
-   <path d="M59 26 68 21 82 23 89 30 89 43 82 50 66 48 58 40 56 32Z" fill="#2d3946" stroke="#5a6875"/>
-   <path d="m60 28 10-4 11 2 4 5-13 2Z" fill="#46525c"/>
-   <g id="royce-walk-ear-near" class="ear-near" data-pivot="64,28"><path d="M58 29V16l6-2 9 10-5 10-6-3Z" fill="#28333f" stroke="#5a6875"/><path d="m61 18 7 6-3 7-3-3Z" fill="#87583c"/><path d="m58 16 6-1 5 5-7 4-4-2Z" fill="#3d4953"/></g>
-   <path d="m64 29 6-1 2 3-7 1Zm15 0 5 1v3l-6-2Z" fill="#c28b52"/>
-   <g id="royce-walk-eyes-open" class="eye-open"><path d="M65 33h6v6h-5l-1-2Zm14 0h5v6h-5Z" fill="#100f12"/><path d="M67 35h3v3h-3Zm13 0h3v3h-3Z" fill="#a56d3e"/><path d="M66 33h2v2h-2Zm14 0h2v2h-2Z" fill="#fff3d9"/></g>
-   <g id="royce-walk-eyes-closed" class="eye-closed" stroke="#c7915b" fill="none"><path d="m65 36 3-1 3 1m8 0 3-1 2 1"/></g>
-   <path d="m66 39 7-1 7-1 9 2 5 5-2 5-9 3-13-4-6-4Z" fill="#bc8956" stroke="#604c3e" stroke-width=".8"/>
-   <path d="m72 45 10 2 10-2-1 4-9 3-9-3Z" fill="#d5a571"/>
-   <path d="m86 38 7 1 2 3-3 3-6-1-2-3Z" fill="#14212c"/><path d="m87 39 4 1v1h-4Z" fill="#54616a"/>
-   <path d="m85 45-2 2-5 1-4-2" fill="none" stroke="#674935" stroke-width=".9"/>
-  </g>
- </g>
- <g id="royce-walk-leg-near-hind" class="leg-track near-hind" data-pivot="31,56"><path d="m24 52 10-1 6 6-2 9-6 5v5l5 1v3H21v-5l5-6 1-8-4-4Z" fill="#97683f" stroke="#5d4836"/><path d="m27 55 5-1 4 4-2 7-5 3 1-8Z" fill="#bd8c58"/><path d="M23 76h10l4 2v2H21Z" fill="#d0a06a"/><path d="M27 78v2m4-2v2" stroke="#916c49" stroke-width=".8"/></g>
- <g id="royce-walk-leg-near-front" class="leg-track near-front" data-pivot="67,54"><path d="M61 51h12l-1 14-3 11 5 1v3H57l1-6 2-13Z" fill="#b4824f" stroke="#654b36"/><path d="M64 55h5l-2 16h-5Z" fill="#d09c62"/><path d="M59 76h12l3 2v2H57Z" fill="#deb47e"/><path d="M63 78v2m5-2v2" stroke="#9a754c" stroke-width=".8"/></g>
-</g>
-</svg>
+<g class="model" fill="#4c4b50" stroke="#796c64" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<g id="royce-walk-leg-far-hind" class="leg-track far-hind"><rect x="35" y="60" width="10" height="15" rx="5" fill="#b68a61"/></g>
+<g id="royce-walk-leg-far-front" class="leg-track far-front"><rect x="57" y="60" width="10" height="15" rx="5" fill="#b68a61"/></g>
+<g id="royce-walk-core" class="core">
+<g id="royce-walk-tail" class="tail"><path d="M26 59C15 60 7 53 8 45C9 39 15 39 17 44C19 50 22 49 27 49"/></g>
+<g id="royce-walk-body"><path d="M19 55C19 44 31 40 44 41C59 41 71 48 71 59C71 71 59 74 42 74C27 74 19 68 19 55Z"/><path d="M56 53C62 49 69 53 68 60C68 66 63 70 58 69C54 65 53 58 56 53Z" fill="#d7a773" stroke="none"/></g>
+<g id="royce-walk-head" class="head">
+<path d="M52 23C45 17 36 23 38 34C39 42 44 45 48 40L55 29" fill="#45444a"/><path d="M79 23C87 20 93 26 91 35C89 43 84 45 81 39L77 29" fill="#45444a"/><path d="M46 38C45 25 55 21 67 21C80 20 88 28 88 40C88 53 80 59 66 59C53 59 45 51 46 38Z"/><path d="M56 32Q59 29 62 31M75 31Q78 29 81 32" stroke="#e5b580" stroke-width="3.5" fill="none"/>
+<ellipse cx="73" cy="45" rx="12" ry="8" fill="#edc396" stroke="none"/>
+<g id="royce-walk-eyes-open" class="eye-open" fill="#423e3c" stroke="none"><circle cx="59" cy="37" r="2.1"/><circle cx="78" cy="36.5" r="2.1"/></g>
+<g id="royce-walk-eyes-closed" class="eye-closed" fill="none" stroke="#423e3c" stroke-width="1.7"><path d="M57 37q2-2 4 0M76 36.5q2-2 4 0"/></g>
+<ellipse cx="54" cy="43" rx="3.2" ry="1.7" fill="#cd9e7c" stroke="none"/>
+<path d="M72 40Q76 38 79 40Q79 43 76 43Q73 43 72 40Z" fill="#423e3c" stroke="none"/>
+<path d="M76 43v2q-3 4-6 1m6-1q2 3 5 0" fill="none" stroke="#665346" stroke-width="1.4"/>
+</g></g><g id="royce-walk-leg-near-hind" class="leg-track near-hind"><path d="M25 61Q30 58 35 61V72Q35 77 30 77H26Q22 77 23 73L25 67" fill="#e5b580"/><path d="M27 74v1" fill="none" stroke-width="1.4"/></g>
+<g id="royce-walk-leg-near-front" class="leg-track near-front"><path d="M59 61Q64 58 69 61V72Q69 77 64 77H60Q56 77 57 73L59 67" fill="#e5b580"/><path d="M61 74v1" fill="none" stroke-width="1.4"/></g>
+</g></svg>
 </article></section>
-<p class="footer">늑구: 0.90초 4박 보행, 가벼운 체중 이동과 머리 안정화. 로이스: 1.10초 4박 보행, 넓은 지지와 낮은 무게 중심.<br>접지 구간에는 발의 수직 위치를 유지하고, 복귀 구간에만 발을 들어 올립니다. 전체 상태 구현은 ANIMATION-PLAN.md에서 검토합니다.</p>
+<p class="footer">늑구: 0.84초 가벼운 걸음과 2.4초 통통 호흡. 로이스: 1.00초 작은 발걸음과 2.8초 느긋한 호흡.<br>관절 강조 없이 작은 체중 이동과 꼬리 살랑을 표현했습니다. 시안 전용이며 런타임은 그대로입니다.</p>
+<h2>작은 크기 가독성 · 78×72 표시 상자 (실제 런타임 미적용)</h2><section class="board small light"><article class="light"><h3>늑구 · 밝게</h3><img src="neukgu-concept.svg" alt="늑구 작은 시안"><p>점눈 · 짧은 주둥이 · 짧은 발</p></article><article class="dark"><h3>늑구 · 어둡게</h3><img src="neukgu-concept.svg" alt="늑구 작은 시안"><p>점눈 · 짧은 주둥이 · 짧은 발</p></article><article class="light"><h3>로이스 · 밝게</h3><img src="royce-concept.svg" alt="로이스 작은 시안"><p>점눈 · 짧은 주둥이 · 짧은 발</p></article><article class="dark"><h3>로이스 · 어둡게</h3><img src="royce-concept.svg" alt="로이스 작은 시안"><p>점눈 · 짧은 주둥이 · 짧은 발</p></article></section>
 <script>
 let paused=false;document.getElementById('pause').onclick=()=>{paused=!paused;document.getAnimations().forEach(a=>paused?a.pause():a.play());document.getElementById('pause').textContent=paused?'재생':'일시 정지';};
 window.addEventListener('load',()=>{const phase=new URLSearchParams(location.search).get('phase');if(phase!==null){document.getAnimations().forEach(a=>{a.pause();a.currentTime=Number(phase)*a.effect.getTiming().duration;});}document.body.dataset.ready='true';});

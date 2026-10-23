@@ -1,52 +1,41 @@
 <svg xmlns="http://www.w3.org/2000/svg" class="royce-concept" data-motion="still" viewBox="0 0 96 88" role="img" aria-labelledby="r-title r-desc">
-<title id="r-title">Royce — black and tan companion concept</title>
-<desc id="r-desc">Broader chest, shorter grounded legs, folded ear tips, warm eyebrow markings and low connected tail distinguish Royce from Neukgu. Review concept only.</desc>
+<title id="r-title">Royce — round black and tan companion</title>
+<desc id="r-desc">Rounded sticker-style puppy, dot eyes, short muzzle and little paws. Review concept only; not a runtime replacement.</desc>
 <style>
-.royce-concept{--cycle:1100ms;overflow:visible}
+.royce-concept{--cycle:1000ms;overflow:visible}
 .royce-concept .eye-closed{display:none}
-.royce-concept[data-motion="idle"] .core{animation:r-breathe 2800ms ease-in-out infinite}
-.royce-concept[data-motion="idle"] .tail{transform-origin:27px 47px;animation:r-tail 2400ms ease-in-out infinite}
-.royce-concept[data-motion="idle"] .ear-near{transform-origin:65px 27px;animation:r-ear 5000ms ease-in-out infinite}
-.royce-concept[data-motion="idle"] .eye-open{animation:r-blink 5700ms steps(1) infinite}
-.royce-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:r-lid 5700ms steps(1) infinite}
-.royce-concept[data-motion="walk"] .core{animation:r-load var(--cycle) ease-in-out infinite}
-.royce-concept[data-motion="walk"] .leg-track{animation:r-stride var(--cycle) linear infinite}
-.royce-concept[data-motion="walk"] .far-front{animation-delay:-550ms}
-.royce-concept[data-motion="walk"] .near-hind{animation-delay:-825ms}
-.royce-concept[data-motion="walk"] .far-hind{animation-delay:-275ms}
-.royce-concept[data-motion="walk"] .head{animation:r-head var(--cycle) ease-in-out infinite}
-@keyframes r-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-.7px)}}
-@keyframes r-tail{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(5deg)}}
-@keyframes r-ear{0%,89%,100%{transform:rotate(0)}93%{transform:rotate(4deg)}97%{transform:rotate(-1deg)}}
-@keyframes r-blink{0%,94%,98%,100%{opacity:1}95%,97%{opacity:0}}
-@keyframes r-load{0%,50%,100%{transform:translateY(.8px)}25%,75%{transform:translateY(-.3px)}}
-@keyframes r-head{0%,50%,100%{transform:translateY(-.5px)}25%,75%{transform:translateY(.2px)}}
-@keyframes r-stride{0%{transform:translate(2.5px,0)}64%{transform:translate(-2.5px,0)}76%{transform:translate(-1.5px,-3px)}88%{transform:translate(1.5px,-3px)}100%{transform:translate(2.5px,0)}}
-@keyframes r-lid{0%,94%,98%,100%{opacity:0}95%,97%{opacity:1}}
+.royce-concept .tail{transform-origin:24px 54px}
+.royce-concept[data-motion="idle"] .core{animation:r-breathe 2800ms ease-in-out infinite;transform-origin:46px 73px}
+.royce-concept[data-motion="idle"] .eye-open{animation:r-blink 4800ms steps(1) infinite}
+.royce-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:r-lid 4800ms steps(1) infinite}
+.royce-concept:not([data-motion="still"]) .tail{animation:r-wag 1600ms ease-in-out infinite}
+.royce-concept[data-motion="walk"] .core{animation:r-bob var(--cycle) ease-in-out infinite}
+.royce-concept[data-motion="walk"] .leg-track{animation:r-step var(--cycle) linear infinite}
+.royce-concept[data-motion="walk"] .far-front{animation-delay:-500ms}
+.royce-concept[data-motion="walk"] .near-hind{animation-delay:-750ms}
+.royce-concept[data-motion="walk"] .far-hind{animation-delay:-250ms}
+@keyframes r-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.025)}}
+@keyframes r-wag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@keyframes r-bob{0%,50%,100%{transform:translateY(.6px)}25%,75%{transform:translateY(-.6px)}}
+@keyframes r-step{0%{transform:translate(1.6px,0)}60%{transform:translate(-1.6px,0)}75%{transform:translate(-1px,-2px)}88%{transform:translate(1px,-2px)}100%{transform:translate(1.6px,0)}}
+@keyframes r-blink{0%,92%,97%,100%{opacity:1}93%,96%{opacity:0}}
+@keyframes r-lid{0%,92%,97%,100%{opacity:0}93%,96%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.royce-concept *{animation:none!important}}
 </style>
-<g class="model" stroke-linejoin="round">
- <g id="r-leg-far-hind" class="leg-track far-hind" data-pivot="31,55"><path d="M26 52h12l-2 12-5 6v7h-9v-4l4-5Z" fill="#67452f"/><path d="M23 74h9l2 2v3H21v-3Z" fill="#a77549"/></g>
- <g id="r-leg-far-front" class="leg-track far-front" data-pivot="58,53"><path d="M54 49h11l-2 19-2 7 4 1v3H51l1-8Z" fill="#6d4933"/><path d="M52 75h11l2 2v2H51Z" fill="#b18053"/></g>
- <g id="r-core" class="core">
-  <g id="r-tail" class="tail" data-pivot="27,47"><path d="M29 44 21 43 15 40 11 34 6 35 5 41 11 48 20 52 30 51Z" fill="#252f3b" stroke="#5a6875"/><path d="m6 36 4-1 4 6-3 3-4-3Z" fill="#a76f41"/><path d="m15 43 9 3 5 1-1 2-9-1Z" fill="#46505b"/></g>
-  <g id="r-body"><path d="M24 40 34 35 52 35 65 40 72 51 68 62 57 66 31 64 22 57 20 48Z" fill="#252f3b" stroke="#5a6875"/><path d="m26 41 10-3 18 1 9 5-5 5-26-1Z" fill="#3e4b57"/><path d="M22 50 31 57 53 59 69 52l-3 10-11 3-23-2-8-5Z" fill="#192430"/><path d="M47 47 57 44l9 8-7 10-10-1Z" fill="#684b37"/></g>
-  <g id="r-neck"><path d="m56 46-2-14 10-6 12 7 1 18-9 13-9-5Z" fill="#303c48" stroke="#5a6875"/><path d="m62 40 9-1 1 12-7 10-6-5Z" fill="#b18153"/><path d="m65 43 6-2-1 10-5 7-3-3Z" fill="#d5a16a"/></g>
-  <g id="r-head" class="head" data-pivot="66,39">
-   <g id="r-ear-far"><path d="m77 26 1-13 7 3 4 9-6 9Z" fill="#1c2733" stroke="#5a6875"/><path d="m80 17 5 3-2 8-3-3Z" fill="#71503d"/></g>
-   <path d="M59 26 68 21 82 23 89 30 89 43 82 50 66 48 58 40 56 32Z" fill="#2d3946" stroke="#5a6875"/>
-   <path d="m60 28 10-4 11 2 4 5-13 2Z" fill="#46525c"/>
-   <g id="r-ear-near" class="ear-near" data-pivot="64,28"><path d="M58 29V16l6-2 9 10-5 10-6-3Z" fill="#28333f" stroke="#5a6875"/><path d="m61 18 7 6-3 7-3-3Z" fill="#87583c"/><path d="m58 16 6-1 5 5-7 4-4-2Z" fill="#3d4953"/></g>
-   <path d="m64 29 6-1 2 3-7 1Zm15 0 5 1v3l-6-2Z" fill="#c28b52"/>
-   <g id="r-eyes-open" class="eye-open"><path d="M65 33h6v6h-5l-1-2Zm14 0h5v6h-5Z" fill="#100f12"/><path d="M67 35h3v3h-3Zm13 0h3v3h-3Z" fill="#a56d3e"/><path d="M66 33h2v2h-2Zm14 0h2v2h-2Z" fill="#fff3d9"/></g>
-   <g id="r-eyes-closed" class="eye-closed" stroke="#c7915b" fill="none"><path d="m65 36 3-1 3 1m8 0 3-1 2 1"/></g>
-   <path d="m66 39 7-1 7-1 9 2 5 5-2 5-9 3-13-4-6-4Z" fill="#bc8956" stroke="#604c3e" stroke-width=".8"/>
-   <path d="m72 45 10 2 10-2-1 4-9 3-9-3Z" fill="#d5a571"/>
-   <path d="m86 38 7 1 2 3-3 3-6-1-2-3Z" fill="#14212c"/><path d="m87 39 4 1v1h-4Z" fill="#54616a"/>
-   <path d="m85 45-2 2-5 1-4-2" fill="none" stroke="#674935" stroke-width=".9"/>
-  </g>
- </g>
- <g id="r-leg-near-hind" class="leg-track near-hind" data-pivot="31,56"><path d="m24 52 10-1 6 6-2 9-6 5v5l5 1v3H21v-5l5-6 1-8-4-4Z" fill="#97683f" stroke="#5d4836"/><path d="m27 55 5-1 4 4-2 7-5 3 1-8Z" fill="#bd8c58"/><path d="M23 76h10l4 2v2H21Z" fill="#d0a06a"/><path d="M27 78v2m4-2v2" stroke="#916c49" stroke-width=".8"/></g>
- <g id="r-leg-near-front" class="leg-track near-front" data-pivot="67,54"><path d="M61 51h12l-1 14-3 11 5 1v3H57l1-6 2-13Z" fill="#b4824f" stroke="#654b36"/><path d="M64 55h5l-2 16h-5Z" fill="#d09c62"/><path d="M59 76h12l3 2v2H57Z" fill="#deb47e"/><path d="M63 78v2m5-2v2" stroke="#9a754c" stroke-width=".8"/></g>
-</g>
-</svg>
+<g class="model" fill="#4c4b50" stroke="#796c64" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<g id="r-leg-far-hind" class="leg-track far-hind"><rect x="35" y="60" width="10" height="15" rx="5" fill="#b68a61"/></g>
+<g id="r-leg-far-front" class="leg-track far-front"><rect x="57" y="60" width="10" height="15" rx="5" fill="#b68a61"/></g>
+<g id="r-core" class="core">
+<g id="r-tail" class="tail"><path d="M26 59C15 60 7 53 8 45C9 39 15 39 17 44C19 50 22 49 27 49"/></g>
+<g id="r-body"><path d="M19 55C19 44 31 40 44 41C59 41 71 48 71 59C71 71 59 74 42 74C27 74 19 68 19 55Z"/><path d="M56 53C62 49 69 53 68 60C68 66 63 70 58 69C54 65 53 58 56 53Z" fill="#d7a773" stroke="none"/></g>
+<g id="r-head" class="head">
+<path d="M52 23C45 17 36 23 38 34C39 42 44 45 48 40L55 29" fill="#45444a"/><path d="M79 23C87 20 93 26 91 35C89 43 84 45 81 39L77 29" fill="#45444a"/><path d="M46 38C45 25 55 21 67 21C80 20 88 28 88 40C88 53 80 59 66 59C53 59 45 51 46 38Z"/><path d="M56 32Q59 29 62 31M75 31Q78 29 81 32" stroke="#e5b580" stroke-width="3.5" fill="none"/>
+<ellipse cx="73" cy="45" rx="12" ry="8" fill="#edc396" stroke="none"/>
+<g id="r-eyes-open" class="eye-open" fill="#423e3c" stroke="none"><circle cx="59" cy="37" r="2.1"/><circle cx="78" cy="36.5" r="2.1"/></g>
+<g id="r-eyes-closed" class="eye-closed" fill="none" stroke="#423e3c" stroke-width="1.7"><path d="M57 37q2-2 4 0M76 36.5q2-2 4 0"/></g>
+<ellipse cx="54" cy="43" rx="3.2" ry="1.7" fill="#cd9e7c" stroke="none"/>
+<path d="M72 40Q76 38 79 40Q79 43 76 43Q73 43 72 40Z" fill="#423e3c" stroke="none"/>
+<path d="M76 43v2q-3 4-6 1m6-1q2 3 5 0" fill="none" stroke="#665346" stroke-width="1.4"/>
+</g></g><g id="r-leg-near-hind" class="leg-track near-hind"><path d="M25 61Q30 58 35 61V72Q35 77 30 77H26Q22 77 23 73L25 67" fill="#e5b580"/><path d="M27 74v1" fill="none" stroke-width="1.4"/></g>
+<g id="r-leg-near-front" class="leg-track near-front"><path d="M59 61Q64 58 69 61V72Q69 77 64 77H60Q56 77 57 73L59 67" fill="#e5b580"/><path d="M61 74v1" fill="none" stroke-width="1.4"/></g>
+</g></svg>

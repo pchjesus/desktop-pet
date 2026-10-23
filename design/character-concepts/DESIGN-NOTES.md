@@ -1,36 +1,47 @@
-# Neukgu / Royce concept review
+# 둥글고 부드러운 데스크탑 강아지 시안
 
-Review only; no runtime replacement. Current SVGs were copied from
-`src/index.html` at `6c97ae7` (only the XML namespace was added for standalone
-loading). New SVGs are authored from that existing polygon/block anatomy;
-there is no external character asset or generated raster replacement.
+디자인 수정 기준: `6aa9626dbbe770e95d00f63ddb2d68cc43754ab3`.
+사용자 피드백에 따라 기존 각진 시안을 교체했다. 런타임 캐릭터 및 화면 경계
+수정 코드/테스트는 그대로다. 별도 시안이며 사용자 디자인 승인을 기다린다.
+외부 에셋·라이브러리 없이 SVG 곡선·타원·둥근 면으로 직접 구성했다.
 
-| Area | Neukgu | Royce |
+| 요소 | 늑구 | 로이스 |
 |---|---|---|
-| Identity | Pale angular wolf, alert/light | Black/tan companion, grounded/solid |
-| Proportion | Narrower torso, longer forelegs, taller upright ears | Barrel chest, broader head, shorter stronger legs, folded tips |
-| Face | Tapered cheek planes, separate muzzle/chin, cool nose and eye highlights | Tan eyebrows/cheeks, broader muzzle, warm irises, softer mouth corner |
-| Connection | Overlapping neck planes join shoulder/head, bushy tail grows from hip | Shorter neck flows into broad chest patch, lower substantial tail |
-| Depth | Cool gray far legs, near white planes, limited silver shadows | Slate back planes, shaded far legs, amber near paws and edge contrast |
-| Motion preview | 900ms four-beat walk; 2.4s subtle breathing | 1100ms four-beat walk; 2.8s restrained breathing |
+| 인상 | 뽀얗고 순한 작은 강아지 | 든든하고 친근한 검정/황갈색 반려견 |
+| 귀·얼굴 | 끝이 둥근 세운 귀, 동그란 얼굴 | 옆으로 처진 귀, 넓은 둥근 얼굴 |
+| 몸·꼬리 | 통통한 타원 몸통, 위로 말린 꼬리 | 조금 더 넓은 몸통, 짧게 올라가는 꼬리 |
+| 표정·색 | 작은 점눈, 크림색 짧은 주둥이, 연한 볼 | 점눈, 둥근 황갈색 눈썹·주둥이·발·가슴 |
+| 표현 | 두꺼운 따뜻한 회갈색 선, 단순한 면 | 동일한 부드러운 선, 강한 명암 없는 차콜색 면 |
+| 프리뷰 | 2.4초 통통 호흡 / 0.84초 가벼운 걸음 | 2.8초 느긋한 호흡 / 1초 작은 걸음 |
 
-`preview.html` runs the IDLE/WALK examples with no dependencies or network.
-The comparison normalizes both designs to the same display box; actual-size
-compatibility is still a future implementation task. `motion-0..3.png` sample
-cycle phases 0/25/50/75%. Preview paw tracks keep vertical contact through 60%
-(Neukgu) / 64% (Royce) of their cycle, lifting during recovery only. The torso
-loads independently of the paws; the head counters the loading. Far/near limbs
-have quarter-cycle offsets. These are motion studies, not final joint IK.
+길쭉한 다리·뾰족한 턱·강한 눈매·근육/갑옷 같은 면 분할은 제거했다.
+두 캐릭터는 귀·머리·몸통·꼬리 형태가 다르며 색만 바꾼 관계가 아니다.
 
-`motion-sheet.png` stacks the four sampled phases. `motion-phases.png` is an
-animated PNG cycling those normalized samples once per second; use `preview.html`
-for the actual, different IDLE/WALK durations. Electron loaded all eight static
-SVG images and four inline previews (22 animations); all four SVG files parse
-with unique internal IDs. `render-check.json` records that rendering check.
+## 비교 자료와 재생
 
-Review concerns: preserve readable eyes at the future 78×72 runtime size;
-avoid shoulder/hip seams at swing extremes; check Royce's dark coat on actual
-desktop backgrounds; approve ear shape, muzzle and body proportions before
-replacing either runtime model. Future bounds must be measured after scaling,
-both facing directions and all poses. Existing hit testing, messages, drag,
-Easter eggs and movement remain untouched by these concept files.
+- `preview.html`: 네트워크 없이 여는 정적 비교/연속 IDLE·WALK, 일시 정지 지원.
+- `comparison.png`: 기존 런타임 vs 새 시안, 밝은/어두운 배경, 동작·작은 크기.
+  `*-current.svg`는 원래 `6c97ae7` 런타임 SVG에 xmlns만 추가한 자료다.
+- `small-size.png`: 새 시안의 78×72 CSS 표시 상자를 두 배경에서 캡처했다.
+  SVG 비율을 유지하므로 상자 안에 여백이 있다. OS DPI 검증은 아니다.
+- `motion-0..3.png`, `motion-sheet.png`: 각 동작의 정규화 위상 0/25/50/75%.
+- `motion-phases.png`: 네 위상을 250ms씩 반복하는 APNG. 실제 캐릭터별
+  속도는 HTML에서 확인해야 한다. 서로 다른 호흡·걸음 시간을 같은 시각으로
+  정규화한 자료이므로 실제 시간 동기화 검증으로 쓰지 않는다.
+
+호흡은 몸·머리를 발 위에서 아주 조금 부풀리고, 꼬리는 작은 각도로 살랑인다.
+걷기는 짧은 발을 약 1.6 단위 앞뒤로, 회수 구간에 2 단위만 들어 올린다.
+몸의 상하 이동도 ±0.6 단위로 제한했다. 과한 관절 표현 없이 연결된 짧은
+다리가 가볍게 움직이는 시안이다. 런타임 이동에 맞춘 속도 연결은 후속 작업이다.
+
+## 확인 결과와 남은 검토
+
+Linux headless Electron에서 정적 SVG 이미지 12개, 인라인 프리뷰 4개,
+애니메이션 20개 렌더링 및 네 위상 캡처를 확인했다 (`render-check.json`).
+SVG XML/내부 ID 유일성 검사와 밝은/어두운 비교·작은 크기·동작 시트의
+실루엣/얼굴/다리 연결을 검토했다. 사용자 승인이나 Windows 실기 검증은 아니다.
+
+사용자에게 둥근 귀·얼굴·눈썹·체형을 먼저 확인받은 후 런타임 크기, 양방향,
+모든 자세의 경계를 측정한다. 현재 Main/Renderer/Preload/경계 모듈/테스트와
+기존 캐릭터 SVG·모듈·리소스·입력은 바꾸지 않는다. Windows Electron/EXE는
+**NOT VERIFIED**. 디자인 롤백은 이번 시안 커밋만 revert하며 경계 커밋은 유지한다.

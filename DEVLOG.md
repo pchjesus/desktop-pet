@@ -1,3 +1,17 @@
+# Soft puppy concept direction revision (development only)
+
+- Replaced the angular canine concepts with round sticker-style puppies:
+  dot eyes, short muzzles/legs, soft outlines and simple fills. Neukgu has cream
+  coloring/rounded upright ears; Royce keeps black/tan with floppy ears/brows.
+- Rebuilt white/dark comparisons, four-phase/APNG motion studies and a 78×72
+  readability comparison. Revised six-state plans toward soft breathing,
+  gentle tail wagging and small steps.
+- Preserved every `src/` file and test at `6aa9626`, including the screen bounds
+  fix and all runtime characters. No runtime replacement or release.
+- Validation: syntax and Node 65/65 PASS; SVG XML/IDs and Linux headless Electron
+  concept rendering PASS (12 images, 4 inline previews, 20 animations).
+  Windows Electron/EXE NOT VERIFIED; design approval remains pending.
+
 # Screen bounds stabilization and canine concepts (development only)
 
 - Baseline `6c97ae7`; isolated `feat/screen-bounds-character-concepts`, no release.
