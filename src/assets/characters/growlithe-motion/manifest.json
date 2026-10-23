@@ -1,0 +1,49 @@
+{
+  "source": "growlithe-hgss.png",
+  "sourceSha256": "ed58999248f69a686aed6048a57900a751ec8a8b9df9c161ecabfa592d135c96",
+  "baseSize": [
+    80,
+    80
+  ],
+  "specialSize": [
+    170,
+    150
+  ],
+  "sourceOffset": [
+    45,
+    31
+  ],
+  "mouth": [
+    64,
+    70
+  ],
+  "frameMs": 100,
+  "specialFrames": 29,
+  "specialDurationMs": 2900,
+  "states": {
+    "idle": [
+      "../growlithe-hgss.png",
+      "idle-breathe.png",
+      "idle-ear.png",
+      "idle-tail.png"
+    ],
+    "sit": [
+      "sit-0.png",
+      "sit-1.png"
+    ],
+    "sleep": [
+      "sleep-0.png",
+      "sleep-1.png"
+    ],
+    "drag": [
+      "drag-0.png",
+      "drag-1.png"
+    ],
+    "wake": [
+      "wake.png",
+      "wake-head.png",
+      "wake-body.png",
+      "../growlithe-hgss.png"
+    ]
+  }
+}

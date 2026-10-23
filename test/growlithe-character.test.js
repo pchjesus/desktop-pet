@@ -34,10 +34,10 @@ test('growlithe maps shared states to character state classes and exact source a
   assert.equal(element.sprite.src, 'assets/characters/growlithe-walk.apng');
   growlithe.setState(STATES.SIT);
   assert.equal(element.className, 'growlithe sit');
-  assert.equal(element.sprite.src, 'assets/characters/growlithe-hgss.png');
+  assert.equal(element.sprite.src, 'assets/characters/growlithe-motion/sit-0.png');
   growlithe.setState(STATES.SLEEP);
   assert.equal(element.className, 'growlithe sleep');
-  assert.equal(element.sprite.src, 'assets/characters/growlithe-sleep.png');
+  assert.equal(element.sprite.src, 'assets/characters/growlithe-motion/sleep-0.png');
 });
 
 test('growlithe base sprite is byte-identical to the selected HG/SS source', () => {
@@ -73,7 +73,11 @@ test('growlithe has no sprite-sheet or SVG animation architecture', () => {
   assert.doesNotMatch(html, /growlithe-(walk|react|idle)-sheet\.png/);
   assert.doesNotMatch(html, /growlithe\.svg/);
   assert.doesNotMatch(html, /background-position/);
-  assert.doesNotMatch(html, /steps\(/);
+  // Other characters own independent animation architectures. Inspect the
+  // Growlithe declarations and its markup for this character's contract.
+  const growlitheMarkup = html.match(/<div class="growlithe idle"[\s\S]*?<\/div>/)?.[0] || '';
+  const growlitheCss = [...html.matchAll(/[^{}]*\.growlithe[^{}]*\{[^{}]*\}/g)].map(match => match[0]).join('\n');
+  assert.doesNotMatch(growlitheMarkup + growlitheCss, /steps\(/);
 
   for (const asset of ['growlithe-hgss.png','growlithe-walk.apng','growlithe-react.apng','growlithe-sleep.png']) {
     assert.equal(fs.existsSync(path.join(__dirname, '..', 'src', 'assets', 'characters', asset)), true, asset);
