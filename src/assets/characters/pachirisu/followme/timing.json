@@ -7,265 +7,825 @@
       "frame": 0,
       "time": 0,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 1,
       "time": 100,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 2,
       "time": 200,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 3,
       "time": 300,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 4,
       "time": 400,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 5,
       "time": 500,
       "berryStage": null,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          147,
+          46,
+          101
+        ]
+      ]
     },
     {
       "frame": 6,
       "time": 600,
       "berryStage": null,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          138,
+          55,
+          255
+        ]
+      ]
     },
     {
       "frame": 7,
       "time": 700,
       "berryStage": null,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          129,
+          63,
+          255
+        ]
+      ]
     },
     {
       "frame": 8,
       "time": 800,
       "berryStage": 0,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          120,
+          72,
+          255
+        ],
+        [
+          1,
+          129,
+          45,
+          81
+        ]
+      ]
     },
     {
       "frame": 9,
       "time": 900,
       "berryStage": 0,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          112,
+          81,
+          255
+        ],
+        [
+          1,
+          121,
+          54,
+          255
+        ]
+      ]
     },
     {
       "frame": 10,
       "time": 1000,
       "berryStage": 0,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          103,
+          89,
+          255
+        ],
+        [
+          1,
+          112,
+          63,
+          255
+        ]
+      ]
     },
     {
       "frame": 11,
       "time": 1100,
       "berryStage": 0,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          94,
+          98,
+          255
+        ],
+        [
+          1,
+          103,
+          71,
+          255
+        ],
+        [
+          2,
+          165,
+          43,
+          20
+        ]
+      ]
     },
     {
       "frame": 12,
       "time": 1200,
       "berryStage": 0,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          85,
+          106,
+          255
+        ],
+        [
+          1,
+          94,
+          80,
+          255
+        ],
+        [
+          2,
+          156,
+          51,
+          223
+        ]
+      ]
     },
     {
       "frame": 13,
       "time": 1300,
       "berryStage": 0,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          77,
+          115,
+          255
+        ],
+        [
+          1,
+          86,
+          88,
+          255
+        ],
+        [
+          2,
+          148,
+          60,
+          255
+        ]
+      ]
     },
     {
       "frame": 14,
       "time": 1400,
       "berryStage": 0,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          68,
+          123,
+          173
+        ],
+        [
+          1,
+          77,
+          97,
+          255
+        ],
+        [
+          2,
+          139,
+          69,
+          255
+        ]
+      ]
     },
     {
       "frame": 15,
       "time": 1500,
       "berryStage": 1,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          151,
+          42,
+          0
+        ],
+        [
+          1,
+          68,
+          105,
+          255
+        ],
+        [
+          2,
+          130,
+          77,
+          255
+        ]
+      ]
     },
     {
       "frame": 16,
       "time": 1600,
       "berryStage": 1,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          142,
+          51,
+          202
+        ],
+        [
+          1,
+          59,
+          114,
+          255
+        ],
+        [
+          2,
+          121,
+          86,
+          255
+        ]
+      ]
     },
     {
       "frame": 17,
       "time": 1700,
       "berryStage": 1,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          133,
+          59,
+          255
+        ],
+        [
+          1,
+          51,
+          123,
+          191
+        ],
+        [
+          2,
+          113,
+          94,
+          255
+        ]
+      ]
     },
     {
       "frame": 18,
       "time": 1800,
       "berryStage": 1,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          125,
+          68,
+          255
+        ],
+        [
+          1,
+          42,
+          131,
+          17
+        ],
+        [
+          2,
+          104,
+          103,
+          255
+        ]
+      ]
     },
     {
       "frame": 19,
       "time": 1900,
       "berryStage": 1,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          116,
+          76,
+          255
+        ],
+        [
+          1,
+          125,
+          50,
+          182
+        ],
+        [
+          2,
+          95,
+          111,
+          255
+        ]
+      ]
     },
     {
       "frame": 20,
       "time": 2000,
       "berryStage": 1,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          107,
+          85,
+          255
+        ],
+        [
+          1,
+          116,
+          58,
+          255
+        ],
+        [
+          2,
+          86,
+          120,
+          243
+        ]
+      ]
     },
     {
       "frame": 21,
       "time": 2100,
       "berryStage": 1,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          98,
+          93,
+          255
+        ],
+        [
+          1,
+          108,
+          67,
+          255
+        ],
+        [
+          2,
+          78,
+          129,
+          69
+        ]
+      ]
     },
     {
       "frame": 22,
       "time": 2200,
       "berryStage": 2,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          90,
+          102,
+          255
+        ],
+        [
+          1,
+          99,
+          75,
+          255
+        ],
+        [
+          2,
+          161,
+          47,
+          121
+        ]
+      ]
     },
     {
       "frame": 23,
       "time": 2300,
       "berryStage": 2,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          81,
+          111,
+          255
+        ],
+        [
+          1,
+          90,
+          84,
+          255
+        ],
+        [
+          2,
+          152,
+          56,
+          255
+        ]
+      ]
     },
     {
       "frame": 24,
       "time": 2400,
       "berryStage": 2,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          72,
+          119,
+          255
+        ],
+        [
+          1,
+          81,
+          93,
+          255
+        ],
+        [
+          2,
+          143,
+          64,
+          255
+        ]
+      ]
     },
     {
       "frame": 25,
       "time": 2500,
       "berryStage": 2,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          63,
+          128,
+          87
+        ],
+        [
+          1,
+          73,
+          101,
+          255
+        ],
+        [
+          2,
+          134,
+          73,
+          255
+        ]
+      ]
     },
     {
       "frame": 26,
       "time": 2600,
       "berryStage": 2,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          147,
+          46,
+          101
+        ],
+        [
+          1,
+          64,
+          110,
+          255
+        ],
+        [
+          2,
+          126,
+          81,
+          255
+        ]
+      ]
     },
     {
       "frame": 27,
       "time": 2700,
       "berryStage": 2,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          138,
+          55,
+          255
+        ],
+        [
+          1,
+          55,
+          118,
+          255
+        ],
+        [
+          2,
+          117,
+          90,
+          255
+        ]
+      ]
     },
     {
       "frame": 28,
       "time": 2800,
       "berryStage": 2,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          129,
+          63,
+          255
+        ],
+        [
+          1,
+          46,
+          127,
+          104
+        ],
+        [
+          2,
+          108,
+          99,
+          255
+        ]
+      ]
     },
     {
       "frame": 29,
       "time": 2900,
       "berryStage": 3,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          120,
+          72,
+          255
+        ],
+        [
+          1,
+          129,
+          45,
+          81
+        ],
+        [
+          2,
+          99,
+          107,
+          255
+        ]
+      ]
     },
     {
       "frame": 30,
       "time": 3000,
       "berryStage": 3,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          112,
+          81,
+          255
+        ],
+        [
+          1,
+          121,
+          54,
+          255
+        ],
+        [
+          2,
+          91,
+          116,
+          255
+        ]
+      ]
     },
     {
       "frame": 31,
       "time": 3100,
       "berryStage": 3,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          103,
+          89,
+          255
+        ],
+        [
+          1,
+          112,
+          63,
+          255
+        ],
+        [
+          2,
+          82,
+          124,
+          156
+        ]
+      ]
     },
     {
       "frame": 32,
       "time": 3200,
       "berryStage": null,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          94,
+          98,
+          255
+        ],
+        [
+          1,
+          103,
+          71,
+          255
+        ],
+        [
+          2,
+          165,
+          43,
+          20
+        ]
+      ]
     },
     {
       "frame": 33,
       "time": 3300,
       "berryStage": null,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          85,
+          106,
+          255
+        ],
+        [
+          1,
+          94,
+          80,
+          255
+        ],
+        [
+          2,
+          156,
+          51,
+          223
+        ]
+      ]
     },
     {
       "frame": 34,
       "time": 3400,
       "berryStage": null,
-      "meteors": true
+      "meteors": true,
+      "meteorHeads": [
+        [
+          0,
+          77,
+          115,
+          255
+        ],
+        [
+          1,
+          86,
+          88,
+          255
+        ],
+        [
+          2,
+          148,
+          60,
+          255
+        ]
+      ]
     },
     {
       "frame": 35,
       "time": 3500,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 36,
       "time": 3600,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 37,
       "time": 3700,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 38,
       "time": 3800,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 39,
       "time": 3900,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 40,
       "time": 4000,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 41,
       "time": 4100,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 42,
       "time": 4200,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     },
     {
       "frame": 43,
       "time": 4300,
       "berryStage": null,
-      "meteors": false
+      "meteors": false,
+      "meteorHeads": []
     }
   ]
 }

@@ -13,7 +13,7 @@ illustration or an embedded background.
 ## Timeline (existing 4400ms duration retained)
 
 - 0ms: white/teal pointing finger above the head, brace pose.
-- 450–3500ms: three rear meteor lanes at different scales/phases. Bright cores,
+- 450–3500ms: three rear meteor lanes at different scales/phases, visibly upper-right to lower-left. Tails point opposite their travel and entry/exit fade without touching the canvas border. Bright cores,
   flame tails, trailing sparks and small landing fragments stay behind the body.
 - 700–1000ms: forepaw reaches from the chest, berry rises toward the mouth.
 - 1500 / 2200 / 2900ms: partial / mostly eaten / vanished berry. Four 18×18
@@ -22,7 +22,7 @@ illustration or an embedded background.
 - 3500–4100ms: recovery glints, then the clean original pose and IDLE at 4400ms.
 
 The ordinary sprite CSS is replaced only during Follow Me by native 180×150 PNGs
-aligned to the same body anchor. The separate finger remains visible while
+aligned to the same body anchor. `followme/` and `followme-right/` retain the same foreground but counter-mirror the rear layer so meteor travel stays upper-right to lower-left in either facing. The separate finger remains visible while
 meteors start and hides before recovery. The text bubble is hidden on start to
 avoid covering that icon. No new window is created. Facing remains locked during
 playback. Repeated commands/ordinary state requests cannot replace the frames.
@@ -32,6 +32,7 @@ sprite geometry, original GIF and valid state.
 
 ## Evidence and regeneration
 
+- `meteor-direction-comparison.png`: baseline vertical vs new diagonal sampled frames.
 - `followme-sheet.png`: light/dark source-frame and fixed-size bite comparison.
 - `followme-playback.png`: 44-frame transparent APNG (body/berry/rear effects;
   the dedicated SVG hand is added separately in the actual runtime).

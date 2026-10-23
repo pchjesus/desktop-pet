@@ -1,10 +1,11 @@
 """Reproducible edits of the uploaded sprites/berry; no smoothing or new body redraw."""
 from pathlib import Path
 import json, math
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageOps
 ROOT=Path(__file__).resolve().parents[1]
 ASSETS=ROOT/'src/assets/characters/pachirisu'
 OUT=ASSETS/'followme'; OUT.mkdir(exist_ok=True)
+RIGHT=ASSETS/'followme-right'; RIGHT.mkdir(exist_ok=True)
 source=Image.open(ASSETS/'pachirisu-brace.png').convert('RGBA')
 berry=Image.open(ASSETS/'sitrus-berry.webp').convert('RGBA').resize((18,18),Image.Resampling.NEAREST)
 # Fixed canvas and bitten silhouettes: occupied area decreases without scaling.
@@ -20,22 +21,31 @@ for stage in range(4):
 frames=[]; records=[]
 for i in range(44):
  ms=i*100;im=Image.new('RGBA',(180,150));d=ImageDraw.Draw(im)
- # Layered rear meteor lanes, avoiding the mouth/berry region entirely.
+ # Screen-space upper-right -> lower-left. Facing variants counter-mirror only
+ # the rear layer, leaving the character/berry at their approved body anchor.
+ heads=[]
  if 450<=ms<3500:
-  for lane,(x,offset,size) in enumerate([(112,0,1),(150,310,.75),(166,640,.5)]):
-   age=(ms-450-offset)%1050
-   y=-35+int(age/1050*205);x=x-int(age/1050*14)
-   if -32<y<149:
-    length=int(30*size);r=max(3,int(7*size))
-    d.polygon([(x-r,y),(x+1,y-length-12),(x+2,y-length//2),(x+r+2,y-7),(x+r,y+3)],fill='#e95830')
-    d.polygon([(x-r+2,y),(x,y-length),(x+r-1,y)],fill='#ffb447')
-    d.ellipse((x-r,y-r,x+r,y+r),fill='#ffca57')
-    d.rectangle((x-r+2,y-r+2,x+r-2,y+r-2),fill='#fff6cb')
-    for k in range(3):
-     px=x+int(math.sin(i+k*2+lane)*7);py=y-length-5-k*7
-     d.rectangle((px,py,px+1,py+2),fill=('#ffc76d' if k%2 else '#ed7540'))
-    if y>112:
-     for sign in [-1,1]:d.rectangle((x+sign*12,y-8,x+sign*12+2,y-6),fill='#ffd387')
+  for lane,(startx,offset,size) in enumerate([(151,0,1),(133,310,.75),(166,640,.5)]):
+   elapsed=ms-450-offset
+   if elapsed<0:continue
+   age=elapsed%1050;progress=age/1050
+   x=startx-round(progress*92);y=42+round(progress*90)
+   length=round(30*size);r=max(3,int(7*size))
+   alpha=round(255*min(1,progress/.12,(1-progress)/.14))
+   layer=Image.new('RGBA',im.size);ld=ImageDraw.Draw(layer)
+   tip=(x+round(length*.7),y-round(length*.7))
+   ld.polygon([(x-r,y-2),tip,(x+round(length*.4),y-round(length*.22)),(x+r,y+2),(x+2,y+r)],fill='#e95830')
+   ld.polygon([(x-r+2,y-1),(tip[0]-3,tip[1]+3),(x+r-1,y+2),(x,y+r-1)],fill='#ffb447')
+   ld.ellipse((x-r,y-r,x+r,y+r),fill='#ffca57')
+   ld.rectangle((x-r+2,y-r+2,x+r-2,y+r-2),fill='#fff6cb')
+   for k in range(3):
+    px=x+round(length*.35)+k*3;py=y-round(length*.35)-k*3
+    ld.rectangle((px,py,px+1,py+1),fill=('#ffc76d' if k%2 else '#ed7540'))
+   if progress>.8:
+    for sign in [-1,1]:ld.rectangle((x+sign*12,y-8,x+sign*12+2,y-6),fill='#ffd387')
+   layer.putalpha(layer.getchannel('A').point(lambda value:round(value*alpha/255)))
+   im.alpha_composite(layer);heads.append([lane,x,y,alpha])
+ rear=im.copy();im=Image.new('RGBA',(180,150));d=ImageDraw.Draw(im)
  # Original outline/palette retained; forepaws reach continuously from chest to berry.
  pose=source.copy();pd=ImageDraw.Draw(pose)
  eat=800<=ms<3200
@@ -58,8 +68,11 @@ for i in range(44):
    d.line((sx-2,sy,sx+2,sy),fill='#fff1a1',width=1);d.line((sx,sy-2,sx,sy+2),fill='#fff1a1',width=1)
  if ms>=4200:
   im=Image.new('RGBA',(180,150));im.alpha_composite(Image.open(ASSETS/'pachirisu-still.png').convert('RGBA').resize((87,91),Image.Resampling.NEAREST),(43,27))
- im.save(OUT/f'followme-{i:02}.png');frames.append(im)
- records.append({'frame':i,'time':ms,'berryStage':stage if eat else None,'meteors':450<=ms<3500})
+ foreground=im
+ im=rear.copy();im.alpha_composite(foreground)
+ right=ImageOps.mirror(rear);right.alpha_composite(foreground)
+ im.save(OUT/f'followme-{i:02}.png');right.save(RIGHT/f'followme-{i:02}.png');frames.append(im)
+ records.append({'frame':i,'time':ms,'berryStage':stage if eat else None,'meteors':450<=ms<3500,'meteorHeads':heads})
 (OUT/'timing.json').write_text(json.dumps({'frameMs':100,'duration':4400,'iconUntil':3500,'frames':records},indent=2)+'\n')
 review=ROOT/'docs/pachirisu-followme';review.mkdir(exist_ok=True)
 # Dedicated authored finger asset is displayed separately above the head.

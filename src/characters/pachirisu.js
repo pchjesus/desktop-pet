@@ -47,8 +47,13 @@ class PachirisuCharacter {
     this.activeSpecial = {type, start: performance.now(), duration: 4400};
     if (this.followIcon) this.followIcon.hidden = false;
     this.element.className = 'pachirisu special-followme';
-    this.setSprite(this.root + 'followme/followme-00.png');
+    this.setSprite(this.followMeFrame(0));
     return true;
+  }
+
+  followMeFrame(frame) {
+    const directory = this.facing === 1 ? 'followme-right' : 'followme';
+    return this.root + `${directory}/followme-${String(frame).padStart(2, '0')}.png`;
   }
 
   isSpecialActionActive() { return Boolean(this.activeSpecial); }
@@ -69,7 +74,7 @@ class PachirisuCharacter {
       if (elapsed >= this.activeSpecial.duration) this.finishSpecialAction();
       else {
         const frame = Math.min(43, Math.floor(elapsed / 100));
-        this.setSprite(this.root + `followme/followme-${String(frame).padStart(2, '0')}.png`);
+        this.setSprite(this.followMeFrame(frame));
         if (this.followIcon) this.followIcon.hidden = elapsed >= 3500;
       }
     }
