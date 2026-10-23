@@ -12,7 +12,7 @@
   foreground/body and 4400ms sequence remain unchanged.
 - Replaced duplicated/outdated manual text with the five characters, current
   codes, Home switching and monitor notes. No new special or dependency.
-- Local syntax, Node 94/94, shell 15/15, PNG 15/15 and five-character headless
+- Local syntax, Node 95/95, shell 15/15, PNG 15/15 and five-character headless
   Electron checks PASS. Windows CI separately gates native repeated Home/Cancel/
   Exit (scripted dialog responses), portable build and packaged startup smoke.
   Physical Windows input/DPI/monitor and visual acceptance remain NOT VERIFIED.

@@ -5,9 +5,9 @@ const fs=require('node:fs');
 const path=require('node:path');
 const {EventEmitter}=require('node:events');
 function setup(){
- const handlers={}, registrations={}, timers=new Map(),windows=[];let ready,id=0,quit=0;
+ const appHandlers={},handlers={}, registrations={}, timers=new Map(),windows=[];let ready,id=0,quit=0;
  const ipcMain={handle(name,fn){assert.equal(handlers[name],undefined,'duplicate handle '+name);handlers[name]=fn;registrations[name]=1;},on(name,fn){assert.equal(handlers[name],undefined,'duplicate listener '+name);handlers[name]=fn;registrations[name]=1;}};
- const app={whenReady:()=>({then:fn=>ready=fn}),on(){},quit(){quit++},getPath:()=>'/tmp'};
+ const app={whenReady:()=>({then:fn=>ready=fn}),on(name,callback){appHandlers[name]=callback},quit(){quit++},getPath:()=>'/tmp'};
  const screen=new EventEmitter();const display={id:1,bounds:{x:0,y:0,width:1920,height:1080},workArea:{x:0,y:0,width:1920,height:1040}};
  screen.getAllDisplays=()=>[display];screen.getCursorScreenPoint=()=>({x:100,y:100});
  class Window extends EventEmitter{
@@ -21,7 +21,7 @@ function setup(){
  const dialog={options:null,showMessageBox(_win,options){this.options=options;return response==='pending'?new Promise(r=>resolveDialog=r):Promise.resolve({response});}};
  const context=vm.createContext({require:n=>n==='electron'?{app,BrowserWindow:Window,dialog,ipcMain,screen}:n==='./window-bounds'?require('../src/window-bounds'):require(n),__dirname:path.resolve(__dirname,'../src'),process:{env:{},argv:[]},console,setInterval:fn=>{timers.set(++id,fn);return id},clearInterval:n=>timers.delete(n)});
  vm.runInContext(fs.readFileSync(path.resolve(__dirname,'../src/main.js'),'utf8'),context);ready();
- return{handlers,windows,timers,dialog,context,registrations,response:n=>response=n,resolveDialog:r=>resolveDialog({response:r}),quit:()=>quit,current:()=>windows.findLast(w=>!w.destroyed&&w.file==='index.html'),launcher:()=>windows.findLast(w=>!w.destroyed&&w.file==='start.html')};
+ return{appHandlers,handlers,windows,timers,dialog,context,registrations,response:n=>response=n,resolveDialog:r=>resolveDialog({response:r}),quit:()=>quit,current:()=>windows.findLast(w=>!w.destroyed&&w.file==='index.html'),launcher:()=>windows.findLast(w=>!w.destroyed&&w.file==='start.html')};
 }
 test('home → Growlithe → home → Pachirisu → home → Neukgu and both other pets reuse one IPC registration',async()=>{
  const h=setup();let previous;
@@ -76,4 +76,8 @@ test('home waits for the pet to close and rejects new dialogs until then',async(
  assert.equal(h.launcher(),undefined);assert.equal(await h.handlers['pet:quit'](event),false);
  h.handlers['pet:set-position'](event,{x:500,y:500});assert.deepEqual(pet.position,[100,100]);
  close();assert.equal(await pending,true);assert.ok(h.launcher());assert.equal(h.timers.size,0);
+});
+
+test('window-all-closed has no event argument and keeps the app alive for home recreation',()=>{
+ const h=setup();assert.doesNotThrow(()=>h.appHandlers['window-all-closed']());assert.equal(h.quit(),0);
 });

@@ -90,7 +90,7 @@ cleanup; screen-space diagonal meteors with regenerated facing variants/APNG;
 current five-character manual. No new special, library or native window size.
 The Growlithe profile grows with its body; the shared DIP/topology logic remains.
 
-Local checks: syntax, Node 94/94 (including repeated five-pet Home loops, duplicate
+Local checks: syntax, Node 95/95 (including repeated five-pet Home loops, duplicate
 handle rejection, cancel/exit/stale sender/timer cases), shell 15/15, PNG 15/15,
 and headless five-character input/facing/size/containment regression PASS.
 `size-comparison.png` and `meteor-direction-comparison.png` show the visual changes.

@@ -438,7 +438,9 @@ app.whenReady().then(() => {
   });
 });
 
-app.on('window-all-closed', (event) => event.preventDefault());
+// Electron emits no event argument here. A listener keeps the app alive while
+// Home waits for the old windows to close; explicit Exit still uses app.quit().
+app.on('window-all-closed', () => {});
 app.on('before-quit', () => {
   dragging = false;
   dragStart = null;
