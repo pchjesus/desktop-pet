@@ -9,13 +9,17 @@
     170,
     150
   ],
+  "displayBodySize": [
+    92,
+    92
+  ],
   "sourceOffset": [
-    45,
-    31
+    39,
+    21
   ],
   "mouth": [
-    64,
-    70
+    61,
+    66
   ],
   "frameMs": 100,
   "specialFrames": 29,
