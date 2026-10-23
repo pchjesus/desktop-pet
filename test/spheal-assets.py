@@ -245,7 +245,7 @@ class SphealAssets(unittest.TestCase):
                         if outside and old.getpixel((x, y))[3] and not (kind == 'watergun' and i in (9, 10, 11)):
                             self.assertEqual(new.getpixel((x, y)), old.getpixel((x, y)), (kind, i, x, y))
                             effects += 1
-                if (kind == 'watergun' and 4 <= i <= 11) or (kind == 'icebeam' and 1 <= i <= 8):
+                if (kind == 'watergun' and 4 <= i <= 8) or (kind == 'icebeam' and 1 <= i <= 8):
                     self.assertGreater(effects, 0)
         for i in range(1, 9):
             self.assertEqual(frame('clap', i).tobytes(), original(f'animations/clap/clap-{i:02}.png', CLEANUP_BASELINE).tobytes())

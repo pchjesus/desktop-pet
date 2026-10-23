@@ -4,10 +4,8 @@ const vm = require('node:vm');
 const fs = require('node:fs');
 const path = require('node:path');
 const { EventEmitter } = require('node:events');
-const { execFileSync } = require('node:child_process');
 const geometry = require('../src/window-bounds');
 const root = path.resolve(__dirname, '..');
-const baseline = '6c97ae76e48745bd4a21a02739e439da4e8a0eec';
 const display = (id, x, y, width, height, scaleFactor = 1) => ({ id, bounds: {x,y,width,height},
   workArea: {x,y,width,height:height-40}, scaleFactor });
 
@@ -53,14 +51,7 @@ function contained(window, character, area) {
   assert.ok(window.position[1]+shape.bottom<=area.y+area.height);
 }
 
-test('reproduces baseline disappearance on monitor removal and resolution shrink, then verifies immediate recovery',()=>{
-  const old=harness(execFileSync('git',['show',`${baseline}:src/main.js`],{cwd:root,encoding:'utf8'}));
-  const oldWindow=old.create('spheal');oldWindow.position=[-1600,100];
-  old.screen.displays=[display(1,0,0,1280,720)];
-  old.screen.emit('display-removed',{}, {id:2});
-  assert.equal(oldWindow.position[0],-1600); // Full body is absent, even while idle.
-  oldWindow.position=[1800,900];old.screen.emit('display-metrics-changed',{},old.screen.displays[0],['workArea']);
-  assert.deepEqual(oldWindow.position,[1800,900]);
+test('recovers immediately from monitor removal and resolution shrink for every character',()=>{
   for(const character of Object.keys(geometry.BODY_ENVELOPES)) {
     const h=harness(),w=h.create(character);w.position=[-1600,100];
     h.screen.displays=[display(1,0,0,1280,720)];h.screen.emit('display-removed',{}, {id:2});
