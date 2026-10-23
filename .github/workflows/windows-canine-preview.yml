@@ -1,0 +1,81 @@
+name: Canine Soft Runtime Windows Preview
+
+on:
+  push:
+    branches: [feat/canine-soft-runtime]
+    paths:
+      - ".github/workflows/windows-canine-preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-preview:
+    runs-on: windows-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install locked packages
+        run: npm ci
+      - name: Prepare Windows Electron
+        run: |
+          npm run prepare:electron
+          npm run verify:electron
+      - name: JavaScript and character regression
+        run: |
+          npm run check
+          npm test
+          npm run test:shell
+      - name: Asset regression (Pillow)
+        run: |
+          python -m pip install Pillow
+          python -B test/spheal-assets.py
+      - name: Validate standalone puppy previews
+        shell: pwsh
+        run: |
+          python -c "import xml.etree.ElementTree as E; [E.parse('src/assets/characters/'+n+'.svg') for n in ('neukgu','royce')]; print('Puppy SVGs: PASS')"
+      - name: Build portable EXE
+        run: npm run dist
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - name: Portable EXE exists
+        shell: pwsh
+        run: |
+          if (!(Test-Path 'dist/DesktopPet-0.1.12-portable.exe')) {
+            throw 'Portable EXE missing'
+          }
+          Get-Item 'dist/DesktopPet-0.1.12-portable.exe' | Select-Object Name,Length
+      - name: Package smoke test
+        shell: pwsh
+        run: |
+          $exe = Join-Path $PWD 'dist/DesktopPet-0.1.12-portable.exe'
+          $p = Start-Process -FilePath $exe -ArgumentList '--smoke-test' -PassThru
+          $marker = Join-Path $env:TEMP ('desktop-pet-smoke-' + $p.Id + '.ready')
+          try {
+            $ready = $false
+            for ($i=0; $i -lt 30; $i++) {
+              Start-Sleep -Milliseconds 500
+              if ($p.HasExited) { throw 'Packaged app exited before renderer was ready' }
+              if (Test-Path $marker) { $ready = $true; break }
+            }
+            if (!$ready) { throw 'Packaged renderer readiness timed out' }
+            Write-Host 'Packaged EXE smoke: PASS'
+          } finally {
+            Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+            Remove-Item $marker -Force -ErrorAction SilentlyContinue
+          }
+      - name: Upload preview EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: DesktopPet-Canine-Soft-Runtime-Windows
+          path: dist/DesktopPet-0.1.12-portable.exe
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
