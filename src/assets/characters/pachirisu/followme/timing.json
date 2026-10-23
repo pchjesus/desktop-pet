@@ -1,0 +1,271 @@
+{
+  "frameMs": 100,
+  "duration": 4400,
+  "iconUntil": 3500,
+  "frames": [
+    {
+      "frame": 0,
+      "time": 0,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 1,
+      "time": 100,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 2,
+      "time": 200,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 3,
+      "time": 300,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 4,
+      "time": 400,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 5,
+      "time": 500,
+      "berryStage": null,
+      "meteors": true
+    },
+    {
+      "frame": 6,
+      "time": 600,
+      "berryStage": null,
+      "meteors": true
+    },
+    {
+      "frame": 7,
+      "time": 700,
+      "berryStage": null,
+      "meteors": true
+    },
+    {
+      "frame": 8,
+      "time": 800,
+      "berryStage": 0,
+      "meteors": true
+    },
+    {
+      "frame": 9,
+      "time": 900,
+      "berryStage": 0,
+      "meteors": true
+    },
+    {
+      "frame": 10,
+      "time": 1000,
+      "berryStage": 0,
+      "meteors": true
+    },
+    {
+      "frame": 11,
+      "time": 1100,
+      "berryStage": 0,
+      "meteors": true
+    },
+    {
+      "frame": 12,
+      "time": 1200,
+      "berryStage": 0,
+      "meteors": true
+    },
+    {
+      "frame": 13,
+      "time": 1300,
+      "berryStage": 0,
+      "meteors": true
+    },
+    {
+      "frame": 14,
+      "time": 1400,
+      "berryStage": 0,
+      "meteors": true
+    },
+    {
+      "frame": 15,
+      "time": 1500,
+      "berryStage": 1,
+      "meteors": true
+    },
+    {
+      "frame": 16,
+      "time": 1600,
+      "berryStage": 1,
+      "meteors": true
+    },
+    {
+      "frame": 17,
+      "time": 1700,
+      "berryStage": 1,
+      "meteors": true
+    },
+    {
+      "frame": 18,
+      "time": 1800,
+      "berryStage": 1,
+      "meteors": true
+    },
+    {
+      "frame": 19,
+      "time": 1900,
+      "berryStage": 1,
+      "meteors": true
+    },
+    {
+      "frame": 20,
+      "time": 2000,
+      "berryStage": 1,
+      "meteors": true
+    },
+    {
+      "frame": 21,
+      "time": 2100,
+      "berryStage": 1,
+      "meteors": true
+    },
+    {
+      "frame": 22,
+      "time": 2200,
+      "berryStage": 2,
+      "meteors": true
+    },
+    {
+      "frame": 23,
+      "time": 2300,
+      "berryStage": 2,
+      "meteors": true
+    },
+    {
+      "frame": 24,
+      "time": 2400,
+      "berryStage": 2,
+      "meteors": true
+    },
+    {
+      "frame": 25,
+      "time": 2500,
+      "berryStage": 2,
+      "meteors": true
+    },
+    {
+      "frame": 26,
+      "time": 2600,
+      "berryStage": 2,
+      "meteors": true
+    },
+    {
+      "frame": 27,
+      "time": 2700,
+      "berryStage": 2,
+      "meteors": true
+    },
+    {
+      "frame": 28,
+      "time": 2800,
+      "berryStage": 2,
+      "meteors": true
+    },
+    {
+      "frame": 29,
+      "time": 2900,
+      "berryStage": 3,
+      "meteors": true
+    },
+    {
+      "frame": 30,
+      "time": 3000,
+      "berryStage": 3,
+      "meteors": true
+    },
+    {
+      "frame": 31,
+      "time": 3100,
+      "berryStage": 3,
+      "meteors": true
+    },
+    {
+      "frame": 32,
+      "time": 3200,
+      "berryStage": null,
+      "meteors": true
+    },
+    {
+      "frame": 33,
+      "time": 3300,
+      "berryStage": null,
+      "meteors": true
+    },
+    {
+      "frame": 34,
+      "time": 3400,
+      "berryStage": null,
+      "meteors": true
+    },
+    {
+      "frame": 35,
+      "time": 3500,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 36,
+      "time": 3600,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 37,
+      "time": 3700,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 38,
+      "time": 3800,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 39,
+      "time": 3900,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 40,
+      "time": 4000,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 41,
+      "time": 4100,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 42,
+      "time": 4200,
+      "berryStage": null,
+      "meteors": false
+    },
+    {
+      "frame": 43,
+      "time": 4300,
+      "berryStage": null,
+      "meteors": false
+    }
+  ]
+}

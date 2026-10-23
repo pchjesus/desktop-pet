@@ -101,3 +101,23 @@ test('renderer integration: FollowMe requires prior click and restores native in
   assert.equal(vm.runInContext('character.activeSpecial',ctx),null);
   assert.equal(model.className,'pachirisu idle');
 });
+
+test('FollowMe keeps its 4400ms timeline, bite silhouettes, icon overlap and complete cleanup', t => {
+  let now=0;t.mock.method(performance,'now',()=>now);
+  const el=node(), icon={hidden:true};
+  const query=el.querySelector;el.querySelector=q=>q==='.pachirisu-follow-icon'?icon:query(q);
+  const pet=new PachirisuCharacter(el,STATES);
+  pet.startSpecialAction('followme');assert.equal(icon.hidden,false);
+  const originalFacing=pet.facing;pet.setFacing(-originalFacing);assert.equal(pet.facing,originalFacing);
+  for(const [time,index,visible] of [[400,'04',true],[800,'08',true],[1500,'15',true],[2200,'22',true],[2900,'29',true],[3500,'35',false],[4300,'43',false]]) {
+    now=time;pet.render();assert.match(el.sprite.src,new RegExp(`followme-${index}\\.png$`));assert.equal(!icon.hidden,visible);
+    pet.setState(STATES.IDLE);assert.equal(pet.isSpecialActionActive(),true);
+  }
+  now=4400;pet.render();assert.equal(pet.state,STATES.IDLE);assert.equal(icon.hidden,true);
+  assert.match(el.sprite.src,/pachirisu-bw.gif$/);
+  pet.startSpecialAction('followme');pet.setState(STATES.DRAG);
+  assert.equal(icon.hidden,true);assert.equal(pet.isSpecialActionActive(),false);
+  assert.equal(el.className,'pachirisu drag');
+  assert.equal(pet.startSpecialAction('followme'),false,'drag owns input priority');
+  for(let i=0;i<44;i++)assert.ok(fs.existsSync(path.join(root,'src/assets/characters/pachirisu/followme',`followme-${String(i).padStart(2,'0')}.png`)));
+});

@@ -9,6 +9,7 @@ class PachirisuCharacter {
     if (!this.sprite) throw new Error('PachirisuCharacter requires its sprite');
     this.root = 'assets/characters/pachirisu/';
     this.activeSpecial = null;
+    this.followIcon = element.querySelector('.pachirisu-follow-icon');
     this.motionSpeed = 0.16;
     this.setState(states.IDLE);
   }
@@ -31,7 +32,7 @@ class PachirisuCharacter {
   }
 
   setFacing(next) {
-    if (next !== 1 && next !== -1) return;
+    if (this.activeSpecial || (next !== 1 && next !== -1)) return;
     this.facing = next;
     this.element.style.transform = `scaleX(${-next})`;
   }
@@ -42,10 +43,11 @@ class PachirisuCharacter {
   }
 
   startSpecialAction(type = 'followme') {
-    if (type !== 'followme' || this.activeSpecial) return false;
+    if (type !== 'followme' || this.activeSpecial || this.state === this.states.DRAG) return false;
     this.activeSpecial = {type, start: performance.now(), duration: 4400};
+    if (this.followIcon) this.followIcon.hidden = false;
     this.element.className = 'pachirisu special-followme';
-    this.setSprite(this.root + 'pachirisu-brace.png');
+    this.setSprite(this.root + 'followme/followme-00.png');
     return true;
   }
 
@@ -54,6 +56,7 @@ class PachirisuCharacter {
   finishSpecialAction(restore = true) {
     if (!this.activeSpecial) return;
     this.activeSpecial = null;
+    if (this.followIcon) this.followIcon.hidden = true;
     this.element.className = 'pachirisu idle';
     this.setSprite(this.root + 'pachirisu-bw.gif');
     if (!restore) return;
@@ -61,8 +64,15 @@ class PachirisuCharacter {
   }
 
   render() {
-    if (this.activeSpecial && performance.now() - this.activeSpecial.start >= this.activeSpecial.duration)
-      this.finishSpecialAction();
+    if (this.activeSpecial) {
+      const elapsed = Math.max(0, performance.now() - this.activeSpecial.start);
+      if (elapsed >= this.activeSpecial.duration) this.finishSpecialAction();
+      else {
+        const frame = Math.min(43, Math.floor(elapsed / 100));
+        this.setSprite(this.root + `followme/followme-${String(frame).padStart(2, '0')}.png`);
+        if (this.followIcon) this.followIcon.hidden = elapsed >= 3500;
+      }
+    }
     this.element.style.transform = `scaleX(${-this.facing})`;
   }
 }

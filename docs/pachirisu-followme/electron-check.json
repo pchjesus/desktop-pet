@@ -1,0 +1,48 @@
+{
+  "platform": "linux",
+  "viewport": [
+    180,
+    150
+  ],
+  "checks": [
+    {
+      "name": "neukgu",
+      "states": 6,
+      "visible": [
+        "neukgu"
+      ]
+    },
+    {
+      "name": "royce",
+      "states": 6,
+      "visible": [
+        "royce"
+      ]
+    },
+    {
+      "name": "growlithe",
+      "states": 6,
+      "visible": [
+        "growlithe"
+      ]
+    },
+    {
+      "name": "spheal",
+      "states": 6,
+      "visible": [
+        "spheal"
+      ]
+    },
+    {
+      "name": "pachirisu",
+      "states": 6,
+      "visible": [
+        "pachirisu"
+      ]
+    }
+  ],
+  "specialInputAndCleanup": true,
+  "launcherSelectionAndManualRequest": true,
+  "launcherNativeWindow": "NOT VERIFIED",
+  "windows": "NOT VERIFIED"
+}
