@@ -36,7 +36,8 @@ function showEasterEgg() {
   }
   if (selectedCharacter === 'pachirisu' && character.startSpecialAction('followme')) {
     nextDecision = performance.now() + 4400;
-    showBubble('Follow Me!');
+    clearTimeout(showBubble.timer);
+    bubble.style.display = 'none'; // Dedicated head icon remains unobscured.
   }
   easterEggEligibleUntil = 0;
   easterEggBuffer = '';
@@ -48,6 +49,17 @@ function easterEggCode() {
   if (selectedCharacter === 'spheal') return 'pocketmon';
   if (selectedCharacter === 'pachirisu') return 'followme';
   return '';
+}
+
+function handleGrowlitheSpecialCode() {
+  if (selectedCharacter !== 'growlithe' || easterEggBuffer !== 'flamethrower') return false;
+  if (character.startSpecialAction?.('flamethrower')) {
+    nextDecision = performance.now() + 2900;
+    showBubble('화염방사!');
+  }
+  easterEggEligibleUntil = 0;
+  easterEggBuffer = '';
+  return true;
 }
 
 function handleSphealSpecialCode() {
@@ -68,7 +80,7 @@ window.addEventListener('keydown', (event) => {
   if ((selectedCharacter !== 'growlithe' && selectedCharacter !== 'royce' && selectedCharacter !== 'spheal' && selectedCharacter !== 'pachirisu') || Date.now() > easterEggEligibleUntil) return;
 
   if (event.key === 'Enter') {
-    if (handleSphealSpecialCode()) return;
+    if (handleSphealSpecialCode() || handleGrowlitheSpecialCode()) return;
     if (easterEggBuffer === easterEggCode()) showEasterEgg();
     else easterEggBuffer = '';
     return;
@@ -158,7 +170,10 @@ function desktopTarget() {
 function handleDragMove(event) {
   if (!dragging) return;
   const distance = Math.hypot(event.screenX - pointerStart.x, event.screenY - pointerStart.y);
-  if (distance >= 6) didDrag = true;
+  if (distance >= 6 && !didDrag) {
+    didDrag = true;
+    if (character?.isSpecialActionActive?.()) setState(PET_STATES.DRAG);
+  }
   window.petAPI.dragMove(event.screenX, event.screenY);
 }
 
@@ -207,7 +222,9 @@ function finishPointerInteraction(event) {
       };
       setTimeout(finishSphealReaction, 50);
     } else {
-      setTimeout(() => setState(PET_STATES.IDLE), 800);
+      setTimeout(() => {
+        if (!dragging && state === PET_STATES.REACT && !character?.isSpecialActionActive?.()) setState(PET_STATES.IDLE);
+      }, 800);
     }
   } else setState(PET_STATES.IDLE);
   nextDecision = performance.now() + 1200;
@@ -216,7 +233,9 @@ function finishPointerInteraction(event) {
 pet.addEventListener('pointerdown', (event) => {
   if (event.button !== 0) return;
   dragging = true; didDrag = false; pointerStart = { x:event.screenX, y:event.screenY };
-  pet.classList.add('dragging'); setState(PET_STATES.DRAG);
+  pet.classList.add('dragging');
+  // A click must not cancel a locked special; a real drag still has priority.
+  if (!character?.isSpecialActionActive?.()) setState(PET_STATES.DRAG);
   try { pet.setPointerCapture(event.pointerId); } catch {}
   window.petAPI.dragStart(event.screenX, event.screenY);
 });
@@ -230,6 +249,10 @@ function tick(now) {
   if (!dragging) {
     if (character?.isSpecialActionActive?.()) {
       render();
+      if (!character.isSpecialActionActive() && (selectedCharacter === 'pachirisu' || selectedCharacter === 'growlithe')) {
+        setState(PET_STATES.IDLE);
+        nextDecision = now + 1200;
+      }
       return;
     }
     let autonomousSpecialStarted = false;

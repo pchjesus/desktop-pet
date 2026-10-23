@@ -19,14 +19,14 @@
   }
   .card {
     width: 100%;
-    max-width: 640px;
+    max-width: 740px;
     padding: 20px 24px;
     text-align: center;
   }
   h1 { margin: 0; font-size: 28px; letter-spacing: -0.04em; }
   p { margin: 10px 0 18px; color: #666; font-size: 13px; line-height: 1.6; }
   .choices { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 0 0 16px; }
-  .choice { min-width: 0; border: 1px solid #ddd; border-radius: 14px; padding: 14px 10px 12px; background: #fff; cursor: pointer; }
+  .choice { min-width: 0; border: 1px solid #ddd; border-radius: 14px; padding: 12px 6px 10px; background: #fff; cursor: pointer; }
   .choice.selected { box-shadow: 0 0 0 2px #333 inset; }
     .choice img { width: 80px; height: 80px; object-fit: contain; image-rendering: pixelated; display: block; margin: 0 auto 8px; }
   .choice img[src$=".svg"] { image-rendering: auto; }
@@ -84,7 +84,7 @@
     let selectedCharacter = 'neukgu';
     const tips = {
       neukgu: '늑구는 Desktop Pet의 기본 캐릭터입니다.',
-      growlithe: '가디를 선택한 후 캐릭터를 클릭하고 <b>pocketmon</b>을 입력한 뒤 Enter를 눌러보세요.',
+      growlithe: '가디를 선택한 후 캐릭터를 클릭하고 <b>pocketmon</b> 또는 <b>Flamethrower</b> + Enter를 눌러보세요.',
       royce: '로이스를 선택한 후 캐릭터를 클릭하고 <b>royce</b>를 입력한 뒤 Enter를 눌러보세요.',
       spheal: '대굴레오를 선택한 후 클릭하고 <b>pocketmon</b> 또는 <b>watergun</b> 또는 <b>icebeam</b>을 입력한 뒤 Enter를 눌러보세요.',
       pachirisu: '파치리스 클릭: 볼 전기·꼬리! 클릭 후 <b>FollowMe</b> + Enter: 2014 결승 오마주'

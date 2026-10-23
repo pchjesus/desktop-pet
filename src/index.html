@@ -16,15 +16,11 @@ body[data-character="neukgu"] .royce,body[data-character="growlithe"] .royce,bod
 body[data-character="neukgu"] .growlithe,body[data-character="royce"] .growlithe,body[data-character="spheal"] .growlithe{display:none}
 .growlithe{position:absolute;left:0;bottom:5px;width:120px;height:100px;transform-origin:50% 82%;will-change:transform;display:block}
 .growlithe-sprite{position:absolute;left:20px;top:6px;width:80px;height:80px;display:block;image-rendering:pixelated;image-rendering:crisp-edges;object-fit:contain;object-position:center;will-change:transform;user-select:none;-webkit-user-drag:none}
-.growlithe.idle .growlithe-sprite{animation:g-exact-idle 1.05s ease-in-out infinite alternate}
-.growlithe.sit .growlithe-sprite{transform:translateY(3px)}
-.growlithe.sleep .growlithe-sprite{animation:g-exact-sleep 1.2s ease-in-out infinite alternate}
 .growlithe.react .growlithe-sprite{animation:g-react-pop .18s ease-in-out 4 alternate}
-.growlithe.drag .growlithe-sprite{animation:g-exact-drag .5s ease-in-out infinite alternate}
-@keyframes g-exact-idle{from{transform:translateY(0)}to{transform:translateY(-1px)}}
-@keyframes g-exact-sleep{from{transform:translateY(1px)}to{transform:translateY(3px)}}
 @keyframes g-react-pop{from{transform:translateY(0)}to{transform:translateY(-2px)}}
-@keyframes g-exact-drag{from{transform:translateY(0)}to{transform:translateY(-1px)}}
+.growlithe.idle,.growlithe.sleep,.growlithe.sit,.growlithe.drag,.growlithe.special-flamethrower{animation:none}
+.growlithe.special-flamethrower .growlithe-sprite{animation:none;transform:none}
+.growlithe-sprite.growlithe-full-frame{left:-25px;top:-25px;width:170px;height:150px}
 body[data-character="neukgu"] .spheal,body[data-character="growlithe"] .spheal,body[data-character="royce"] .spheal{display:none}.spheal{position:absolute;inset:0;transform-origin:50% 82%;display:block}.spheal-sprite{position:absolute;left:20px;top:6px;width:80px;height:80px;display:block;image-rendering:pixelated;image-rendering:crisp-edges;object-fit:contain;user-select:none;-webkit-user-drag:none;z-index:1}.spheal.idle{animation:none}.spheal.idle .spheal-sprite{animation:breathe .9s infinite alternate ease-in-out}.spheal.special-clap .spheal-sprite{animation:spheal-clap-bounce 1.44s ease-in-out 1}.spheal.special-icebeam .spheal-sprite{left:0;width:120px;height:80px;animation:none;transform:none}.spheal.special-watergun .spheal-sprite{left:0;width:120px;height:80px;animation:spheal-water-recoil 2.1s ease-in-out 1}.spheal.walk .spheal-sprite{transform:translateY(-1px)}@keyframes spheal-clap-bounce{0%{transform:translateY(0)}45%{transform:translateY(-3px)}100%{transform:translateY(0)}}@keyframes spheal-water-recoil{0%,67%{transform:translate(0,0) rotate(0deg)}72%{transform:translate(-1px,1px) rotate(-1deg)}77%{transform:translate(2px,0) rotate(1.5deg)}82%{transform:translate(-2px,1px) rotate(-1.5deg)}87%{transform:translate(1px,0) rotate(.8deg)}93%,100%{transform:translate(0,0) rotate(0deg)}}
 
 /* Prevent old global bounce/breathe rules from moving the approved puppy poses. */
@@ -57,21 +53,16 @@ body:not([data-character="pachirisu"]) .pachirisu{display:none}
 .pachirisu.react .pachirisu-sprite{animation:pachirisu-shake .14s ease-in-out 5 alternate}
 .pachirisu.react .pachirisu-spark{animation:pachirisu-zap .25s linear 3}
 .pachirisu.react .pachirisu-charge{animation:pachirisu-tail-party .23s ease-in-out 3 alternate;transform-origin:62px 55px}
+/* Full PNGs own FollowMe timing; ordinary click/electric timing remains unchanged. */
 .pachirisu.special-followme{animation:none}
-.pachirisu.special-followme .pachirisu-sprite{animation:pachirisu-brace 4.4s ease-in-out 1 both}
-.pachirisu.special-followme .pachirisu-berry{animation:pachirisu-eat 4.4s linear 1 both}
-.pachirisu.special-followme .pachirisu-meteors{opacity:1}
-.pachirisu.special-followme .pachirisu-meteor{animation:pachirisu-draco 1.2s linear 2 both;animation-delay:calc(1.3s + var(--lag,0s))}
-.pachirisu.special-followme .pachirisu-spark{animation:pachirisu-impact 4.4s linear 1 both}
+.pachirisu.special-followme .pachirisu-sprite{left:-35px;top:-20px;width:180px;height:150px;animation:none;transform:none}
+.pachirisu-follow-icon{position:absolute;left:12px;top:0;width:26px;height:34px;z-index:6;pointer-events:none;image-rendering:pixelated}
+.pachirisu-follow-icon[hidden]{display:none}
 @keyframes pachirisu-breathe{to{transform:translateY(-2px)}}
 @keyframes pachirisu-steps{0%{transform:translateY(0) rotate(-1.2deg)}100%{transform:translateY(-2px) rotate(1.2deg)}}
 @keyframes pachirisu-shake{from{transform:translateX(-2px) rotate(-3deg)}to{transform:translateX(2px) rotate(4deg)}}
 @keyframes pachirisu-zap{0%,100%{opacity:0;transform:scale(.6)}30%,70%{opacity:1;transform:scale(1.25) rotate(25deg)}}
 @keyframes pachirisu-tail-party{to{transform:rotate(4deg)}}
-@keyframes pachirisu-brace{0%,10%{transform:translateY(0)}14%,55%{transform:translateY(4px) scaleY(.94)}62%,71%{transform:translateX(-2px) rotate(-3deg)}76%{transform:translateX(2px) rotate(2deg)}82%,90%{transform:translateY(0) scale(1.05)}100%{transform:none}}
-@keyframes pachirisu-eat{0%,12%,42%,100%{opacity:0;transform:translate(0,8px) scale(.65)}17%,25%{opacity:1;transform:translate(0,0) scale(1)}32%,38%{opacity:1;transform:translate(-5px,-9px) scale(.7)}}
-@keyframes pachirisu-draco{0%{opacity:0;transform:translate(45px,-55px) rotate(-14deg) scale(.8)}10%,75%{opacity:1}100%{opacity:0;transform:translate(-54px,124px) rotate(-14deg) scale(1.25)}}
-@keyframes pachirisu-impact{0%,45%,53%,56%,63%,70%,100%{opacity:0}48%,59%,67%{opacity:1;transform:rotate(32deg) scale(1.3)}}
 #bubble{position:absolute;left:50%;top:12px;transform:translate(-50%,-100%);background:#fff;color:#333;padding:5px 9px;border-radius:9px;font:700 12px system-ui;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.16);display:none}
 </style></head><body><div id="pet"><div id="bubble"></div><div class="shadow"></div>
 
@@ -219,5 +210,6 @@ body:not([data-character="pachirisu"]) .pachirisu{display:none}
  <div class="pachirisu-meteors" aria-hidden="true"><i class="pachirisu-meteor"></i><i class="pachirisu-meteor"></i><i class="pachirisu-meteor"></i></div>
  <img class="pachirisu-sprite" src="assets/characters/pachirisu/pachirisu-bw.gif" alt="">
  <div class="pachirisu-charge" aria-hidden="true"><i class="pachirisu-spark"></i><i class="pachirisu-spark"></i></div>
+ <img class="pachirisu-follow-icon" src="assets/characters/pachirisu/followme-icon.svg" hidden alt="Follow Me">
  <img class="pachirisu-berry" src="assets/characters/pachirisu/sitrus-berry.webp" alt="">
 </div></div><script src="pet-engine.js"></script><script src="characters/neukgu.js"></script><script src="characters/growlithe.js"></script><script src="characters/royce.js"></script><script src="characters/spheal.js"></script><script src="characters/pachirisu.js"></script><script src="renderer.js"></script></body></html>

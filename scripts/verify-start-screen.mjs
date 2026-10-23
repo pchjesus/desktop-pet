@@ -104,7 +104,7 @@ try {
     await writeFile(`${evidence}/${name}.png`,Buffer.from(shot.data,'base64'));
   }
   // All selections, including the longest hint, must keep actions visible.
-  for(const character of ['neukgu','growlithe','royce','spheal']) {
+  for(const character of ['neukgu','growlithe','royce','spheal','pachirisu']) {
     const check=await evaluate(target,`(() => {document.querySelector('[data-character="${character}"]').click();const b=document.getElementById('start').getBoundingClientRect();return {selected:selectedCharacter,count:document.querySelectorAll('.choice.selected').length,overflow:document.documentElement.scrollHeight>innerHeight||document.documentElement.scrollWidth>innerWidth,buttonVisible:b.top>=0&&b.bottom<=innerHeight};})()`);
     if(check.selected!==character||check.count!==1||check.overflow||!check.buttonVisible) throw new Error('selection/layout '+JSON.stringify(check));
   }
@@ -117,7 +117,7 @@ try {
   const pet = await until(async()=> (await(await fetch(`${origin}/json/list`)).json()).find(p=>p.url.includes('/index.html?character=spheal')));
   await until(async()=>{try{return await evaluate(pet,`document.readyState==='complete'&&document.body.dataset.character==='spheal'&&typeof window.petAPI==='object'`);}catch{return false;}});
   await writeFile(`${evidence}/layout-results.json`,JSON.stringify(results,null,2)+'\n');
-  console.log('PASS: four selections, all actions visible without scroll, images decoded at 80px, native Manual and Start → Spheal IPC flow');
+  console.log('PASS: five selections, all actions visible without scroll, images decoded at 80px, native Manual and Start → Spheal IPC flow');
   console.log(JSON.stringify(results));
 } catch(error) {
   await writeFile('/tmp/desktop-pet-start-electron.log',output);

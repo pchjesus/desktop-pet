@@ -1,10 +1,13 @@
-name: Canine Soft Runtime Windows Preview
+name: Pachirisu and Growlithe Windows Preview
 
 on:
   push:
-    branches: [feat/canine-soft-runtime]
+    branches: [feat/canine-soft-runtime, feat/pachirisu-growlithe-integration]
     paths:
       - ".github/workflows/windows-canine-preview.yml"
+      - "src/**"
+      - "test/**"
+      - "package*.json"
   workflow_dispatch:
 
 permissions:
@@ -34,9 +37,17 @@ jobs:
           npm test
           npm run test:shell
       - name: Asset regression (Pillow)
+        shell: pwsh
         run: |
           python -m pip install Pillow
           python -B test/spheal-assets.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          foreach ($test in @('test/pachirisu-assets.py', 'test/growlithe-assets.py')) {
+            if (Test-Path $test) {
+              python -B $test
+              if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            }
+          }
       - name: Validate standalone puppy previews
         shell: pwsh
         run: |
@@ -87,7 +98,7 @@ jobs:
       - name: Upload preview EXE
         uses: actions/upload-artifact@v4
         with:
-          name: DesktopPet-Canine-Soft-Runtime-Windows
+          name: DesktopPet-Pachirisu-Growlithe-Windows
           path: dist/DesktopPet-0.1.12-portable.exe
           if-no-files-found: error
           retention-days: 7

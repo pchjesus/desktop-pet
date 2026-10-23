@@ -1,3 +1,19 @@
+# Pachirisu / Growlithe integrated motion update
+
+- Selectively integrated the uploaded Pachirisu sprite/character/input additions
+  on canine runtime `9dde4ea`; original source GIF and berry bytes preserved.
+- FollowMe retains 4400ms: dedicated white/teal hand, rear layered meteors,
+  front-paw eating with fixed-size bitten silhouettes, recovery and full cleanup.
+- Growlithe adds source-pixel breathing/ear/tail, folded sit, curled side sleep,
+  staged waking and drag poses; native walking/click APNGs remain unchanged.
+  Flamethrower is a 2900ms mouth-connected one-shot with finite flame taper.
+- Shared input protects specials from repeated clicks but preserves real drag
+  priority. Both effects fit the unchanged 180×150 native window in both facings.
+- Local syntax, Node 88/88, shell 15/15, PNG 14/14 and Linux Electron checks PASS.
+  Windows packaging/smoke is a separate CI gate; manual Windows/DPI/monitor and
+  subjective visual acceptance remain NOT VERIFIED. See integration review for
+  exact scope, sources, limitations and rollback; no release version bump.
+
 # Soft puppy concept direction revision (development only)
 
 - Replaced the angular canine concepts with round sticker-style puppies:

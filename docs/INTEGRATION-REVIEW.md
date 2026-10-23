@@ -33,6 +33,50 @@ Original Growlithe HG/SS source and click APNG remain preserved. Derived poses
 and effects are labeled as project edits, not additional official animations.
 Follow Me references the 2014 championship Pachirisu moment; no endorsement claim.
 
-The current attachment contains no finger reference or Growlithe sleep/fire photos.
-The written requested appearance is used provisionally; no claim of matching
-unavailable photographs. A dedicated white/teal finger SVG is authored locally.
+After initial ZIP inspection the user supplied three visual references in chat:
+white/teal pixel pointing hand, side-curled sleeping Growlithe and continuous
+flamethrower (Charizard is reference only and is not included). Their backgrounds
+are not used. A dedicated white/teal finger SVG is authored locally; source sprite
+and berry edits remain separate from those reference illustrations.
+
+## Integration results before Windows gate
+
+- `npm run check`, `npm test` 88/88, `npm run test:shell` 15/15: PASS.
+- Pillow: Spheal 12/12, Pachirisu 2/2: PASS. Growlithe frame size/alpha, source
+  palette/anchor, connected flame, ear/tail and wake stages are in the Node suite.
+- Linux Electron: five visible characters, six state paths, facing, click-armed
+  case-insensitive FollowMe/Flamethrower, duplicate rejection, click preservation,
+  real drag cancellation, finite cleanup and both-facing effect containment PASS.
+  Separate existing Spheal checker confirms 47 PNGs, ROLL, all three one-shots and
+  freeze/timing cleanup. No Spheal/canine sprites or Pet Engine edits from 9dde4ea.
+- Launcher: five selections, decoded images, no overflow at 760×520, Start ID and
+  Manual request bridge PASS. Native startup/Manual window check requires DISPLAY
+  here; a diagnostic native-start headless adaptation exits SIGSEGV in this cloud.
+  It is NOT VERIFIED by the layout bridge check or the default packaged smoke.
+- Windows CI must build the portable and verify the renderer child readiness
+  marker before main is advanced. The artifact/run records are authoritative for
+  that tested SHA; physical Windows interaction/visual/DPI/multimonitor acceptance
+  remains NOT VERIFIED even when packaging smoke succeeds.
+
+No tests removed. The two four-character allowlist assertions were extended to
+five; Growlithe's no-SVG/no-sheet assertions retain their intent but its CSS
+`steps()` check is scoped to Growlithe rather than rejecting another character's
+CSS animation name. All existing original Growlithe SHA/APNG assertions remain.
+
+Main/window geometry changes from 9dde4ea are only Pachirisu registration and its
+body envelope. New fire uses a 170×150 image centered on the existing Growlithe
+facing pivot (screen x=95), at window x=10..180 in either direction. An initial
+180px image would have flipped to x=10..190; actual Electron bounds tests caught
+that before integration. Body anchor and the 180×150 native window are unchanged.
+
+Native correction/topology tests iterate all five envelopes. No new IPC, focus,
+effect windows, engine architecture, dependencies or persisted settings added.
+
+Review found no secrets, ZIP uploads or build outputs staged. Source sprite/GIF/
+berry bytes match the uploaded ZIP; existing Spheal/canine assets are unchanged.
+Existing Draft PRs #3/#4 and temporary source extraction branch are not modified.
+
+Rollback: keep `9dde4ea` and feature commits; revert integration commits in reverse
+order on a new normal commit if needed. Do not reset main or force push. If all
+new development must be undone, choose the previous main `8960f70` only as a
+comparison point, never erase the preserved development history.
