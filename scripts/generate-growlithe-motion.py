@@ -65,8 +65,8 @@ headrise=sleep.copy(); clear(headrise,(17,33,43,60))
 patch(headrise,(29,56,39,65),(29,55)); patch(headrise,(22,55,29,62),(22,56))
 patch(headrise,(25,40,39,55),(29,47)); patch(headrise,(17,16,43,46),(17,24)); save('wake-head',headrise)
 bodyrise=source.copy(); clear(bodyrise,(17,16,43,43)); patch(bodyrise,(17,16,43,43),(17,20)); save('wake-body',bodyrise)
-# One-shot flame uses full170x150 frames with the untouched source80x80 at(45,31).
-# Mouth remains at canvas(64,70), so the stream is attached, including ignition.
+# One-shot flame uses full170x150 frames with the untouched nearest-neighbor92x92 body at(39,21).
+# Mouth remains at canvas(61,66), so the stream is attached, including ignition.
 def special(n):
     im=Image.new('RGBA',(170,150)); pet=source.copy(); pd=ImageDraw.Draw(pet)
     if n>=2 and n<26:
@@ -74,11 +74,11 @@ def special(n):
         pd.line((19,40,22,40),fill=(255,145,64,255),width=1)
     if n in [1,2]: # brace: forepaws spread, head held steady
         clear(pet,(29,59,39,65)); pet.alpha_composite(source.crop((29,59,39,65)),(30,59))
-    im.alpha_composite(pet,(45,31))
+    im.alpha_composite(pet.resize((92,92),Image.Resampling.NEAREST),(39,21))
     if 3<=n<=25:
         # 3 ignition frames -> sustained flicker -> four shrinking tail-off frames.
-        reach = [9,19,33][n-3] if n<6 else (61 if n<22 else [45,29,16,6][n-22])
-        phase=n%4; mouthx,mouthy=69,70
+        reach = [9,19,33][n-3] if n<6 else (58 if n<22 else [45,29,16,6][n-22])
+        phase=n%4; mouthx,mouthy=61,66
         flame=Image.new('RGBA',im.size); draw=ImageDraw.Draw(flame)
         edge=[(mouthx,mouthy-1)]
         for step in range(0,reach+1,2):
@@ -90,18 +90,18 @@ def special(n):
             spread=1+int(step*.15); wave=((step//4+phase+1)%3)-1
             edge.append((mouthx-step,mouthy+spread+wave))
         draw.polygon(edge,fill=(202,59,31,255))
-        draw.polygon([(69,69),(69-reach,70-max(2,reach//10)),(67-reach,70),(69-reach,72+reach//10),(69,71)],fill=(255,133,38,255))
-        draw.polygon([(69,70),(69-reach,69-reach//18),(68-reach,70),(69-reach,71+reach//18)],fill=(255,232,115,255))
-        draw.line((69,70,69-min(reach,12),70),fill=(255,255,209,255),width=1)
+        draw.polygon([(mouthx,mouthy-1),(mouthx-reach,mouthy-max(2,reach//10)),(mouthx-2-reach,mouthy),(mouthx-reach,mouthy+2+reach//10),(mouthx,mouthy+1)],fill=(255,133,38,255))
+        draw.polygon([(mouthx,mouthy),(mouthx-reach,mouthy-1-reach//18),(mouthx-1-reach,mouthy),(mouthx-reach,mouthy+1+reach//18)],fill=(255,232,115,255))
+        draw.line((mouthx,mouthy,mouthx-min(reach,12),mouthy),fill=(255,255,209,255),width=1)
         # Embers stay detached from the connected central flame.
         if reach>20:
             for j in range(3):
-                x=69-reach+4+j*13+(phase%2); y=70-(reach//9)-3-((j+phase)%3)
+                x=mouthx-reach+4+j*13+(phase%2); y=mouthy-(reach//9)-3-((j+phase)%3)
                 draw.rectangle((x,y,x+1,y+1),fill=(255,161+phase*10,42,255))
-        im.alpha_composite(flame,(-5,0))
+        im.alpha_composite(flame)
     return im
 for n in range(29):save(f'flamethrower-{n:02}',special(n))
-manifest={'source':'growlithe-hgss.png','sourceSha256':hashlib.sha256(SOURCE.read_bytes()).hexdigest(),'baseSize':[80,80],'specialSize':[170,150],'sourceOffset':[45,31],'mouth':[64,70],'frameMs':100,'specialFrames':29,'specialDurationMs':2900,'states':{'idle':['../growlithe-hgss.png','idle-breathe.png','idle-ear.png','idle-tail.png'],'sit':['sit-0.png','sit-1.png'],'sleep':['sleep-0.png','sleep-1.png'],'drag':['drag-0.png','drag-1.png'],'wake':['wake.png','wake-head.png','wake-body.png','../growlithe-hgss.png']}}
+manifest={'source':'growlithe-hgss.png','sourceSha256':hashlib.sha256(SOURCE.read_bytes()).hexdigest(),'baseSize':[80,80],'specialSize':[170,150],'displayBodySize':[92,92],'sourceOffset':[39,21],'mouth':[61,66],'frameMs':100,'specialFrames':29,'specialDurationMs':2900,'states':{'idle':['../growlithe-hgss.png','idle-breathe.png','idle-ear.png','idle-tail.png'],'sit':['sit-0.png','sit-1.png'],'sleep':['sleep-0.png','sleep-1.png'],'drag':['drag-0.png','drag-1.png'],'wake':['wake.png','wake-head.png','wake-body.png','../growlithe-hgss.png']}}
 (OUT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 # Native-size light/dark evidence and enlarged nearest-neighbor review panels.
 before=Image.open(ROOT/'src/assets/characters/growlithe-sleep.png').convert('RGBA')

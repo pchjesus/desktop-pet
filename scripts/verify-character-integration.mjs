@@ -75,6 +75,7 @@ try {
    for(const s of Object.values(PET_STATES)){setState(s);character.render(performance.now());}
    if(character.isSpecialActionActive?.())character.finishSpecialAction?.();
    setState(PET_STATES.IDLE);
+   if('${name}'==='growlithe'){const css=getComputedStyle(character.sprite);if(css.width!=='92px'||css.height!=='92px')throw new Error('Growlithe size');}
    for(const direction of [-1,1]){character.setFacing(direction);character.render(performance.now());if(character.facing!==direction)throw new Error('facing');}
    return {name:'${name}',states:6,visible};
   })()`);
@@ -98,6 +99,7 @@ try {
     else{character.special.startedAt=100;character.render(${time}+100);}
     await character.sprite.decode();
     const r=character.sprite.getBoundingClientRect();
+    if('${name}'==='growlithe'&&(Math.abs(r.x+39-49)>.01||Math.abs(r.y+21-21)>.01))throw new Error('body size/anchor jump');
     if(r.left<-.01||r.top<-.01||r.right>180.01||r.bottom>150.01)throw new Error('effect window clipping '+JSON.stringify(r.toJSON()));
    })()`);
    const shot=await evaluate(pet,{format:'png'},'Page.captureScreenshot');

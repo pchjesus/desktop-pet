@@ -65,9 +65,9 @@ test('flame has a continuous mouth attachment, bright core, flicker and taper',(
   const hashes=[];
   for(let n=3;n<=25;n++){
     const im=png(path.join(root,`flamethrower-${String(n).padStart(2,'0')}.png`));
-    let left=64;for(let x=1;x<=64;x++)if(im.alpha(x,70)){left=x;break;}
-    for(let x=left;x<=64;x++)assert.equal(im.alpha(x,70),255,`connected frame ${n} x${x}`);
-    const at=(70*170+64)*4;assert.ok(im.pixels[at]>240&&im.pixels[at+1]>220,'bright mouth core');
+    let left=61;for(let x=1;x<=61;x++)if(im.alpha(x,66)){left=x;break;}
+    for(let x=left;x<=61;x++)assert.equal(im.alpha(x,66),255,`connected frame ${n} x${x}`);
+    const at=(66*170+61)*4;assert.ok(im.pixels[at]>240&&im.pixels[at+1]>220,'bright mouth core');
     if(n>=6&&n<10)hashes.push(im.pixels.toString('base64'));
     if(n===6)assert.ok(left<15,'extended stream');if(n===25)assert.ok(left>50,'tapered stream');
   }
@@ -88,11 +88,12 @@ test('sleep is a low horizontal pose with a source-dark closed eyelid',()=>{
 
 test('special preparation and recovery preserve the actual desktop body anchor',()=>{
   const manifest=JSON.parse(fs.readFileSync(path.join(root,'manifest.json')));
-  assert.deepEqual(manifest.sourceOffset,[45,31]);assert.deepEqual(manifest.mouth,[64,70]);
+  assert.deepEqual(manifest.sourceOffset,[39,21]);assert.deepEqual(manifest.mouth,[61,66]);
   const source=png(path.join(root,'../growlithe-hgss.png'));
   for(const n of ['00','28']){const frame=png(path.join(root,`flamethrower-${n}.png`));
-    for(let y=0;y<80;y++)for(let x=0;x<80;x++){
-      const a=(y*80+x)*4,b=((y+31)*170+x+45)*4;
+    for(let y=0;y<92;y++)for(let x=0;x<92;x++){
+      const sx=Math.min(79,Math.floor((x+.5)*80/92)),sy=Math.min(79,Math.floor((y+.5)*80/92));
+      const a=(sy*80+sx)*4,b=((y+21)*170+x+39)*4;
       assert.deepEqual(frame.pixels.subarray(b,b+4),source.pixels.subarray(a,a+4),`body anchor ${n} (${x},${y})`);
     }
   }
@@ -124,4 +125,21 @@ test('sit folds the rear paw while preserving the face and planted front legs',(
     if(x<36||y<47)assert.deepEqual(a,b,'source face/frontlegs/back bridge');
     if(y>=60&&x>=38&&!a.equals(b))foldedPixels++;
   }assert.ok(foldedPixels>=15,'rear paw is visibly folded under lower haunch');
+});
+
+test('15 percent ordinary enlargement remains inside body bounds and the native hit area',()=>{
+  const fs=require('node:fs');
+  const html=fs.readFileSync(path.join(root,'../../../index.html'),'utf8');
+  assert.match(html,/\.growlithe-sprite\{[^}]*left:14px;top:-4px;width:92px;height:92px/);
+  const bounds=require('../src/window-bounds').BODY_ENVELOPES.growlithe;
+  for(const file of ['../growlithe-hgss.png',...fs.readdirSync(root).filter(f=>f.endsWith('.png')&&!f.startsWith('flamethrower-'))]){
+    const image=png(path.join(root,file));
+    for(let y=0;y<80;y++)for(let x=0;x<80;x++)if(image.alpha(x,y)){
+      for(const px of [49+x*1.15,190-(49+(x+1)*1.15)]){
+        const py=21+y*1.15;
+        assert.ok(px>=bounds.left&&px<=bounds.right&&py>=bounds.top&&py<=bounds.bottom,file+' body bounds');
+        assert.ok(px>=35&&px<=145&&py>=20&&py<=130,file+' native hit area');
+      }
+    }
+  }
 });

@@ -6,7 +6,7 @@ Baseline: `9dde4ea`. Goal: articulate the existing HG/SS Growlithe through six s
 
 `src/assets/characters/growlithe-hgss.png` remains byte-identical to the selected 80 × 80 source (SHA-256 `ed58999248f69a686aed6048a57900a751ec8a8b9df9c161ecabfa592d135c96`).
 
-Run `python scripts/generate-growlithe-motion.py` with Pillow available to reproduce PNGs, metadata and review images. Pillow is a generation tool only; the application and Node tests gain no dependencies. The generator copies source regions, translates limbs/ruff by integer pixels, lays the striped haunch horizontally, and closes the eyes with the original palette. Every resize used for review is nearest-neighbor. Runtime PNGs retain native pixel scale.
+Run `python scripts/generate-growlithe-motion.py` with Pillow available to reproduce PNGs, metadata and review images. Pillow is a generation tool only; the application and Node tests gain no dependencies. The generator copies source regions, translates limbs/ruff by integer pixels, lays the striped haunch horizontally, and closes the eyes with the original palette. Every resize used for review is nearest-neighbor. Ordinary PNGs retain native pixels and display at 92×92; special body pixels are scaled by the same 15% with nearest-neighbor inside the fixed 170×150 effect canvas.
 
 | State | Motion |
 | --- | --- |
@@ -23,9 +23,9 @@ SLEEP → IDLE unfolds over 360 ms: half-open eyes, head lift at 120 ms while th
 
 `startSpecialAction('flamethrower')` begins one 2900 ms action. `isSpecialActionActive()` reports the visual priority hold. Repeated triggers and ordinary state/direction updates are ignored during the action. DRAG cancels immediately and restores ordinary image geometry. Completion clears the special class and restores IDLE. A later trigger can replay the action.
 
-29 full-frame PNGs run at 100 ms each: brace/preparation → open mouth → ignition → connected sustained flame → narrowing tail-off → closed-mouth recovery. The pixel flame starts at canvas mouth coordinate (64, 70), has an off-white/yellow core, orange interior, red edge, four flicker variations and small detached embers. The primary stream remains contiguous to the mouth during every ignition/burn/taper frame.
+29 full-frame PNGs run at 100 ms each: brace/preparation → open mouth → ignition → connected sustained flame → narrowing tail-off → closed-mouth recovery. The pixel flame starts at canvas mouth coordinate (61, 66), has an off-white/yellow core, orange interior, red edge, four flicker variations and small detached embers. The primary stream remains contiguous to the mouth during every ignition/burn/taper frame.
 
-All special frames are 170 × 150 and contain the source 80 × 80 canvas at (45, 31). The special canvas displays at window x=10..180, centered on the existing character facing pivot x=95 in the 180 × 150 window. The body stays aligned with the ordinary sprite. Flip the entire character for the opposite facing. Every asset has a transparent border, so the source art and all particles remain inside the existing window; no larger BrowserWindow is required. CSS must reset animation/transform for the special image and set the full-frame image origin to the ordinary sprite origin minus (45, 31).
+All special frames are 170 × 150 and contain the nearest-neighbor 92 × 92 body at (39, 21). The special canvas displays at window x=10..180, centered on the existing character facing pivot x=95 in the 180 × 150 window. The body stays aligned with the ordinary sprite. Flip the entire character for the opposite facing. Every asset has a transparent border, so the source art and all particles remain inside the existing window; no larger BrowserWindow is required. CSS must reset animation/transform for the special image and set the full-frame image origin to the ordinary sprite origin minus (39, 21).
 
 ## Review evidence
 
