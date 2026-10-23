@@ -14,8 +14,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Package current source without dependencies
-        run: zip -q -r desktop-pet-source.zip src test scripts design docs package.json package-lock.json README.md PROJECT_SPEC.md AGENTS.md DEVLOG.md .github/workflows
+      - name: Fetch sprite reference for local-only artifact (never committed)
+        run: |
+          mkdir -p offline-sprite-reference
+          curl -fLso offline-sprite-reference/pachirisu-hgss.png https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/heartgold-soulsilver/417.png
+          curl -fLso offline-sprite-reference/pachirisu-bw.gif https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/417.gif
+          curl -fLso offline-sprite-reference/sitrus-berry.png https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/sitrus-berry.png
+          file offline-sprite-reference/*
+      - name: Package current source and local-only references
+        run: zip -q -r desktop-pet-source.zip src test scripts design docs package.json package-lock.json README.md PROJECT_SPEC.md AGENTS.md DEVLOG.md .github/workflows offline-sprite-reference
       - uses: actions/upload-artifact@v4
         with:
           name: desktop-pet-source-for-local-build
