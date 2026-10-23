@@ -1,0 +1,52 @@
+name: Spheal Windows Preview EXE
+
+on:
+  push:
+    branches: [feat/start-screen-polish]
+    paths:
+      - ".github/workflows/windows-spheal-preview.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows-portable:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Prepare and check Windows Electron runtime
+        run: |
+          npm run prepare:electron
+          npm run verify:electron
+      - name: Automated regression tests
+        run: |
+          npm run check
+          npm test
+          npm run test:shell
+      - name: Build Windows portable EXE
+        run: npm run dist
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+      - name: Verify portable EXE file exists
+        shell: pwsh
+        run: |
+          if (!(Test-Path 'dist/DesktopPet-0.1.12-portable.exe')) {
+            throw 'Portable EXE not found after build'
+          }
+          Get-Item 'dist/DesktopPet-0.1.12-portable.exe' | Select-Object Name, Length
+      - name: Upload Windows preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: DesktopPet-Spheal-Watergun-Preview-Windows
+          path: dist/DesktopPet-0.1.12-portable.exe
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
