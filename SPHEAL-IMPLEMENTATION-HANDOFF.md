@@ -1,5 +1,13 @@
 # 대굴레오 구현 인계 기록
 
+## CLAP / WATER GUN / ICE BEAM 개발 계약 (2026-10-23)
+- 기준: main `8960f70fb409684bb69ad07a5e035282a963af52`, Patch 23 `dc669d8` 보존. 단일 개발 브랜치에서 작업하며 main 병합/배포/PR 생성은 하지 않는다.
+- 원본 전신 PNG와 팔레트를 재사용한다. CLAP 8×180ms와 WATER GUN 12×175ms는 유지하고, 지느러미 연결/입 부위만 재구성한다. 기본/ROLL 리소스는 변경하지 않는다.
+- ICE BEAM: 준비 350ms → 발사 900ms → 동일 프레임 동결 1000ms → 파쇄 500ms → 복귀 200ms. 입 좌표는 WATER GUN과 공유하며 120×80 전신 프레임 안에 효과를 제한한다.
+- 우선순위: 발사(watergun/icebeam)는 clap만 대체 가능; 발사끼리/중복 요청은 거부. idle/walk/react는 진행 중 프레임/방향을 중단하지 않는다. 드래그 위치 이동은 보존하고 동결 프레임은 그대로 유지한다. 종료 시 현재 정상 상태로 복귀한다.
+- 위험/검증: Spheal 전용 one-shot 상태와 기존 click-armed 입력만 확장. Pet Engine/Main IPC/창 크기는 유지. 가짜 시계 상태 테스트, renderer 입력·이동 통합 테스트, PNG alpha/연결성/동결 동일성 검사, 밝은/어두운 시트와 연속 재생을 확인한다. Windows Electron/EXE 실기 검증은 별도로 NOT VERIFIED 처리한다.
+- 롤백: 기능 브랜치의 변경 커밋을 역순 revert하거나 위 기준 SHA를 별도 체크아웃한다. 기존 안정/롤백 커밋 및 Patch 23 문서는 덮어쓰지 않는다.
+
 ## 기준
 - 원본 안정 기준: Desktop Pet v0.1.12(2)
 - 현재 작업본: v0.1.12 기반 대굴레오 Patch 13
