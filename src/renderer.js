@@ -116,9 +116,25 @@ function render() {
 
 
 async function initPosition() {
-  windowInfo = await window.petAPI.getWindow();
-  if (windowInfo) { position = { x: windowInfo.x, y: windowInfo.y }; }
+  synchronizeWindow(await window.petAPI.getWindow());
 }
+
+function synchronizeWindow(info) {
+  if (!info) return;
+  if (Number.isFinite(info.revision) && Number.isFinite(windowInfo?.revision)
+      && info.revision < windowInfo.revision) return;
+  const previousDisplay = windowInfo?.displayId;
+  windowInfo = info;
+  position = { x: info.x, y: info.y };
+  const bounds = info.movementBounds;
+  if (bounds) {
+    if (previousDisplay !== info.displayId) target = desktopTarget();
+    else target = { x: Math.max(bounds.minX, Math.min(target.x, bounds.maxX)),
+      y: Math.max(bounds.minY, Math.min(target.y, bounds.maxY)) };
+  }
+}
+
+window.petAPI.onWindowChanged?.(synchronizeWindow);
 
 function desktopTarget() {
   if (!windowInfo || !windowInfo.movementBounds) {
@@ -127,8 +143,8 @@ function desktopTarget() {
 
   const bounds = windowInfo.movementBounds;
   return {
-    x: bounds.minX + Math.random() * Math.max(1, bounds.maxX - bounds.minX),
-    y: bounds.minY + Math.random() * Math.max(1, bounds.maxY - bounds.minY)
+    x: bounds.minX + Math.random() * Math.max(0, bounds.maxX - bounds.minX),
+    y: bounds.minY + Math.random() * Math.max(0, bounds.maxY - bounds.minY)
   };
 }
 
@@ -159,8 +175,7 @@ function finishPointerInteraction(event) {
   // renderer's local position before autonomous movement resumes.
   window.petAPI.getWindow().then((info) => {
     if (!info) return;
-    windowInfo = info;
-    position = { x: info.x, y: info.y };
+    synchronizeWindow(info);
   });
 
   if (!didDrag) {

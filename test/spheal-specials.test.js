@@ -173,6 +173,23 @@ test('expired click authorization does not launch icebeam', async () => {
   assert.equal(h.run('character.special.type'), 'clap');
 });
 
+test('Main position/topology corrections replace stale targets without interrupting a special or accepting old replies', async () => {
+  const h = await rendererHarness();
+  h.click(); h.type('icebeam');
+  h.run(`synchronizeWindow({x:10,y:20,displayId:2,revision:10,
+    movementBounds:{minX:0,maxX:100,minY:0,maxY:100}})`);
+  assert.equal(h.run('position.x'),10);
+  assert.equal(h.run('character.special.type'),'icebeam');
+  h.run(`synchronizeWindow({x:-1800,y:-500,displayId:1,revision:9,
+    movementBounds:{minX:-1920,maxX:-1000,minY:-900,maxY:0}})`);
+  assert.equal(h.run('position.x'),10);
+  assert.equal(h.run('windowInfo.displayId'),2);
+  h.run(`target={x:1000,y:1000};synchronizeWindow({x:0,y:0,displayId:2,revision:11,
+    movementBounds:{minX:0,maxX:0,minY:0,maxY:0}})`);
+  assert.equal(h.run('target.x'),0);assert.equal(h.run('target.y'),0);
+  assert.equal(h.run('desktopTarget().x'),0);
+});
+
 test('completed click specials return directly to idle without a second generic reaction bounce', async () => {
   for (const [code, duration] of [['', 1440], ['watergun', 2100], ['icebeam', 2950]]) {
     const h = await rendererHarness();

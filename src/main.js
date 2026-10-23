@@ -3,6 +3,7 @@ const PET_DEBUG = process.env.PET_DEBUG === '1';
 const debugLog = (...args) => { if (PET_DEBUG) console.log('[PET]', ...args); };
 const path = require('path');
 const fs = require('fs');
+const windowBounds = require('./window-bounds');
 
 let win;
 let startWin;
@@ -15,6 +16,9 @@ let dragStart = null;
 let dragTimer = null;
 let hitTestTimer = null;
 let launchingPet = false;
+let activeCharacter = 'neukgu';
+let lastDisplayId = null;
+let windowRevision = 0;
 
 const smokeTest = process.argv.includes('--smoke-test');
 let smokeMarker = null;
@@ -50,13 +54,9 @@ function sanitizeCoordinate(value, fallback) {
 }
 
 function displayForWindowPosition(x, y) {
-  if (!win) return screen.getPrimaryDisplay();
-  const [width, height] = win.getSize();
-  const center = {
-    x: Math.round(x + width / 2),
-    y: Math.round(y + height / 2)
-  };
-  return screen.getDisplayNearestPoint(center);
+  const [width, height] = win ? win.getSize() : [180, 150];
+  return windowBounds.constrainPosition({ x, y },
+    windowBounds.visualBounds(activeCharacter, width, height), screen.getAllDisplays()).display;
 }
 
 function workAreaForWindowPosition(x, y) {
@@ -90,24 +90,11 @@ function updateDraggedWindow() {
     dragStart.y + cursor.y - dragStart.mouseY
   );
   win.setPosition(next.x, next.y, false);
+  publishWindowInfo();
 }
 
-// Current Neukgu visual bounds inside the transparent 180x150 window.
-// The window may extend beyond the screen so Neukgu itself can reach the edge.
-const PET_VISUAL_BOUNDS = Object.freeze({
-  left: 60,
-  top: 50,
-  right: 122,
-  bottom: 112
-});
-
 function movementBounds(area, width, height) {
-  return {
-    minX: area.x - PET_VISUAL_BOUNDS.left,
-    maxX: area.x + area.width - PET_VISUAL_BOUNDS.right,
-    minY: area.y - PET_VISUAL_BOUNDS.top,
-    maxY: area.y + area.height - PET_VISUAL_BOUNDS.bottom
-  };
+  return windowBounds.movementBounds(area, windowBounds.visualBounds(activeCharacter, width, height));
 }
 
 function clampWindow(x, y) {
@@ -117,13 +104,35 @@ function clampWindow(x, y) {
   const [currentX, currentY] = win.getPosition();
   const safeX = sanitizeCoordinate(x, currentX);
   const safeY = sanitizeCoordinate(y, currentY);
-  const area = workAreaForWindowPosition(safeX, safeY);
-  const bounds = movementBounds(area, w, h);
+  const next = windowBounds.constrainPosition({ x: safeX, y: safeY },
+    windowBounds.visualBounds(activeCharacter, w, h), screen.getAllDisplays());
+  return { x: sanitizeCoordinate(next.x, currentX), y: sanitizeCoordinate(next.y, currentY) };
+}
 
-  return {
-    x: sanitizeCoordinate(Math.max(bounds.minX, Math.min(safeX, bounds.maxX)), currentX),
-    y: sanitizeCoordinate(Math.max(bounds.minY, Math.min(safeY, bounds.maxY)), currentY)
-  };
+function getWindowInfo() {
+  if (!win) return null;
+  const [x, y] = win.getPosition(), [width, height] = win.getSize();
+  const display = displayForWindowPosition(x, y), area = display.workArea;
+  return { x, y, width, height, area, displayId: display.id, revision: ++windowRevision,
+    movementBounds: movementBounds(area, width, height) };
+}
+
+function publishWindowInfo() {
+  const info = getWindowInfo();
+  if (!info) return;
+  lastDisplayId = info.displayId;
+  win.webContents.send('pet:window-updated', info);
+}
+
+function reconcileWindow() {
+  if (!win) return;
+  const [x, y] = win.getPosition(), next = clampWindow(x, y);
+  safeSetPosition(next.x, next.y);
+  if (dragging && dragStart) {
+    const cursor = screen.getCursorScreenPoint(), [px, py] = win.getPosition();
+    dragStart = { x: px, y: py, mouseX: cursor.x, mouseY: cursor.y };
+  }
+  publishWindowInfo();
 }
 
 function updateMouseHitTesting() {
@@ -154,6 +163,7 @@ function stopMouseHitTesting() {
 
 function createPetWindow(characterId = 'neukgu') {
   const selectedCharacter = ['growlithe', 'royce', 'spheal'].includes(characterId) ? characterId : 'neukgu';
+  activeCharacter = selectedCharacter;
   win = new BrowserWindow({
     width: 180,
     height: 150,
@@ -174,22 +184,18 @@ function createPetWindow(characterId = 'neukgu') {
   });
 
   win.setAlwaysOnTop(true, 'floating');
-  win.webContents.once('did-finish-load', markSmokeReady);
+  win.webContents.once('did-finish-load', () => { reconcileWindow(); markSmokeReady(); });
   win.loadFile(path.join(__dirname, 'index.html'), { query: { character: selectedCharacter } });
 
-  ipcMain.handle('pet:get-window', () => {
-    if (!win) return null;
-    const [x, y] = win.getPosition();
-    const [width, height] = win.getSize();
-    const area = workAreaForWindowPosition(x, y);
-    const bounds = movementBounds(area, width, height);
-    return { x, y, width, height, area, movementBounds: bounds };
-  });
+  ipcMain.handle('pet:get-window', getWindowInfo);
 
   ipcMain.on('pet:set-position', (_event, { x, y }) => {
     if (!win || dragging) return;
     const next = clampWindow(x, y);
     safeSetPosition(next.x, next.y);
+    const [actualX, actualY] = win.getPosition();
+    if (actualX !== Math.round(x) || actualY !== Math.round(y)
+        || displayForWindowPosition(actualX, actualY).id !== lastDisplayId) publishWindowInfo();
   });
 
   ipcMain.handle('pet:quit', async () => {
@@ -332,6 +338,9 @@ ipcMain.on('start:open-manual', () => {
 });
 
 app.whenReady().then(() => {
+  for (const event of ['display-added', 'display-removed', 'display-metrics-changed']) {
+    screen.on(event, reconcileWindow);
+  }
   if (smokeTest) {
     createPetWindow();
     startMouseHitTesting();
@@ -360,12 +369,14 @@ app.whenReady().then(() => {
       dragStart.y + mouseY - dragStart.mouseY
     );
     win.setPosition(next.x, next.y, false);
+    publishWindowInfo();
   });
 
   ipcMain.on('pet:drag-end', () => {
     dragging = false;
     dragStart = null;
     stopDragTimer();
+    reconcileWindow();
   });
 });
 
