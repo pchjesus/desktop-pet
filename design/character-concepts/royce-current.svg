@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="neukgu-svg" viewBox="0 0 78 72" aria-label="Royce pixel puppy">
+<g class="tail"><rect x="10" y="28" width="10" height="14" fill="#171717"/><rect x="7" y="24" width="8" height="10" fill="#242424"/><rect x="9" y="19" width="8" height="9" fill="#3a2a21"/><rect x="13" y="16" width="7" height="8" fill="#b87333"/></g>
+<g class="body"><rect x="18" y="27" width="35" height="19" fill="#1a1a1a"/><rect x="22" y="23" width="27" height="8" fill="#1d1d1d"/><rect x="19" y="38" width="33" height="8" fill="#171717"/><rect x="28" y="29" width="18" height="9" fill="#7a4a2a"/><rect x="44" y="25" width="8" height="13" fill="#1b1b1b"/></g>
+<g class="leg a"><rect x="20" y="42" width="8" height="19" fill="#9b6337"/><rect x="19" y="58" width="10" height="7" fill="#b77a46"/><rect x="22" y="43" width="4" height="10" fill="#c48a55"/></g>
+<g class="leg b"><rect x="29" y="42" width="8" height="18" fill="#8f5b33"/><rect x="29" y="57" width="9" height="8" fill="#b87944"/></g>
+<g class="leg c"><rect x="43" y="42" width="7" height="18" fill="#8f5b33"/><rect x="42" y="57" width="8" height="8" fill="#b87944"/></g>
+<g class="leg d"><rect x="51" y="41" width="7" height="19" fill="#9b6337"/><rect x="50" y="57" width="9" height="8" fill="#b77a46"/></g>
+<g class="neck"><rect x="43" y="20" width="12" height="19" fill="#1b1b1b"/><rect x="45" y="21" width="9" height="12" fill="#a96d3d"/></g>
+<g class="head">
+<rect x="47" y="11" width="25" height="25" fill="#1b1b1b"/>
+<g class="ear1"><rect x="51" y="6" width="8" height="11" fill="#151515"/><rect x="53" y="8" width="4" height="6" fill="#3c2920"/></g>
+<g class="ear2"><rect x="63" y="6" width="8" height="11" fill="#151515"/><rect x="65" y="8" width="4" height="6" fill="#3c2920"/></g>
+<rect x="51" y="14" width="19" height="9" fill="#a66b3b"/>
+<g class="eye-open"><rect x="54" y="20" width="5" height="5" fill="#5a351f"/><rect x="66" y="20" width="5" height="5" fill="#5a351f"/><rect x="55" y="20" width="2" height="2" fill="#fff"/><rect x="67" y="20" width="2" height="2" fill="#fff"/></g>
+<g class="eye-closed" style="display:none"><rect x="54" y="22" width="5" height="2" fill="#3b2920"/><rect x="66" y="22" width="5" height="2" fill="#3b2920"/></g>
+<rect x="48" y="26" width="25" height="10" fill="#6e4227"/>
+<rect x="63" y="26" width="9" height="8" fill="#a96d3d"/><rect x="69" y="27" width="7" height="7" fill="#b97943"/>
+<rect x="74" y="29" width="4" height="4" rx="1" fill="#111"/>
+<rect x="58" y="27" width="6" height="6" fill="#a96d3d"/>
+</g>
+<text class="sleep-z" visibility="hidden" x="70" y="9" font-size="10" font-family="system-ui" font-weight="700" fill="#555">z</text>
+</svg>
