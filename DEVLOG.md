@@ -1,3 +1,17 @@
+# Screen bounds stabilization and canine concepts (development only)
+
+- Baseline `6c97ae7`; isolated `feat/screen-bounds-character-concepts`, no release.
+- Reproduced disappearing pets after monitor removal/work-area shrink; added
+  per-character DIP body bounds, topology reconciliation, drag-anchor rebasing
+  and revisioned native position/Renderer target synchronization.
+- Added separate Neukgu/Royce anatomy SVGs, light/dark comparisons, IDLE/WALK
+  studies and a six-state implementation plan. Runtime character assets,
+  animations, Spheal/Growlithe inputs and Pet Engine remain unchanged.
+- Validation: syntax and Node 65/65 PASS; Linux headless Electron regression and
+  concept rendering PASS. Additional Spheal PNG suite 11/12: one unchanged
+  baseline counter/assertion mismatch for WATER GUN 09–11, recorded in
+  `docs/SCREEN-BOUNDS-AND-CONCEPTS.md`. Windows Electron/EXE NOT VERIFIED.
+
 # v0.1.12 — Neukgu naming update
 
 - Renamed the default character from the generic `Dog`/`dog` identifier to **Neukgu / 늑구** in the current character system, startup screen, manual, renderer, tests, and documentation.

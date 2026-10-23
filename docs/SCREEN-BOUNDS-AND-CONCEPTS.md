@@ -57,3 +57,30 @@ for a later, explicitly approved runtime implementation. Commit separately.
   This defect is recorded without changing assets or weakening assertions.
 - Windows Electron/EXE, physical hotplug, taskbar relocation and mixed-DPI window
   behavior: **NOT VERIFIED**. Run the native checklist after user review.
+
+## Phase 2/3 delivery
+
+`design/character-concepts/` contains separate current/concept SVGs, a white/dark
+comparison, four normalized motion phases, a phase sheet/APNG and a standalone
+HTML preview with real IDLE/WALK clocks. XML validity, unique IDs and Electron
+loading/rendering (8 images, 4 inline SVGs, 22 animations) pass. Visual review of
+the rendered comparisons/phase sheet covers silhouette, contrast and limb joins;
+this is concept review, not acceptance of runtime animation or Windows rendering.
+Runtime canine SVGs/controllers and all Spheal/Growlithe assets remain unchanged.
+
+`ANIMATION-PLAN.md` in that directory defines six states, anatomy pivots, contact
+constraints, cancellation and later bounds measurement. Preview leg tracks are
+studies; joint-level contact solving and actual-size approval remain future work.
+
+## Windows manual checklist (NOT VERIFIED)
+
+- All four characters: initial placement, idle/move/facing, click, drag across
+  each edge and monitor seam, release and right-click exit; preserve bubbles.
+- Mixed 100/125/150/200% DPI, negative monitor origins, vertical arrangements,
+  monitor unplug/reconnect, resolution and taskbar/work-area changes while idle,
+  walking, dragging and during Spheal frozen/one-shot states.
+- Confirm native correction immediately updates movement targets; no jumps back
+  to removed displays, trapped drag, fully invisible body or oscillation at edges.
+- Preserve Spheal special inputs/timings/cleanup and Growlithe motions/inputs.
+- Review separate canine concepts on white/dark and at future runtime size;
+  approve proportions before replacing any runtime model or animations.
