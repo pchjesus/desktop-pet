@@ -28,8 +28,8 @@
   .choices { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0 0 16px; }
   .choice { min-width: 0; border: 1px solid #ddd; border-radius: 14px; padding: 14px 10px 12px; background: #fff; cursor: pointer; }
   .choice.selected { box-shadow: 0 0 0 2px #333 inset; }
-  .choice .choice-neukgu { width: 80px; height: 80px; display: grid; place-items: center; font-size: 52px; margin: 0 auto 8px; }
-  .choice img { width: 80px; height: 80px; object-fit: contain; image-rendering: pixelated; display: block; margin: 0 auto 8px; }
+    .choice img { width: 80px; height: 80px; object-fit: contain; image-rendering: pixelated; display: block; margin: 0 auto 8px; }
+  .choice img[src$=".svg"] { image-rendering: auto; }
   .choice strong { display: block; font-size: 13px; }
   .choice span { color: #666; font-size: 12px; }
   .tip { min-height: 3em; margin: 0 0 16px; color: #666; font-size: 12px; line-height: 1.5; }
@@ -54,7 +54,7 @@
     <p>바탕화면에서 함께 지내는 작은 펫입니다.<br>함께할 캐릭터를 선택해 주세요.</p>
     <div class="choices">
       <button class="choice selected" data-character="neukgu" type="button">
-        <span class="choice-neukgu" aria-hidden="true">🐶</span>
+        <img src="assets/characters/neukgu.svg" alt="늑구">
         <strong>늑구</strong><span>Desktop Pet 기본 캐릭터</span>
       </button>
       <button class="choice" data-character="growlithe" type="button">

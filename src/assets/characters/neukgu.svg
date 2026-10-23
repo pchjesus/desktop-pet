@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="neukgu-concept" data-motion="still" viewBox="0 0 96 88" role="img" aria-labelledby="n-title n-desc">
+<title id="n-title">Neukgu — soft cream puppy</title>
+<desc id="n-desc">Rounded sticker-style puppy, dot eyes, short muzzle and little paws. Review concept only; not a runtime replacement.</desc>
+<style>
+.neukgu-concept{--cycle:840ms;overflow:visible}
+.neukgu-concept .eye-closed{display:none}
+.neukgu-concept .tail{transform-origin:26px 53px}
+.neukgu-concept[data-motion="idle"] .core{animation:n-breathe 2400ms ease-in-out infinite;transform-origin:46px 73px}
+.neukgu-concept[data-motion="idle"] .eye-open{animation:n-blink 4800ms steps(1) infinite}
+.neukgu-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:n-lid 4800ms steps(1) infinite}
+.neukgu-concept:not([data-motion="still"]) .tail{animation:n-wag 1600ms ease-in-out infinite}
+.neukgu-concept[data-motion="walk"] .core{animation:n-bob var(--cycle) ease-in-out infinite}
+.neukgu-concept[data-motion="walk"] .leg-track{animation:n-step var(--cycle) linear infinite}
+.neukgu-concept[data-motion="walk"] .far-front{animation-delay:-420ms}
+.neukgu-concept[data-motion="walk"] .near-hind{animation-delay:-630ms}
+.neukgu-concept[data-motion="walk"] .far-hind{animation-delay:-210ms}
+@keyframes n-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.025)}}
+@keyframes n-wag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@keyframes n-bob{0%,50%,100%{transform:translateY(.6px)}25%,75%{transform:translateY(-.6px)}}
+@keyframes n-step{0%{transform:translate(1.6px,0)}60%{transform:translate(-1.6px,0)}75%{transform:translate(-1px,-2px)}88%{transform:translate(1px,-2px)}100%{transform:translate(1.6px,0)}}
+@keyframes n-blink{0%,92%,97%,100%{opacity:1}93%,96%{opacity:0}}
+@keyframes n-lid{0%,92%,97%,100%{opacity:0}93%,96%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.neukgu-concept *{animation:none!important}}
+</style>
+<g class="model" fill="#fff9ee" stroke="#80766d" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<g id="n-leg-far-hind" class="leg-track far-hind"><rect x="35" y="60" width="10" height="15" rx="5" fill="#e4ded4"/></g>
+<g id="n-leg-far-front" class="leg-track far-front"><rect x="57" y="60" width="10" height="15" rx="5" fill="#e4ded4"/></g>
+<g id="n-core" class="core">
+<g id="n-tail" class="tail"><path d="M27 56C10 59 6 46 12 39C16 35 22 39 19 44C17 47 19 49 27 47"/></g>
+<g id="n-body"><ellipse cx="43" cy="57" rx="24" ry="17"/></g>
+<g id="n-head" class="head">
+<path d="M50 26C44 22 43 11 48 10C52 9 60 17 61 23" fill="#fff9ee"/><path d="M72 20C74 12 79 8 82 11C86 15 85 25 82 28" fill="#fff9ee"/><path d="M49 16Q49 21 53 22M79 16Q77 20 78 23" stroke="#e8bdb0" stroke-width="3" fill="none"/><path d="M47 40C44 28 50 19 63 18C78 15 88 24 88 37C90 49 82 57 68 58C55 59 47 52 47 40Z"/>
+<ellipse cx="73" cy="45" rx="12" ry="8" fill="#fff1df" stroke="none"/>
+<g id="n-eyes-open" class="eye-open" fill="#423e3c" stroke="none"><circle cx="59" cy="37" r="2.1"/><circle cx="78" cy="36.5" r="2.1"/></g>
+<g id="n-eyes-closed" class="eye-closed" fill="none" stroke="#423e3c" stroke-width="1.7"><path d="M57 37q2-2 4 0M76 36.5q2-2 4 0"/></g>
+<ellipse cx="54" cy="43" rx="3.2" ry="1.7" fill="#f1cebf" stroke="none"/>
+<path d="M72 40Q76 38 79 40Q79 43 76 43Q73 43 72 40Z" fill="#423e3c" stroke="none"/>
+<path d="M76 43v2q-3 4-6 1m6-1q2 3 5 0" fill="none" stroke="#665346" stroke-width="1.4"/>
+</g></g><g id="n-leg-near-hind" class="leg-track near-hind"><path d="M26 61Q31 58 36 61V72Q36 77 31 77H27Q23 77 24 73L26 67" fill="#fff9ee"/><path d="M28 74v1" fill="none" stroke-width="1.4"/></g>
+<g id="n-leg-near-front" class="leg-track near-front"><path d="M58 61Q63 58 68 61V72Q68 77 63 77H59Q55 77 56 73L58 67" fill="#fff9ee"/><path d="M60 74v1" fill="none" stroke-width="1.4"/></g>
+</g></svg>

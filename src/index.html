@@ -6,8 +6,8 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent
 .shadow{position:absolute;left:18px;bottom:10px;width:72px;height:14px;border-radius:50%;background:rgba(0,0,0,.20)}
 body[data-character="growlithe"] .neukgu,body[data-character="royce"] .neukgu,body[data-character="spheal"] .neukgu{display:none}
 body[data-character="neukgu"] .royce,body[data-character="growlithe"] .royce,body[data-character="spheal"] .royce{display:none}
-.neukgu,.royce{position:absolute;left:20px;bottom:10px;width:78px;height:72px;image-rendering:pixelated;transform-origin:50% 82%;will-change:transform}
-.neukgu-svg{width:100%;height:100%;overflow:visible;shape-rendering:crispEdges}.sleep-z{visibility:hidden}
+.neukgu,.royce{position:absolute;left:20px;bottom:10px;width:78px;height:72px;transform-origin:50% 82%;will-change:transform}
+.neukgu-svg{width:100%;height:100%;overflow:visible;shape-rendering:geometricPrecision}.sleep-z{visibility:hidden}
 .royce{left:20px;bottom:10px;width:78px;height:72px}
 .walk .leg.a{animation:step .18s infinite alternate}.walk .leg.b{animation:step .18s .09s infinite alternate}.walk .leg.c{animation:step .18s .09s infinite alternate}.walk .leg.d{animation:step .18s infinite alternate}.walk .tail{animation:wag .25s infinite alternate}
 .idle{animation:breathe .9s infinite alternate ease-in-out}.idle .ear1{animation:earTwitch 3.2s ease-in-out infinite}.idle .ear2{animation:earTwitch 3.2s .52s ease-in-out infinite}.idle .eye-open{animation:blink 5.2s ease-in-out infinite}.idle .tail{animation:idleTail 3.8s ease-in-out infinite alternate}
@@ -26,6 +26,10 @@ body[data-character="neukgu"] .growlithe,body[data-character="royce"] .growlithe
 @keyframes g-react-pop{from{transform:translateY(0)}to{transform:translateY(-2px)}}
 @keyframes g-exact-drag{from{transform:translateY(0)}to{transform:translateY(-1px)}}
 body[data-character="neukgu"] .spheal,body[data-character="growlithe"] .spheal,body[data-character="royce"] .spheal{display:none}.spheal{position:absolute;inset:0;transform-origin:50% 82%;display:block}.spheal-sprite{position:absolute;left:20px;top:6px;width:80px;height:80px;display:block;image-rendering:pixelated;image-rendering:crisp-edges;object-fit:contain;user-select:none;-webkit-user-drag:none;z-index:1}.spheal.idle{animation:none}.spheal.idle .spheal-sprite{animation:breathe .9s infinite alternate ease-in-out}.spheal.special-clap .spheal-sprite{animation:spheal-clap-bounce 1.44s ease-in-out 1}.spheal.special-icebeam .spheal-sprite{left:0;width:120px;height:80px;animation:none;transform:none}.spheal.special-watergun .spheal-sprite{left:0;width:120px;height:80px;animation:spheal-water-recoil 2.1s ease-in-out 1}.spheal.walk .spheal-sprite{transform:translateY(-1px)}@keyframes spheal-clap-bounce{0%{transform:translateY(0)}45%{transform:translateY(-3px)}100%{transform:translateY(0)}}@keyframes spheal-water-recoil{0%,67%{transform:translate(0,0) rotate(0deg)}72%{transform:translate(-1px,1px) rotate(-1deg)}77%{transform:translate(2px,0) rotate(1.5deg)}82%{transform:translate(-2px,1px) rotate(-1.5deg)}87%{transform:translate(1px,0) rotate(.8deg)}93%,100%{transform:translate(0,0) rotate(0deg)}}
+
+/* Prevent old global bounce/breathe rules from moving the approved puppy poses. */
+.neukgu.idle,.royce.idle,.neukgu.react,.royce.react{animation:none}
+.neukgu .neukgu-svg,.royce .neukgu-svg{overflow:visible;shape-rendering:geometricPrecision}
 #bubble{position:absolute;left:50%;top:12px;transform:translate(-50%,-100%);background:#fff;color:#333;padding:5px 9px;border-radius:9px;font:700 12px system-ui;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.16);display:none}
 </style></head><body><div id="pet"><div id="bubble"></div><div class="shadow"></div>
 
@@ -33,50 +37,140 @@ body[data-character="neukgu"] .spheal,body[data-character="growlithe"] .spheal,b
 <div class="growlithe idle" id="growlithe" aria-label="Growlithe">
 <img class="growlithe-sprite" src="assets/characters/growlithe-hgss.png" alt="">
 </div>
-<div class="neukgu idle" id="neukgu">
-<svg class="neukgu-svg" viewBox="0 0 78 72" aria-label="Neukgu pixel puppy">
-<g class="tail"><rect x="10" y="28" width="10" height="14" fill="#c8c8c8"/><rect x="7" y="24" width="8" height="10" fill="#dedede"/><rect x="9" y="19" width="8" height="9" fill="#f0f0f0"/><rect x="13" y="16" width="7" height="8" fill="#d4d4d4"/></g>
-<g class="body"><rect x="18" y="27" width="35" height="19" fill="#dedede"/><rect x="22" y="23" width="27" height="8" fill="#f5f5f5"/><rect x="19" y="38" width="33" height="8" fill="#c7c7c7"/><rect x="28" y="29" width="18" height="9" fill="#e7e7e7"/><rect x="44" y="25" width="8" height="13" fill="#bcbcbc"/></g>
-<g class="leg a"><rect x="20" y="42" width="8" height="19" fill="#d5d5d5"/><rect x="19" y="58" width="10" height="7" fill="#b1b1b1"/><rect x="22" y="43" width="4" height="10" fill="#f3f3f3"/></g>
-<g class="leg b"><rect x="29" y="42" width="8" height="18" fill="#cfcfcf"/><rect x="29" y="57" width="9" height="8" fill="#a9a9a9"/></g>
-<g class="leg c"><rect x="42" y="42" width="8" height="18" fill="#c7c7c7"/><rect x="41" y="57" width="9" height="8" fill="#a3a3a3"/></g>
-<g class="leg d"><rect x="50" y="41" width="8" height="19" fill="#d2d2d2"/><rect x="49" y="57" width="10" height="8" fill="#aaa"/></g>
-<g class="neck"><rect x="43" y="20" width="12" height="19" fill="#c6c6c6"/><rect x="45" y="21" width="9" height="12" fill="#f1f1f1"/></g>
-<g class="head">
-<rect x="47" y="11" width="25" height="25" fill="#e5e5e5"/>
-<g class="ear1"><rect x="51" y="6" width="8" height="11" fill="#c9c9c9"/><rect x="53" y="8" width="4" height="6" fill="#f3a4a4"/></g>
-<g class="ear2"><rect x="63" y="6" width="8" height="11" fill="#c9c9c9"/><rect x="65" y="8" width="4" height="6" fill="#f3a4a4"/></g>
-<rect x="51" y="14" width="19" height="9" fill="#f7f7f7"/>
-<g class="eye-open"><rect x="54" y="20" width="5" height="5" fill="#222"/><rect x="66" y="20" width="5" height="5" fill="#222"/><rect x="55" y="20" width="2" height="2" fill="#fff"/><rect x="67" y="20" width="2" height="2" fill="#fff"/></g>
-<g class="eye-closed" style="display:none"><rect x="54" y="22" width="5" height="2" fill="#444"/><rect x="66" y="22" width="5" height="2" fill="#444"/></g>
-<rect x="48" y="26" width="25" height="10" fill="#d7d7d7"/>
-<rect x="63" y="26" width="9" height="8" fill="#efd1b5"/><rect x="69" y="27" width="7" height="7" fill="#f1d6bd"/>
-<rect x="74" y="29" width="4" height="4" rx="1" fill="#222"/>
-<rect x="58" y="27" width="6" height="6" fill="#f3d8be"/>
-</g>
-<text class="sleep-z" visibility="hidden" x="70" y="9" font-size="10" font-family="system-ui" font-weight="700" fill="#555">z</text>
-</svg></div>
-<div class="royce idle" id="royce" aria-label="Royce">
-<svg class="neukgu-svg" viewBox="0 0 78 72" aria-label="Royce pixel puppy">
-<g class="tail"><rect x="10" y="28" width="10" height="14" fill="#171717"/><rect x="7" y="24" width="8" height="10" fill="#242424"/><rect x="9" y="19" width="8" height="9" fill="#3a2a21"/><rect x="13" y="16" width="7" height="8" fill="#b87333"/></g>
-<g class="body"><rect x="18" y="27" width="35" height="19" fill="#1a1a1a"/><rect x="22" y="23" width="27" height="8" fill="#1d1d1d"/><rect x="19" y="38" width="33" height="8" fill="#171717"/><rect x="28" y="29" width="18" height="9" fill="#7a4a2a"/><rect x="44" y="25" width="8" height="13" fill="#1b1b1b"/></g>
-<g class="leg a"><rect x="20" y="42" width="8" height="19" fill="#9b6337"/><rect x="19" y="58" width="10" height="7" fill="#b77a46"/><rect x="22" y="43" width="4" height="10" fill="#c48a55"/></g>
-<g class="leg b"><rect x="29" y="42" width="8" height="18" fill="#8f5b33"/><rect x="29" y="57" width="9" height="8" fill="#b87944"/></g>
-<g class="leg c"><rect x="43" y="42" width="7" height="18" fill="#8f5b33"/><rect x="42" y="57" width="8" height="8" fill="#b87944"/></g>
-<g class="leg d"><rect x="51" y="41" width="7" height="19" fill="#9b6337"/><rect x="50" y="57" width="9" height="8" fill="#b77a46"/></g>
-<g class="neck"><rect x="43" y="20" width="12" height="19" fill="#1b1b1b"/><rect x="45" y="21" width="9" height="12" fill="#a96d3d"/></g>
-<g class="head">
-<rect x="47" y="11" width="25" height="25" fill="#1b1b1b"/>
-<g class="ear1"><rect x="51" y="6" width="8" height="11" fill="#151515"/><rect x="53" y="8" width="4" height="6" fill="#3c2920"/></g>
-<g class="ear2"><rect x="63" y="6" width="8" height="11" fill="#151515"/><rect x="65" y="8" width="4" height="6" fill="#3c2920"/></g>
-<rect x="51" y="14" width="19" height="9" fill="#a66b3b"/>
-<g class="eye-open"><rect x="54" y="20" width="5" height="5" fill="#5a351f"/><rect x="66" y="20" width="5" height="5" fill="#5a351f"/><rect x="55" y="20" width="2" height="2" fill="#fff"/><rect x="67" y="20" width="2" height="2" fill="#fff"/></g>
-<g class="eye-closed" style="display:none"><rect x="54" y="22" width="5" height="2" fill="#3b2920"/><rect x="66" y="22" width="5" height="2" fill="#3b2920"/></g>
-<rect x="48" y="26" width="25" height="10" fill="#6e4227"/>
-<rect x="63" y="26" width="9" height="8" fill="#a96d3d"/><rect x="69" y="27" width="7" height="7" fill="#b97943"/>
-<rect x="74" y="29" width="4" height="4" rx="1" fill="#111"/>
-<rect x="58" y="27" width="6" height="6" fill="#a96d3d"/>
-</g>
-<text class="sleep-z" visibility="hidden" x="70" y="9" font-size="10" font-family="system-ui" font-weight="700" fill="#555">z</text>
-</svg></div>
+<div class="neukgu idle" id="neukgu" aria-label="neukgu"><svg xmlns="http://www.w3.org/2000/svg" class="neukgu-svg neukgu-concept" data-motion="idle" viewBox="0 0 96 88" role="img" aria-labelledby="n-title n-desc">
+<title id="n-title">Neukgu — soft cream puppy</title>
+<desc id="n-desc">Rounded sticker-style puppy, dot eyes, short muzzle and little paws. Review concept only; not a runtime replacement.</desc>
+<style>
+.neukgu-concept{--cycle:840ms;overflow:visible}
+.neukgu-concept .eye-closed{display:none}
+.neukgu-concept .tail{transform-origin:26px 53px}
+.neukgu-concept[data-motion="idle"] .core{animation:n-breathe 2400ms ease-in-out infinite;transform-origin:46px 73px}
+.neukgu-concept[data-motion="idle"] .eye-open{animation:n-blink 4800ms steps(1) infinite}
+.neukgu-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:n-lid 4800ms steps(1) infinite}
+.neukgu-concept:not([data-motion="still"]) .tail{animation:n-wag 1600ms ease-in-out infinite}
+.neukgu-concept[data-motion="walk"] .core{animation:n-bob var(--cycle) ease-in-out infinite}
+.neukgu-concept[data-motion="walk"] .leg-track{animation:n-step var(--cycle) linear infinite}
+.neukgu-concept[data-motion="walk"] .far-front{animation-delay:-420ms}
+.neukgu-concept[data-motion="walk"] .near-hind{animation-delay:-630ms}
+.neukgu-concept[data-motion="walk"] .far-hind{animation-delay:-210ms}
+@keyframes n-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.025)}}
+@keyframes n-wag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@keyframes n-bob{0%,50%,100%{transform:translateY(.6px)}25%,75%{transform:translateY(-.6px)}}
+@keyframes n-step{0%{transform:translate(1.6px,0)}60%{transform:translate(-1.6px,0)}75%{transform:translate(-1px,-2px)}88%{transform:translate(1px,-2px)}100%{transform:translate(1.6px,0)}}
+@keyframes n-blink{0%,92%,97%,100%{opacity:1}93%,96%{opacity:0}}
+@keyframes n-lid{0%,92%,97%,100%{opacity:0}93%,96%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.neukgu-concept *{animation:none!important}}
+
+/* Runtime poses: the approved soft-puppy silhouette stays intact. */
+.neukgu-concept .core{transition:transform .28s ease-out}
+.neukgu-concept .head{transform-origin:67px 40px;transform:scale(1.07);transition:transform .28s ease-out}
+.neukgu-concept .leg-track{transform-box:fill-box;transform-origin:center bottom;transition:transform .27s ease-out}
+.neukgu-concept .body{transform-origin:45px 65px;transition:transform .28s ease-out}
+.neukgu-concept[data-motion="sit"] .core{transform-origin:45px 74px;transform:translateY(2px) scale(1.025,.96)}
+.neukgu-concept[data-motion="sit"] .body{transform:translateY(1px) rotate(-14deg)}
+.neukgu-concept[data-motion="sit"] .near-hind,.neukgu-concept[data-motion="sit"] .far-hind{transform:translate(5px,2px) scaleY(.64)}
+.neukgu-concept[data-motion="sit"] .near-front,.neukgu-concept[data-motion="sit"] .far-front{transform:translateY(1px) scaleY(.92)}
+.neukgu-concept[data-motion="sleep"] .core{transform-origin:45px 75px;transform:translateY(5px) scale(1.035,.79)}
+.neukgu-concept[data-motion="sleep"] .head{transform:translateY(4px) rotate(9deg) scale(1.07)}
+.neukgu-concept[data-motion="sleep"] .leg-track{transform:translateY(3px) scaleY(.5)}
+.neukgu-concept[data-motion="sleep"] .eye-open{display:none}
+.neukgu-concept[data-motion="sleep"] .eye-closed{display:inline;opacity:1}
+.neukgu-concept[data-motion="sleep"] .tail{animation:none;transform:rotate(-8deg)}
+.neukgu-concept .sleep-z{visibility:hidden}
+.neukgu-concept[data-motion="sleep"] .sleep-z{visibility:visible;animation:n-sleep-z 1.8s ease-in-out infinite}
+.neukgu-concept[data-motion="react"] .head{animation:n-friendly-react .34s ease-out 1}
+.neukgu-concept[data-motion="drag"] .core{animation:n-dangle .65s ease-in-out infinite alternate}
+.neukgu-concept[data-motion="drag"] .near-hind,.neukgu-concept[data-motion="drag"] .far-hind{transform:translate(2px,-2px) scaleY(.76)}
+.neukgu-concept[data-motion="drag"] .near-front,.neukgu-concept[data-motion="drag"] .far-front{transform:translate(-1px,-1px) scaleY(.8)}
+.neukgu-concept[data-motion="drag"] .tail{animation:none;transform:rotate(-8deg)}
+@keyframes n-sleep-z{0%,100%{opacity:.3;transform:translateY(1px)}50%{opacity:.95;transform:translate(2px,-3px)}}
+@keyframes n-friendly-react{0%,100%{transform:scale(1.07) rotate(0deg)}50%{transform:scale(1.10) rotate(-4deg)}}
+@keyframes n-dangle{from{transform:translateY(1px) scale(1,.99)}to{transform:translateY(3px) scale(1,.97)}}
+</style>
+<g class="model" fill="#fff9ee" stroke="#80766d" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<g id="n-leg-far-hind" class="leg-track far-hind"><rect x="35" y="60" width="10" height="15" rx="5" fill="#e4ded4"/></g>
+<g id="n-leg-far-front" class="leg-track far-front"><rect x="57" y="60" width="10" height="15" rx="5" fill="#e4ded4"/></g>
+<g id="n-core" class="core">
+<g id="n-tail" class="tail"><path d="M27 56C10 59 6 46 12 39C16 35 22 39 19 44C17 47 19 49 27 47"/></g>
+<g id="n-body"><ellipse cx="43" cy="57" rx="24" ry="17"/></g>
+<g id="n-head" class="head">
+<path d="M50 26C44 22 43 11 48 10C52 9 60 17 61 23" fill="#fff9ee"/><path d="M72 20C74 12 79 8 82 11C86 15 85 25 82 28" fill="#fff9ee"/><path d="M49 16Q49 21 53 22M79 16Q77 20 78 23" stroke="#e8bdb0" stroke-width="3" fill="none"/><path d="M47 40C44 28 50 19 63 18C78 15 88 24 88 37C90 49 82 57 68 58C55 59 47 52 47 40Z"/>
+<ellipse cx="73" cy="45" rx="12" ry="8" fill="#fff1df" stroke="none"/>
+<g id="n-eyes-open" class="eye-open" fill="#423e3c" stroke="none"><circle cx="59" cy="37" r="2.1"/><circle cx="78" cy="36.5" r="2.1"/></g>
+<g id="n-eyes-closed" class="eye-closed" fill="none" stroke="#423e3c" stroke-width="1.7"><path d="M57 37q2-2 4 0M76 36.5q2-2 4 0"/></g>
+<ellipse cx="54" cy="43" rx="3.2" ry="1.7" fill="#f1cebf" stroke="none"/>
+<path d="M72 40Q76 38 79 40Q79 43 76 43Q73 43 72 40Z" fill="#423e3c" stroke="none"/>
+<path d="M76 43v2q-3 4-6 1m6-1q2 3 5 0" fill="none" stroke="#665346" stroke-width="1.4"/>
+</g></g><g id="n-leg-near-hind" class="leg-track near-hind"><path d="M26 61Q31 58 36 61V72Q36 77 31 77H27Q23 77 24 73L26 67" fill="#fff9ee"/><path d="M28 74v1" fill="none" stroke-width="1.4"/></g>
+<g id="n-leg-near-front" class="leg-track near-front"><path d="M58 61Q63 58 68 61V72Q68 77 63 77H59Q55 77 56 73L58 67" fill="#fff9ee"/><path d="M60 74v1" fill="none" stroke-width="1.4"/></g>
+</g><text class="sleep-z" x="86" y="12" fill="#80766d" font-size="11" font-family="system-ui" font-weight="700">z</text></svg>
+</div>
+<div class="royce idle" id="royce" aria-label="royce"><svg xmlns="http://www.w3.org/2000/svg" class="neukgu-svg royce-concept" data-motion="idle" viewBox="0 0 96 88" role="img" aria-labelledby="r-title r-desc">
+<title id="r-title">Royce — round black and tan companion</title>
+<desc id="r-desc">Rounded sticker-style puppy, dot eyes, short muzzle and little paws. Review concept only; not a runtime replacement.</desc>
+<style>
+.royce-concept{--cycle:1000ms;overflow:visible}
+.royce-concept .eye-closed{display:none}
+.royce-concept .tail{transform-origin:24px 54px}
+.royce-concept[data-motion="idle"] .core{animation:r-breathe 2800ms ease-in-out infinite;transform-origin:46px 73px}
+.royce-concept[data-motion="idle"] .eye-open{animation:r-blink 4800ms steps(1) infinite}
+.royce-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:r-lid 4800ms steps(1) infinite}
+.royce-concept:not([data-motion="still"]) .tail{animation:r-wag 1600ms ease-in-out infinite}
+.royce-concept[data-motion="walk"] .core{animation:r-bob var(--cycle) ease-in-out infinite}
+.royce-concept[data-motion="walk"] .leg-track{animation:r-step var(--cycle) linear infinite}
+.royce-concept[data-motion="walk"] .far-front{animation-delay:-500ms}
+.royce-concept[data-motion="walk"] .near-hind{animation-delay:-750ms}
+.royce-concept[data-motion="walk"] .far-hind{animation-delay:-250ms}
+@keyframes r-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.025)}}
+@keyframes r-wag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@keyframes r-bob{0%,50%,100%{transform:translateY(.6px)}25%,75%{transform:translateY(-.6px)}}
+@keyframes r-step{0%{transform:translate(1.6px,0)}60%{transform:translate(-1.6px,0)}75%{transform:translate(-1px,-2px)}88%{transform:translate(1px,-2px)}100%{transform:translate(1.6px,0)}}
+@keyframes r-blink{0%,92%,97%,100%{opacity:1}93%,96%{opacity:0}}
+@keyframes r-lid{0%,92%,97%,100%{opacity:0}93%,96%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.royce-concept *{animation:none!important}}
+
+/* Runtime poses: the approved soft-puppy silhouette stays intact. */
+.royce-concept .core{transition:transform .28s ease-out}
+.royce-concept .head{transform-origin:67px 40px;transform:scale(1.065);transition:transform .28s ease-out}
+.royce-concept .leg-track{transform-box:fill-box;transform-origin:center bottom;transition:transform .27s ease-out}
+.royce-concept .body{transform-origin:45px 65px;transition:transform .28s ease-out}
+.royce-concept[data-motion="sit"] .core{transform-origin:45px 74px;transform:translateY(2px) scale(1.025,.96)}
+.royce-concept[data-motion="sit"] .body{transform:translateY(1px) rotate(-14deg)}
+.royce-concept[data-motion="sit"] .near-hind,.royce-concept[data-motion="sit"] .far-hind{transform:translate(5px,2px) scaleY(.64)}
+.royce-concept[data-motion="sit"] .near-front,.royce-concept[data-motion="sit"] .far-front{transform:translateY(1px) scaleY(.92)}
+.royce-concept[data-motion="sleep"] .core{transform-origin:45px 75px;transform:translateY(5px) scale(1.035,.79)}
+.royce-concept[data-motion="sleep"] .head{transform:translateY(4px) rotate(9deg) scale(1.065)}
+.royce-concept[data-motion="sleep"] .leg-track{transform:translateY(3px) scaleY(.5)}
+.royce-concept[data-motion="sleep"] .eye-open{display:none}
+.royce-concept[data-motion="sleep"] .eye-closed{display:inline;opacity:1}
+.royce-concept[data-motion="sleep"] .tail{animation:none;transform:rotate(-8deg)}
+.royce-concept .sleep-z{visibility:hidden}
+.royce-concept[data-motion="sleep"] .sleep-z{visibility:visible;animation:r-sleep-z 1.8s ease-in-out infinite}
+.royce-concept[data-motion="react"] .head{animation:r-friendly-react .34s ease-out 1}
+.royce-concept[data-motion="drag"] .core{animation:r-dangle .65s ease-in-out infinite alternate}
+.royce-concept[data-motion="drag"] .near-hind,.royce-concept[data-motion="drag"] .far-hind{transform:translate(2px,-2px) scaleY(.76)}
+.royce-concept[data-motion="drag"] .near-front,.royce-concept[data-motion="drag"] .far-front{transform:translate(-1px,-1px) scaleY(.8)}
+.royce-concept[data-motion="drag"] .tail{animation:none;transform:rotate(-8deg)}
+@keyframes r-sleep-z{0%,100%{opacity:.3;transform:translateY(1px)}50%{opacity:.95;transform:translate(2px,-3px)}}
+@keyframes r-friendly-react{0%,100%{transform:scale(1.065) rotate(0deg)}50%{transform:scale(1.10) rotate(3deg)}}
+@keyframes r-dangle{from{transform:translateY(1px) scale(1,.99)}to{transform:translateY(3px) scale(1,.97)}}
+</style>
+<g class="model" fill="#4c4b50" stroke="#796c64" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<g id="r-leg-far-hind" class="leg-track far-hind"><rect x="35" y="60" width="10" height="15" rx="5" fill="#b68a61"/></g>
+<g id="r-leg-far-front" class="leg-track far-front"><rect x="57" y="60" width="10" height="15" rx="5" fill="#b68a61"/></g>
+<g id="r-core" class="core">
+<g id="r-tail" class="tail"><path d="M26 59C15 60 7 53 8 45C9 39 15 39 17 44C19 50 22 49 27 49"/></g>
+<g id="r-body"><path d="M19 55C19 44 31 40 44 41C59 41 71 48 71 59C71 71 59 74 42 74C27 74 19 68 19 55Z"/><path d="M56 53C62 49 69 53 68 60C68 66 63 70 58 69C54 65 53 58 56 53Z" fill="#d7a773" stroke="none"/></g>
+<g id="r-head" class="head">
+<path d="M52 23C45 17 36 23 38 34C39 42 44 45 48 40L55 29" fill="#45444a"/><path d="M79 23C87 20 93 26 91 35C89 43 84 45 81 39L77 29" fill="#45444a"/><path d="M46 38C45 25 55 21 67 21C80 20 88 28 88 40C88 53 80 59 66 59C53 59 45 51 46 38Z"/><path d="M56 32Q59 29 62 31M75 31Q78 29 81 32" stroke="#e5b580" stroke-width="3.5" fill="none"/>
+<ellipse cx="73" cy="45" rx="12" ry="8" fill="#edc396" stroke="none"/>
+<g id="r-eyes-open" class="eye-open" fill="#423e3c" stroke="none"><circle cx="59" cy="37" r="2.1"/><circle cx="78" cy="36.5" r="2.1"/></g>
+<g id="r-eyes-closed" class="eye-closed" fill="none" stroke="#423e3c" stroke-width="1.7"><path d="M57 37q2-2 4 0M76 36.5q2-2 4 0"/></g>
+<ellipse cx="54" cy="43" rx="3.2" ry="1.7" fill="#cd9e7c" stroke="none"/>
+<path d="M72 40Q76 38 79 40Q79 43 76 43Q73 43 72 40Z" fill="#423e3c" stroke="none"/>
+<path d="M76 43v2q-3 4-6 1m6-1q2 3 5 0" fill="none" stroke="#665346" stroke-width="1.4"/>
+</g></g><g id="r-leg-near-hind" class="leg-track near-hind"><path d="M25 61Q30 58 35 61V72Q35 77 30 77H26Q22 77 23 73L25 67" fill="#e5b580"/><path d="M27 74v1" fill="none" stroke-width="1.4"/></g>
+<g id="r-leg-near-front" class="leg-track near-front"><path d="M59 61Q64 58 69 61V72Q69 77 64 77H60Q56 77 57 73L59 67" fill="#e5b580"/><path d="M61 74v1" fill="none" stroke-width="1.4"/></g>
+</g><text class="sleep-z" x="86" y="12" fill="#edc396" font-size="11" font-family="system-ui" font-weight="700">z</text></svg>
+</div>
 <div class="spheal idle" id="spheal" aria-label="Spheal"><img class="spheal-sprite" src="assets/characters/spheal/spheal-base.png" alt=""></div></div><script src="pet-engine.js"></script><script src="characters/neukgu.js"></script><script src="characters/growlithe.js"></script><script src="characters/royce.js"></script><script src="characters/spheal.js"></script><script src="renderer.js"></script></body></html>

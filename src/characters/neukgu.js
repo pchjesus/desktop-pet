@@ -5,10 +5,12 @@ class NeukguCharacter {
     this.states = states;
     this.facing = 1;
     this.turnAnimation = null;
+    this.model = element.querySelector?.('svg') || null;
   }
 
   setState(next) {
     this.element.className = `neukgu ${next === this.states.WALK ? 'walk' : next}`;
+    this.model?.setAttribute('data-motion', next);
     if (next === this.states.DRAG) this.element.classList.add('react');
   }
 

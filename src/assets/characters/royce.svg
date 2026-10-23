@@ -1,22 +1,41 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78 72" shape-rendering="crispEdges">
-<g class="tail"><rect x="10" y="28" width="10" height="14" fill="#171717"/><rect x="7" y="24" width="8" height="10" fill="#242424"/><rect x="9" y="19" width="8" height="9" fill="#3a2a21"/><rect x="13" y="16" width="7" height="8" fill="#b87333"/></g>
-<g class="body"><rect x="18" y="27" width="35" height="19" fill="#1a1a1a"/><rect x="22" y="23" width="27" height="8" fill="#1d1d1d"/><rect x="19" y="38" width="33" height="8" fill="#171717"/><rect x="28" y="29" width="18" height="9" fill="#7a4a2a"/><rect x="44" y="25" width="8" height="13" fill="#1b1b1b"/></g>
-<g class="leg a"><rect x="20" y="42" width="8" height="19" fill="#9b6337"/><rect x="19" y="58" width="10" height="7" fill="#b77a46"/><rect x="22" y="43" width="4" height="10" fill="#c48a55"/></g>
-<g class="leg b"><rect x="29" y="42" width="8" height="18" fill="#8f5b33"/><rect x="29" y="57" width="9" height="8" fill="#b87944"/></g>
-<g class="leg c"><rect x="43" y="42" width="7" height="18" fill="#8f5b33"/><rect x="42" y="57" width="8" height="8" fill="#b87944"/></g>
-<g class="leg d"><rect x="51" y="41" width="7" height="19" fill="#9b6337"/><rect x="50" y="57" width="9" height="8" fill="#b77a46"/></g>
-<g class="neck"><rect x="43" y="20" width="12" height="19" fill="#1b1b1b"/><rect x="45" y="21" width="9" height="12" fill="#a96d3d"/></g>
-<g class="head">
-<rect x="47" y="11" width="25" height="25" fill="#1b1b1b"/>
-<g class="ear1"><rect x="51" y="6" width="8" height="11" fill="#151515"/><rect x="53" y="8" width="4" height="6" fill="#3c2920"/></g>
-<g class="ear2"><rect x="63" y="6" width="8" height="11" fill="#151515"/><rect x="65" y="8" width="4" height="6" fill="#3c2920"/></g>
-<rect x="51" y="14" width="19" height="9" fill="#a66b3b"/>
-<g class="eye-open"><rect x="54" y="20" width="5" height="5" fill="#5a351f"/><rect x="66" y="20" width="5" height="5" fill="#5a351f"/><rect x="55" y="20" width="2" height="2" fill="#fff"/><rect x="67" y="20" width="2" height="2" fill="#fff"/></g>
-<g class="eye-closed" style="display:none"><rect x="54" y="22" width="5" height="2" fill="#3b2920"/><rect x="66" y="22" width="5" height="2" fill="#3b2920"/></g>
-<rect x="48" y="26" width="25" height="10" fill="#6e4227"/>
-<rect x="63" y="26" width="9" height="8" fill="#a96d3d"/><rect x="69" y="27" width="7" height="7" fill="#b97943"/>
-<rect x="74" y="29" width="4" height="4" rx="1" fill="#111"/>
-<rect x="58" y="27" width="6" height="6" fill="#a96d3d"/>
-</g>
-<text class="sleep-z" visibility="hidden" x="70" y="9" font-size="10" font-family="system-ui" font-weight="700" fill="#555">z</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="royce-concept" data-motion="still" viewBox="0 0 96 88" role="img" aria-labelledby="r-title r-desc">
+<title id="r-title">Royce — round black and tan companion</title>
+<desc id="r-desc">Rounded sticker-style puppy, dot eyes, short muzzle and little paws. Review concept only; not a runtime replacement.</desc>
+<style>
+.royce-concept{--cycle:1000ms;overflow:visible}
+.royce-concept .eye-closed{display:none}
+.royce-concept .tail{transform-origin:24px 54px}
+.royce-concept[data-motion="idle"] .core{animation:r-breathe 2800ms ease-in-out infinite;transform-origin:46px 73px}
+.royce-concept[data-motion="idle"] .eye-open{animation:r-blink 4800ms steps(1) infinite}
+.royce-concept[data-motion="idle"] .eye-closed{display:inline;opacity:0;animation:r-lid 4800ms steps(1) infinite}
+.royce-concept:not([data-motion="still"]) .tail{animation:r-wag 1600ms ease-in-out infinite}
+.royce-concept[data-motion="walk"] .core{animation:r-bob var(--cycle) ease-in-out infinite}
+.royce-concept[data-motion="walk"] .leg-track{animation:r-step var(--cycle) linear infinite}
+.royce-concept[data-motion="walk"] .far-front{animation-delay:-500ms}
+.royce-concept[data-motion="walk"] .near-hind{animation-delay:-750ms}
+.royce-concept[data-motion="walk"] .far-hind{animation-delay:-250ms}
+@keyframes r-breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,1.025)}}
+@keyframes r-wag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg)}}
+@keyframes r-bob{0%,50%,100%{transform:translateY(.6px)}25%,75%{transform:translateY(-.6px)}}
+@keyframes r-step{0%{transform:translate(1.6px,0)}60%{transform:translate(-1.6px,0)}75%{transform:translate(-1px,-2px)}88%{transform:translate(1px,-2px)}100%{transform:translate(1.6px,0)}}
+@keyframes r-blink{0%,92%,97%,100%{opacity:1}93%,96%{opacity:0}}
+@keyframes r-lid{0%,92%,97%,100%{opacity:0}93%,96%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.royce-concept *{animation:none!important}}
+</style>
+<g class="model" fill="#4c4b50" stroke="#796c64" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+<g id="r-leg-far-hind" class="leg-track far-hind"><rect x="35" y="60" width="10" height="15" rx="5" fill="#b68a61"/></g>
+<g id="r-leg-far-front" class="leg-track far-front"><rect x="57" y="60" width="10" height="15" rx="5" fill="#b68a61"/></g>
+<g id="r-core" class="core">
+<g id="r-tail" class="tail"><path d="M26 59C15 60 7 53 8 45C9 39 15 39 17 44C19 50 22 49 27 49"/></g>
+<g id="r-body"><path d="M19 55C19 44 31 40 44 41C59 41 71 48 71 59C71 71 59 74 42 74C27 74 19 68 19 55Z"/><path d="M56 53C62 49 69 53 68 60C68 66 63 70 58 69C54 65 53 58 56 53Z" fill="#d7a773" stroke="none"/></g>
+<g id="r-head" class="head">
+<path d="M52 23C45 17 36 23 38 34C39 42 44 45 48 40L55 29" fill="#45444a"/><path d="M79 23C87 20 93 26 91 35C89 43 84 45 81 39L77 29" fill="#45444a"/><path d="M46 38C45 25 55 21 67 21C80 20 88 28 88 40C88 53 80 59 66 59C53 59 45 51 46 38Z"/><path d="M56 32Q59 29 62 31M75 31Q78 29 81 32" stroke="#e5b580" stroke-width="3.5" fill="none"/>
+<ellipse cx="73" cy="45" rx="12" ry="8" fill="#edc396" stroke="none"/>
+<g id="r-eyes-open" class="eye-open" fill="#423e3c" stroke="none"><circle cx="59" cy="37" r="2.1"/><circle cx="78" cy="36.5" r="2.1"/></g>
+<g id="r-eyes-closed" class="eye-closed" fill="none" stroke="#423e3c" stroke-width="1.7"><path d="M57 37q2-2 4 0M76 36.5q2-2 4 0"/></g>
+<ellipse cx="54" cy="43" rx="3.2" ry="1.7" fill="#cd9e7c" stroke="none"/>
+<path d="M72 40Q76 38 79 40Q79 43 76 43Q73 43 72 40Z" fill="#423e3c" stroke="none"/>
+<path d="M76 43v2q-3 4-6 1m6-1q2 3 5 0" fill="none" stroke="#665346" stroke-width="1.4"/>
+</g></g><g id="r-leg-near-hind" class="leg-track near-hind"><path d="M25 61Q30 58 35 61V72Q35 77 30 77H26Q22 77 23 73L25 67" fill="#e5b580"/><path d="M27 74v1" fill="none" stroke-width="1.4"/></g>
+<g id="r-leg-near-front" class="leg-track near-front"><path d="M59 61Q64 58 69 61V72Q69 77 64 77H60Q56 77 57 73L59 67" fill="#e5b580"/><path d="M61 74v1" fill="none" stroke-width="1.4"/></g>
+</g></svg>
