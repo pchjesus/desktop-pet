@@ -8,6 +8,7 @@ on:
       - "src/**"
       - "test/**"
       - "scripts/**"
+      - "VERIFY-WINDOWS.bat"
       - "package*.json"
   workflow_dispatch:
 
@@ -98,6 +99,9 @@ jobs:
             Stop-Process -Id $launcher.Id -Force -ErrorAction SilentlyContinue
             if ($marker) { Remove-Item $marker.FullName -Force -ErrorAction SilentlyContinue }
           }
+      - name: Verify user-facing Windows BAT against packaged portable EXE
+        shell: cmd
+        run: call VERIFY-WINDOWS.bat
       - name: Upload preview EXE
         uses: actions/upload-artifact@v4
         with:
