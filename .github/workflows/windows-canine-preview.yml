@@ -1,12 +1,13 @@
-name: Pachirisu and Growlithe Windows Preview
+name: Desktop Pet Home and Motion Windows Preview
 
 on:
   push:
-    branches: [feat/canine-soft-runtime, feat/pachirisu-growlithe-integration]
+    branches: [feat/canine-soft-runtime, feat/pachirisu-growlithe-integration, feat/pet-home-size-meteors]
     paths:
       - ".github/workflows/windows-canine-preview.yml"
       - "src/**"
       - "test/**"
+      - "scripts/**"
       - "package*.json"
   workflow_dispatch:
 
@@ -52,6 +53,8 @@ jobs:
         shell: pwsh
         run: |
           python -c "import xml.etree.ElementTree as E; [E.parse('src/assets/characters/'+n+'.svg') for n in ('neukgu','royce')]; print('Puppy SVGs: PASS')"
+      - name: Native home, cancel, exit and repeated character switching
+        run: node node_modules/electron/cli.js scripts/verify-home-electron.cjs
       - name: Build portable EXE
         run: npm run dist
         env:
@@ -98,7 +101,7 @@ jobs:
       - name: Upload preview EXE
         uses: actions/upload-artifact@v4
         with:
-          name: DesktopPet-Pachirisu-Growlithe-Windows
+          name: DesktopPet-Home-Motion-Windows
           path: dist/DesktopPet-0.1.12-portable.exe
           if-no-files-found: error
           retention-days: 7
