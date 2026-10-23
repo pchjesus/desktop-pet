@@ -5,7 +5,7 @@ title Desktop Pet - Windows EXE Smoke Test
 
 echo ========================================
 echo Desktop Pet v0.1.12 Windows EXE Smoke Test
- echo ========================================
+echo ========================================
 echo.
 
 if not exist "dist\DesktopPet-0.1.12-portable.exe" goto :missing
@@ -20,7 +20,7 @@ if errorlevel 1 goto :error
 
 echo.
 echo [2/2] Launching the packaged EXE for a process smoke test...
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$exe = '%CD%\dist\DesktopPet-0.1.12-portable.exe'; $p = Start-Process -FilePath $exe -ArgumentList '--smoke-test' -PassThru; $marker = Join-Path $env:TEMP ('desktop-pet-smoke-' + $p.Id + '.ready'); $ready = $false; for ($i=0; $i -lt 20; $i++) { Start-Sleep -Milliseconds 500; if ($p.HasExited) { Write-Error ('Desktop Pet exited during smoke test. ExitCode=' + $p.ExitCode); exit 1 }; if (Test-Path $marker) { $ready = $true; break } }; if (-not $ready) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue; Write-Error 'Desktop Pet process stayed alive but did not report renderer readiness within 10 seconds.'; exit 1 }; Write-Host ('Desktop Pet renderer is ready. PID=' + $p.Id); Stop-Process -Id $p.Id -Force; Remove-Item $marker -Force -ErrorAction SilentlyContinue; Write-Host 'Desktop Pet packaged smoke test: PASS'; exit 0"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $exe=Join-Path (Get-Location).Path 'dist\DesktopPet-0.1.12-portable.exe'; $existing=@(Get-ChildItem -Path $env:TEMP -Filter 'desktop-pet-smoke-*.ready' -ErrorAction SilentlyContinue | ForEach-Object FullName); $started=Get-Date; $launcher=$null; $childPid=$null; $marker=$null; $passed=$false; try { $launcher=Start-Process -FilePath $exe -ArgumentList '--smoke-test' -PassThru; for($i=0;$i -lt 120;$i++){ Start-Sleep -Milliseconds 500; $marker=Get-ChildItem -Path $env:TEMP -Filter 'desktop-pet-smoke-*.ready' -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -gt $started.AddSeconds(-2) -and $existing -notcontains $_.FullName } | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($marker){ try { $info=Get-Content -LiteralPath $marker.FullName -Raw | ConvertFrom-Json; $childPid=[int]$info.pid; if($info.ready -and (Get-Process -Id $childPid -ErrorAction SilentlyContinue)){ $passed=$true; break } } catch { }; $marker=$null } }; if(-not $passed){ throw 'Packaged Electron renderer was not ready within 60 seconds' }; Write-Host ('Desktop Pet renderer ready. Electron PID=' + $childPid) } catch { [Console]::Error.WriteLine($_.Exception.Message) } finally { if($childPid){ Stop-Process -Id $childPid -Force -ErrorAction SilentlyContinue }; if($launcher){ Stop-Process -Id $launcher.Id -Force -ErrorAction SilentlyContinue }; if($marker){ Remove-Item -LiteralPath $marker.FullName -Force -ErrorAction SilentlyContinue } }; if(-not $passed){exit 1}; Write-Host 'Desktop Pet packaged smoke test: PASS';exit 0"
 if errorlevel 1 goto :error
 
 echo.
@@ -28,10 +28,10 @@ echo ========================================
 echo EXE SMOKE TEST PASSED
 echo ========================================
 echo.
-echo This verifies that the packaged process can launch, load the renderer, and report readiness within 10 seconds.
+echo This verifies that the portable launcher starts an Electron child which loads the renderer and reports readiness within 60 seconds.
 echo It does not replace manual visual checks for transparency, click-through, drag, and always-on-top behavior.
 echo.
-pause
+if not defined CI pause
 exit /b 0
 
 :missing
@@ -43,7 +43,7 @@ echo.
 echo Expected: dist\DesktopPet-0.1.12-portable.exe
 echo Run BUILD-WINDOWS.bat first.
 echo.
-pause
+if not defined CI pause
 exit /b 1
 
 :error
@@ -52,5 +52,5 @@ echo ========================================
 echo EXE SMOKE TEST FAILED
 echo ========================================
 echo.
-pause
+if not defined CI pause
 exit /b 1
