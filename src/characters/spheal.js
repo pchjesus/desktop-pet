@@ -109,6 +109,9 @@ class SphealCharacter {
 
   finishSpecialAction() {
     this.special = null;
+    // A completed click reaction must not restart the generic .react bounce
+    // while the renderer's reaction-completion timer catches up.
+    if (this.state === this.states.REACT) this.state = this.states.IDLE;
     if (this.state === this.states.WALK) {
       this.rollStartedAt = performance.now();
       this.movementSpeed = 0.06;

@@ -16,8 +16,8 @@ EVIDENCE = ROOT / 'docs/spheal-specials'
 NEAREST = Image.Resampling.NEAREST
 
 
-def original(relative):
-    data = subprocess.check_output(['git', 'show', f'{BASELINE}:{ASSETS / relative}'], cwd=ROOT)
+def original(relative, commit=BASELINE):
+    data = subprocess.check_output(['git', 'show', f'{commit}:{ASSETS / relative}'], cwd=ROOT)
     return Image.open(io.BytesIO(data)).convert('RGBA')
 
 
@@ -78,8 +78,50 @@ def open_mouth():
     return im
 
 
+def draw_squint(d, dx=0, color='#253b63'):
+    d.line([(36 + dx, 22), (39 + dx, 25), (36 + dx, 28)], fill=color)
+    d.line([(59 + dx, 22), (56 + dx, 25), (59 + dx, 28)], fill=color)
+
+
+def squint_face():
+    """Restore original cheek shading, replacing only original eye pixels.
+
+    Shared face for water shake and ice shatter. Sample existing blue pixels
+    around each eye; no flat rectangular patches or extra chevrons on the snout.
+    """
+    base = Image.new('RGBA', (120, 80))
+    base.paste(original('spheal-base.png'), (20, 0))
+    clean = base.copy()
+    eye_boxes = [(33, 20, 43, 29), (51, 20, 64, 31)]
+
+    def skin(pixel):
+        r, g, b, a = pixel
+        return a > 240 and b > r + 30 and b > g + 25 and b > 190 and g > 130
+
+    for x0, y0, x1, y1 in eye_boxes:
+        candidates = [(x, y) for y in range(y0 - 3, y1 + 4)
+                      for x in range(x0 - 3, x1 + 4)
+                      if not (x0 <= x < x1 and y0 <= y < y1) and skin(base.getpixel((x, y)))]
+        for y in range(y0, y1):
+            for x in range(x0, x1):
+                if not skin(base.getpixel((x, y))):
+                    sample = min(candidates, key=lambda p: (p[0] - x) ** 2 + 2 * (p[1] - y) ** 2)
+                    clean.putpixel((x, y), base.getpixel(sample))
+    d = ImageDraw.Draw(clean)
+    draw_squint(d)
+    # Never alter source alpha, mouth, nose, or cheeks outside this face patch.
+    clean.putalpha(base.getchannel('A'))
+    return clean
+
+
 def water(index):
     old = original(f'animations/watergun/watergun-{index:02}.png')
+    if 9 <= index <= 11:
+        # Remove misplaced old chevrons/flat eye blocks using original face art.
+        alpha = old.getchannel('A')
+        old.paste(squint_face().crop((32, 19, 78, 34)), (32, 19))
+        old.putalpha(alpha)
+        return old
     if index not in range(4, 9):
         return old
     im = open_mouth()
@@ -129,6 +171,8 @@ def ice_beam(index):
         base.paste(original('spheal-base.png'), (20, 0))
         if index == 14:  # exact original colors, mouth and dimensions restored.
             return base
+        if 10 <= index <= 13:
+            base = squint_face()
         offset = {9: 0, 10: -1, 11: 2, 12: -2, 13: 1}[index]
         shifted = Image.new('RGBA', base.size)
         shifted.paste(base, (offset, 0))
@@ -168,6 +212,13 @@ def ice_beam(index):
                 crystal(d, x, y, size)
         if index == 9:
             im.putalpha(base.getchannel('A'))
+        else:
+            # Keep the expression readable where a reflection crosses the eyes.
+            alpha = im.getchannel('A')
+            ink = tuple(round(c * (1 - strength) + t * strength)
+                        for c, t in zip((37, 59, 99), (158, 226, 255)))
+            draw_squint(ImageDraw.Draw(im), offset, ink)
+            im.putalpha(alpha)
     return im
 
 
@@ -203,6 +254,15 @@ def main():
     before = [original('animations/clap/clap-04.png'), original('animations/watergun/watergun-06.png')]
     after = [clap(4), water(6)]
     sheet([before[0], after[0], before[1], after[1]], 'before / after').save(EVIDENCE / 'comparison.png')
+    polish_baseline = 'a4f66fef0fb70576bdeef8ea303d3593e438ce1d'
+    eyes = sheet([original('animations/watergun/watergun-09.png', polish_baseline), water(9),
+                  original('animations/icebeam/icebeam-10.png', polish_baseline), ice_beam(10)], 'eyes')
+    d = ImageDraw.Draw(eyes)
+    for row in [0, 190]:
+        for column, label in enumerate(['WATER 09 before', 'WATER 09 after', 'ICE 10 before', 'ICE 10 after']):
+            d.rectangle((column * 250, row, column * 250 + 249, row + 21), fill='#777f8b')
+            d.text((column * 250 + 5, row + 4), label, fill='white')
+    eyes.save(EVIDENCE / 'eyes-comparison.png')
 
 
 if __name__ == '__main__':

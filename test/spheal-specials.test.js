@@ -89,7 +89,7 @@ test('unchanged clap/watergun frame counts, frame timing and finite completion',
   }
 });
 
-async function rendererHarness() {
+async function rendererHarness({ movement = false } = {}) {
   let now = 0;
   const listeners = {};
   const pet = element();
@@ -104,7 +104,8 @@ async function rendererHarness() {
     document: { body: { dataset: {} }, getElementById: name => nodes[name] },
     window: {
       PetEngine: { STATES, chooseNextState: () => STATES.WALK,
-        chooseTarget: () => ({}), stepToward: () => { throw new Error('movement while locked'); } },
+        chooseTarget: () => ({}), stepToward: movement ? require('../src/pet-engine').stepToward
+          : () => { throw new Error('movement while locked'); } },
       addEventListener: (name, handler) => { listeners[name] = handler; },
       petAPI: { getWindow: async () => ({ x: 40, y: 50 }), setIgnoreMouse() {},
         setPosition: () => calls.push('move'), dragStart: () => calls.push('drag-start'),
@@ -170,4 +171,83 @@ test('expired click authorization does not launch icebeam', async () => {
   h.time(5001);
   h.type('icebeam');
   assert.equal(h.run('character.special.type'), 'clap');
+});
+
+test('completed click specials return directly to idle without a second generic reaction bounce', async () => {
+  for (const [code, duration] of [['', 1440], ['watergun', 2100], ['icebeam', 2950]]) {
+    const h = await rendererHarness();
+    h.click();
+    if (code) h.type(code);
+    h.time(duration);
+    h.run(`tick(${duration})`);
+    assert.equal(h.run('character.special'), null);
+    assert.equal(h.run('character.state'), STATES.IDLE);
+    assert.equal(h.nodes.spheal.className, 'spheal idle');
+    assert.ok(h.nodes.spheal.sprite.src.endsWith('spheal-base.png'));
+  }
+});
+
+test('ROLL startup, loop, ending and special-to-walk transition keep the original frame sequence', t => {
+  let now = 100;
+  t.mock.method(performance, 'now', () => now);
+  const node = element();
+  const character = new SphealCharacter(node, STATES);
+  character.setState(STATES.WALK);
+  for (const [elapsed, frame] of [[0, 1], [105, 2], [210, 3], [660, 8], [750, 3]]) {
+    now = 100 + elapsed;
+    character.render();
+    assert.ok(node.sprite.src.endsWith(`roll-${String(frame).padStart(2, '0')}.png`));
+  }
+  character.setState(STATES.IDLE);
+  const stopped = now;
+  for (let i = 0; i < 4; i++) {
+    now = stopped + i * 105;
+    character.render();
+    assert.ok(node.sprite.src.endsWith(`roll-${String(i + 9).padStart(2, '0')}.png`));
+  }
+  now = stopped + 420;
+  character.render();
+  assert.equal(node.sprite.src, character.baseSrc);
+  character.setState(STATES.WALK);
+  character.startSpecialAction('icebeam');
+  now += 2950;
+  character.render();
+  assert.equal(node.className, 'spheal walk');
+  assert.ok(node.sprite.src.endsWith('roll-01.png'));
+});
+
+test('renderer initializes, moves and turns, survives invalid/corrected input and resumes after a special', async () => {
+  const h = await rendererHarness({ movement: true });
+  assert.equal(h.run('character.state'), STATES.IDLE);
+  assert.ok(h.nodes.spheal.sprite.src.endsWith('spheal-base.png'));
+  h.time(20);
+  h.run('nextDecision = 100000; setState(PET_STATES.WALK); target = {x:position.x+30,y:position.y}; tick(20)');
+  assert.ok(h.calls.includes('move'));
+  assert.equal(h.run('character.facing'), 1);
+  h.time(40);
+  h.run('target = {x:position.x-30,y:position.y}; tick(40)');
+  assert.equal(h.run('character.facing'), -1);
+  h.click();
+  h.type('invalid');
+  assert.equal(h.run('character.special.type'), 'clap');
+  for (const key of 'icebeax') h.listeners.keydown({ key });
+  h.listeners.keydown({ key: 'Backspace' });
+  h.listeners.keydown({ key: 'm' });
+  h.listeners.keydown({ key: 'Enter' });
+  assert.equal(h.run('character.special.type'), 'icebeam');
+  const moves = h.calls.filter(call => call === 'move').length;
+  h.type('icebeam');
+  h.click();
+  h.type('watergun');
+  h.time(1400);
+  h.run('tick(1400)');
+  assert.equal(h.calls.filter(call => call === 'move').length, moves);
+  assert.equal(h.run('character.special.type'), 'icebeam');
+  h.time(2990);
+  h.run('tick(2990)');
+  assert.equal(h.run('character.special'), null);
+  h.time(3010);
+  h.run('setState(PET_STATES.WALK); nextDecision=100000; target={x:position.x-30,y:position.y}; tick(3010)');
+  assert.ok(h.calls.filter(call => call === 'move').length > moves);
+  assert.equal(h.run('character.facing'), -1);
 });

@@ -79,6 +79,20 @@ try {
     const visibility = await evaluate(pet, `['spheal', 'neukgu', 'growlithe', 'royce'].filter(id => getComputedStyle(document.getElementById(id)).display !== 'none')`);
     if (visibility.length !== 1 || visibility[0] !== selected) throw new Error(`Visibility: ${JSON.stringify(visibility)}`);
     if (selected !== 'spheal') continue;
+    await evaluate(pet, `(async () => {
+      nextDecision = performance.now() + 10000;
+      setState(PET_STATES.IDLE);
+      for (const facing of [1, -1]) {
+        character.setFacing(facing);
+        for (let sample = 0; sample < 3; sample++) {
+          await new Promise(resolve => setTimeout(resolve,120));
+          const matrix = new DOMMatrix(getComputedStyle(character.element).transform);
+          if (Math.abs(matrix.a + facing) > .001 || Math.abs(matrix.d - 1) > .001)
+            throw new Error('Idle animation changes facing or flattens the body: '+matrix.toString());
+        }
+      }
+    })()`);
+    console.log('PASS: idle breathing preserves facing and full body width in both directions');
     const loaded = await evaluate(pet, `(async () => {
       const paths = [...character.reactFrames, ...character.waterGunFrames, ...character.iceBeamFrames];
       await Promise.all(paths.map(src => new Promise((resolve,reject) => {const image = new Image(); image.onload=resolve; image.onerror=reject; image.src=src;})));
@@ -87,7 +101,10 @@ try {
     if (loaded !== 34) throw new Error('Frame decoding failed');
     const result = await evaluate(pet, `(() => {
       setState(PET_STATES.IDLE);
-      armEasterEgg();
+      const node = document.getElementById('pet');
+      node.dispatchEvent(new PointerEvent('pointerdown', {button:0,pointerId:1,screenX:40,screenY:50}));
+      node.dispatchEvent(new PointerEvent('pointerup', {button:0,pointerId:1,screenX:40,screenY:50}));
+      if (character.special?.type !== 'clap') throw new Error('click did not start clap');
       for (const key of [...'icebeam', 'Enter']) window.dispatchEvent(new KeyboardEvent('keydown', {key}));
       if (character.special?.type !== 'icebeam') throw new Error('input did not start icebeam');
       character.special.startedAt = performance.now() - 1300;

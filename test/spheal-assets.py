@@ -9,14 +9,15 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / 'src/assets/characters/spheal'
 BASELINE = '8960f70fb409684bb69ad07a5e035282a963af52'
+POLISH_BASELINE = 'a4f66fef0fb70576bdeef8ea303d3593e438ce1d'
 
 
 def frame(kind, index):
     return Image.open(ASSETS / f'animations/{kind}/{kind}-{index:02}.png').convert('RGBA')
 
 
-def original(relative):
-    data = subprocess.check_output(['git', 'show', f'{BASELINE}:src/assets/characters/spheal/{relative}'], cwd=ROOT)
+def original(relative, commit=BASELINE):
+    data = subprocess.check_output(['git', 'show', f'{commit}:src/assets/characters/spheal/{relative}'], cwd=ROOT)
     return Image.open(io.BytesIO(data)).convert('RGBA')
 
 
@@ -48,9 +49,36 @@ class SphealAssets(unittest.TestCase):
             self.assertEqual(frame('clap', i).getpixel((40, 50)), frame('clap', i).getpixel((41, 50)))
         self.assertEqual(frame('clap', 4).tobytes(), frame('clap', 5).tobytes())
 
-    def test_water_shake_and_preparation_are_unchanged(self):
-        for i in [1, 2, 3, 9, 10, 11, 12]:
+    def test_water_preparation_and_recovery_are_unchanged(self):
+        for i in [1, 2, 3, 12]:
             self.assertEqual(frame('watergun', i).tobytes(), original(f'animations/watergun/watergun-{i:02}.png').tobytes())
+
+    def test_polish_only_changes_face_pixels_and_preserves_alpha_effects_and_mouth(self):
+        for kind, indices in [('watergun', range(9, 12)), ('icebeam', range(10, 14))]:
+            for i in indices:
+                before = original(f'animations/{kind}/{kind}-{i:02}.png', POLISH_BASELINE)
+                after = frame(kind, i)
+                self.assertEqual(before.getchannel('A').tobytes(), after.getchannel('A').tobytes())
+                changes = []
+                for y in range(80):
+                    for x in range(120):
+                        if before.getpixel((x, y)) != after.getpixel((x, y)):
+                            changes.append((x, y))
+                            self.assertTrue(30 <= x < 80 and 19 <= y < 34, (kind, i, x, y))
+                self.assertTrue(changes)
+                self.assertEqual(before.crop((0, 34, 120, 80)).tobytes(), after.crop((0, 34, 120, 80)).tobytes())
+        for i in list(range(1, 10)) + [14]:
+            self.assertEqual(frame('icebeam', i).tobytes(), original(f'animations/icebeam/icebeam-{i:02}.png', POLISH_BASELINE).tobytes())
+
+    def test_shake_and_shatter_have_exactly_two_inward_closed_eyes(self):
+        left = {(36 + j, 22 + j) for j in range(4)} | {(39 - j, 25 + j) for j in range(4)}
+        right = {(59 - j, 22 + j) for j in range(4)} | {(56 + j, 25 + j) for j in range(4)}
+        for kind, offsets in [('watergun', {9: 0, 10: 0, 11: 0}), ('icebeam', {10: -1, 11: 2, 12: -2, 13: 1})]:
+            for i, dx in offsets.items():
+                im = frame(kind, i)
+                actual = {(x, y) for y in range(21, 31) for x in range(33 + dx, 64 + dx)
+                          if (lambda c: c[0] < 85 and c[1] < 130 and c[2] < 170 and c[3] > 240)(im.getpixel((x, y)))}
+                self.assertEqual(actual, {(x + dx, y) for x, y in left | right}, (kind, i))
 
     def test_shared_mouth_nose_and_single_connected_attack_columns(self):
         mouth = frame('watergun', 4).crop((45, 34, 55, 55)).tobytes()
