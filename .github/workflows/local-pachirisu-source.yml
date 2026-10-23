@@ -1,0 +1,23 @@
+name: Local Pachirisu Source Snapshot
+
+on:
+  push:
+    branches: [chore/local-pachirisu-source-export]
+    paths:
+      - ".github/workflows/local-pachirisu-source.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  source-snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package current source without dependencies
+        run: zip -q -r desktop-pet-source.zip src test scripts design docs package.json package-lock.json README.md PROJECT_SPEC.md AGENTS.md DEVLOG.md .github/workflows
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-pet-source-for-local-build
+          path: desktop-pet-source.zip
+          retention-days: 1
