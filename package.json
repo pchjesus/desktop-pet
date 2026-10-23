@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node node_modules/electron/cli.js .",
     "test": "node --test test/*.test.js",
-    "check": "node --check src/main.js && node --check src/preload.js && node --check src/renderer.js && node --check src/pet-engine.js && node --check src/characters/neukgu.js && node --check src/characters/growlithe.js && node --check src/characters/royce.js && node --check src/characters/spheal.js",
+    "check": "node --check src/main.js && node --check src/preload.js && node --check src/renderer.js && node --check src/pet-engine.js && node --check src/characters/neukgu.js && node --check src/characters/growlithe.js && node --check src/characters/royce.js && node --check src/characters/spheal.js && node --check src/characters/pachirisu.js",
     "dist": "electron-builder --win --x64",
     "dist:installer": "electron-builder --win --x64 --config.win.target=nsis",
     "test:shell": "node test/desktop-shell.test.js",

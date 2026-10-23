@@ -6,7 +6,7 @@ const {
 } = window.PetEngine;
 const pet = document.getElementById('pet');
 const requestedCharacter = new URLSearchParams(location.search).get('character');
-const selectedCharacter = ['growlithe', 'royce', 'spheal'].includes(requestedCharacter) ? requestedCharacter : 'neukgu';
+const selectedCharacter = ['growlithe', 'royce', 'spheal', 'pachirisu'].includes(requestedCharacter) ? requestedCharacter : 'neukgu';
 document.body.dataset.character = selectedCharacter;
 const character = selectedCharacter === 'growlithe'
   ? new globalThis.GrowlitheCharacter(document.getElementById('growlithe'), PET_STATES)
@@ -14,14 +14,16 @@ const character = selectedCharacter === 'growlithe'
     ? new globalThis.RoyceCharacter(document.getElementById('royce'), PET_STATES)
     : selectedCharacter === 'spheal'
       ? new globalThis.SphealCharacter(document.getElementById('spheal'), PET_STATES)
-      : new globalThis.NeukguCharacter(document.getElementById('neukgu'), PET_STATES);
+      : selectedCharacter === 'pachirisu'
+        ? new globalThis.PachirisuCharacter(document.getElementById('pachirisu'), PET_STATES)
+        : new globalThis.NeukguCharacter(document.getElementById('neukgu'), PET_STATES);
 const bubble = document.getElementById('bubble');
 
 let easterEggEligibleUntil = 0;
 let easterEggBuffer = '';
 
 function armEasterEgg() {
-  if (selectedCharacter !== 'growlithe' && selectedCharacter !== 'royce' && selectedCharacter !== 'spheal') return;
+  if (selectedCharacter !== 'growlithe' && selectedCharacter !== 'royce' && selectedCharacter !== 'spheal' && selectedCharacter !== 'pachirisu') return;
   easterEggEligibleUntil = Date.now() + 5000;
   easterEggBuffer = '';
 }
@@ -32,6 +34,10 @@ function showEasterEgg() {
   } else if (selectedCharacter === 'royce') {
     window.petAPI.showRoyceMessage();
   }
+  if (selectedCharacter === 'pachirisu' && character.startSpecialAction('followme')) {
+    nextDecision = performance.now() + 4400;
+    showBubble('Follow Me!');
+  }
   easterEggEligibleUntil = 0;
   easterEggBuffer = '';
 }
@@ -40,6 +46,7 @@ function easterEggCode() {
   if (selectedCharacter === 'growlithe') return 'pocketmon';
   if (selectedCharacter === 'royce') return 'royce';
   if (selectedCharacter === 'spheal') return 'pocketmon';
+  if (selectedCharacter === 'pachirisu') return 'followme';
   return '';
 }
 
@@ -58,7 +65,7 @@ function handleSphealSpecialCode() {
 }
 
 window.addEventListener('keydown', (event) => {
-  if ((selectedCharacter !== 'growlithe' && selectedCharacter !== 'royce' && selectedCharacter !== 'spheal') || Date.now() > easterEggEligibleUntil) return;
+  if ((selectedCharacter !== 'growlithe' && selectedCharacter !== 'royce' && selectedCharacter !== 'spheal' && selectedCharacter !== 'pachirisu') || Date.now() > easterEggEligibleUntil) return;
 
   if (event.key === 'Enter') {
     if (handleSphealSpecialCode()) return;
@@ -185,7 +192,8 @@ function finishPointerInteraction(event) {
       neukgu: ['멍!', '쓰담?', '좋아!'],
       growlithe: ['왈!', '쓰담?', '좋아!'],
       royce: ['멍!', '쓰담?', '좋아!', '화이팅!', '보고 싶어!'],
-      spheal: ['뿌우!', '짝짝!', '좋아!']
+      spheal: ['뿌우!', '짝짝!', '좋아!'],
+      pachirisu: ['찌릿!', '파치!', '좋아!']
     };
     const messages = clickMessages[selectedCharacter] || clickMessages.neukgu;
     showBubble(messages[Math.floor(Math.random() * messages.length)]);

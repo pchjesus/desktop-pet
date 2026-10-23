@@ -4,7 +4,8 @@ const BODY_ENVELOPES = Object.freeze({
   neukgu: Object.freeze({ left: 51, top: 40, right: 139, bottom: 120 }),
   royce: Object.freeze({ left: 51, top: 40, right: 139, bottom: 120 }),
   growlithe: Object.freeze({ left: 55, top: 29, right: 135, bottom: 114 }),
-  spheal: Object.freeze({ left: 41, top: 22, right: 139, bottom: 110 })
+  spheal: Object.freeze({ left: 41, top: 22, right: 139, bottom: 110 }),
+  pachirisu: Object.freeze({ left: 43, top: 28, right: 137, bottom: 124 })
 });
 
 function visualBounds(character, width = 180, height = 150) {

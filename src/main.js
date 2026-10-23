@@ -162,7 +162,7 @@ function stopMouseHitTesting() {
 }
 
 function createPetWindow(characterId = 'neukgu') {
-  const selectedCharacter = ['growlithe', 'royce', 'spheal'].includes(characterId) ? characterId : 'neukgu';
+  const selectedCharacter = ['growlithe', 'royce', 'spheal', 'pachirisu'].includes(characterId) ? characterId : 'neukgu';
   activeCharacter = selectedCharacter;
   win = new BrowserWindow({
     width: 180,

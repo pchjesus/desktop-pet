@@ -30,6 +30,48 @@ body[data-character="neukgu"] .spheal,body[data-character="growlithe"] .spheal,b
 /* Prevent old global bounce/breathe rules from moving the approved puppy poses. */
 .neukgu.idle,.royce.idle,.neukgu.react,.royce.react{animation:none}
 .neukgu .neukgu-svg,.royce .neukgu-svg{overflow:visible;shape-rendering:geometricPrecision}
+
+/* Official-source Pachirisu sprite; provenance and rights: docs/INTEGRATION-REVIEW.md. */
+body[data-character="pachirisu"] .neukgu,
+body[data-character="pachirisu"] .royce,
+body[data-character="pachirisu"] .growlithe,
+body[data-character="pachirisu"] .spheal,
+body:not([data-character="pachirisu"]) .pachirisu{display:none}
+.pachirisu{position:absolute;inset:0;transform-origin:50% 80%;animation:none;isolation:isolate}
+.pachirisu-sprite{position:absolute;left:8px;top:7px;width:87px;height:91px;image-rendering:pixelated;object-fit:contain;z-index:3;user-select:none;-webkit-user-drag:none;transform-origin:40% 85%}
+.pachirisu-meteors{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:0}
+.pachirisu-meteor{position:absolute;top:-39px;left:88px;width:28px;height:38px;image-rendering:pixelated;opacity:0;background:url('assets/characters/pachirisu/meteor.png') center/100% 100% no-repeat;filter:drop-shadow(0 0 3px #ffc55d)}
+.pachirisu-meteor:nth-child(2){left:111px;top:-45px;--lag:.36s;transform:scale(.7)}
+.pachirisu-meteor:nth-child(3){left:143px;top:-55px;--lag:.72s;transform:scale(.9)}
+.pachirisu-berry{position:absolute;left:15px;top:55px;width:28px;height:28px;image-rendering:pixelated;object-fit:contain;z-index:5;opacity:0;pointer-events:none}
+.pachirisu-charge{position:absolute;inset:0;z-index:4;pointer-events:none}
+.pachirisu-spark{position:absolute;width:15px;height:16px;left:17px;top:47px;opacity:0;filter:drop-shadow(0 0 3px #ffe056)}
+.pachirisu-spark:nth-child(2){left:43px;top:46px;animation-delay:.13s!important}
+.pachirisu-spark:before{content:'';display:block;width:100%;height:100%;background:#ffe769;clip-path:polygon(46% 0,17% 45%,51% 45%,33% 100%,92% 35%,60% 35%,78% 0);}
+.pachirisu.idle .pachirisu-sprite{animation:pachirisu-breathe 1.7s ease-in-out infinite alternate}
+.pachirisu.walk .pachirisu-sprite{animation:pachirisu-steps .36s linear infinite}
+.pachirisu.sit .pachirisu-sprite{transform:translateY(6px) scaleY(.89)}
+.pachirisu.sleep .pachirisu-sprite{transform:translateY(12px) rotate(-11deg) scaleY(.8);filter:brightness(.94)}
+.pachirisu.drag .pachirisu-sprite{transform:translateY(9px) rotate(-10deg) scaleY(.95)}
+.pachirisu.react{animation:none}
+.pachirisu.react .pachirisu-sprite{animation:pachirisu-shake .14s ease-in-out 5 alternate}
+.pachirisu.react .pachirisu-spark{animation:pachirisu-zap .25s linear 3}
+.pachirisu.react .pachirisu-charge{animation:pachirisu-tail-party .23s ease-in-out 3 alternate;transform-origin:62px 55px}
+.pachirisu.special-followme{animation:none}
+.pachirisu.special-followme .pachirisu-sprite{animation:pachirisu-brace 4.4s ease-in-out 1 both}
+.pachirisu.special-followme .pachirisu-berry{animation:pachirisu-eat 4.4s linear 1 both}
+.pachirisu.special-followme .pachirisu-meteors{opacity:1}
+.pachirisu.special-followme .pachirisu-meteor{animation:pachirisu-draco 1.2s linear 2 both;animation-delay:calc(1.3s + var(--lag,0s))}
+.pachirisu.special-followme .pachirisu-spark{animation:pachirisu-impact 4.4s linear 1 both}
+@keyframes pachirisu-breathe{to{transform:translateY(-2px)}}
+@keyframes pachirisu-steps{0%{transform:translateY(0) rotate(-1.2deg)}100%{transform:translateY(-2px) rotate(1.2deg)}}
+@keyframes pachirisu-shake{from{transform:translateX(-2px) rotate(-3deg)}to{transform:translateX(2px) rotate(4deg)}}
+@keyframes pachirisu-zap{0%,100%{opacity:0;transform:scale(.6)}30%,70%{opacity:1;transform:scale(1.25) rotate(25deg)}}
+@keyframes pachirisu-tail-party{to{transform:rotate(4deg)}}
+@keyframes pachirisu-brace{0%,10%{transform:translateY(0)}14%,55%{transform:translateY(4px) scaleY(.94)}62%,71%{transform:translateX(-2px) rotate(-3deg)}76%{transform:translateX(2px) rotate(2deg)}82%,90%{transform:translateY(0) scale(1.05)}100%{transform:none}}
+@keyframes pachirisu-eat{0%,12%,42%,100%{opacity:0;transform:translate(0,8px) scale(.65)}17%,25%{opacity:1;transform:translate(0,0) scale(1)}32%,38%{opacity:1;transform:translate(-5px,-9px) scale(.7)}}
+@keyframes pachirisu-draco{0%{opacity:0;transform:translate(45px,-55px) rotate(-14deg) scale(.8)}10%,75%{opacity:1}100%{opacity:0;transform:translate(-54px,124px) rotate(-14deg) scale(1.25)}}
+@keyframes pachirisu-impact{0%,45%,53%,56%,63%,70%,100%{opacity:0}48%,59%,67%{opacity:1;transform:rotate(32deg) scale(1.3)}}
 #bubble{position:absolute;left:50%;top:12px;transform:translate(-50%,-100%);background:#fff;color:#333;padding:5px 9px;border-radius:9px;font:700 12px system-ui;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.16);display:none}
 </style></head><body><div id="pet"><div id="bubble"></div><div class="shadow"></div>
 
@@ -173,4 +215,9 @@ body[data-character="neukgu"] .spheal,body[data-character="growlithe"] .spheal,b
 <g id="r-leg-near-front" class="leg-track near-front"><path d="M59 61Q64 58 69 61V72Q69 77 64 77H60Q56 77 57 73L59 67" fill="#e5b580"/><path d="M61 74v1" fill="none" stroke-width="1.4"/></g>
 </g><text class="sleep-z" x="86" y="12" fill="#edc396" font-size="11" font-family="system-ui" font-weight="700">z</text></svg>
 </div>
-<div class="spheal idle" id="spheal" aria-label="Spheal"><img class="spheal-sprite" src="assets/characters/spheal/spheal-base.png" alt=""></div></div><script src="pet-engine.js"></script><script src="characters/neukgu.js"></script><script src="characters/growlithe.js"></script><script src="characters/royce.js"></script><script src="characters/spheal.js"></script><script src="renderer.js"></script></body></html>
+<div class="spheal idle" id="spheal" aria-label="Spheal"><img class="spheal-sprite" src="assets/characters/spheal/spheal-base.png" alt=""></div><div class="pachirisu idle" id="pachirisu" aria-label="Pachirisu">
+ <div class="pachirisu-meteors" aria-hidden="true"><i class="pachirisu-meteor"></i><i class="pachirisu-meteor"></i><i class="pachirisu-meteor"></i></div>
+ <img class="pachirisu-sprite" src="assets/characters/pachirisu/pachirisu-bw.gif" alt="">
+ <div class="pachirisu-charge" aria-hidden="true"><i class="pachirisu-spark"></i><i class="pachirisu-spark"></i></div>
+ <img class="pachirisu-berry" src="assets/characters/pachirisu/sitrus-berry.webp" alt="">
+</div></div><script src="pet-engine.js"></script><script src="characters/neukgu.js"></script><script src="characters/growlithe.js"></script><script src="characters/royce.js"></script><script src="characters/spheal.js"></script><script src="characters/pachirisu.js"></script><script src="renderer.js"></script></body></html>
