@@ -16,6 +16,8 @@ let dragStart = null;
 let dragTimer = null;
 let hitTestTimer = null;
 let launchingPet = false;
+let returningHome = false;
+let petDialogOpen = false;
 let activeCharacter = 'neukgu';
 let lastDisplayId = null;
 let windowRevision = 0;
@@ -162,6 +164,7 @@ function stopMouseHitTesting() {
 }
 
 function createPetWindow(characterId = 'neukgu') {
+  if (win) return;
   const selectedCharacter = ['growlithe', 'royce', 'spheal', 'pachirisu'].includes(characterId) ? characterId : 'neukgu';
   activeCharacter = selectedCharacter;
   win = new BrowserWindow({
@@ -183,14 +186,55 @@ function createPetWindow(characterId = 'neukgu') {
     }
   });
 
+  const petWindow = win;
   win.setAlwaysOnTop(true, 'floating');
-  win.webContents.once('did-finish-load', () => { reconcileWindow(); markSmokeReady(); });
+  win.webContents.once('did-finish-load', () => {
+    if (win === petWindow) { reconcileWindow(); markSmokeReady(); }
+  });
   win.loadFile(path.join(__dirname, 'index.html'), { query: { character: selectedCharacter } });
 
-  ipcMain.handle('pet:get-window', getWindowInfo);
+  win.on('closed', () => {
+    if (win !== petWindow) return;
+    win = null;
+    clearPetActivity();
+  });
+}
+
+
+// One app-lifetime registration; handlers read the current window/character.
+function isCurrentPet(event) {
+  return Boolean(win && (!event?.sender || event.sender === win.webContents));
+}
+
+function clearPetActivity() {
+  dragging = false;
+  dragStart = null;
+  stopDragTimer();
+  stopMouseHitTesting();
+  lastDisplayId = null;
+  clearSmokeMarker();
+}
+
+function returnHome(petWindow) {
+  if (returningHome || win !== petWindow) return false;
+  returningHome = true;
+  try {
+    clearPetActivity();
+    for (const child of [royceMessageWin, fanProjectWin]) {
+      if (child && !child.isDestroyed()) child.close();
+    }
+    // Destroying this renderer also clears its behavior/input/special timers.
+    petWindow.close();
+    createStartWindow();
+    return true;
+  } finally { returningHome = false; }
+}
+
+function registerPetIPC() {
+  ipcMain.handle('pet:get-window', (event) => isCurrentPet(event) ? getWindowInfo() : null);
 
   ipcMain.on('pet:set-position', (_event, { x, y }) => {
-    if (!win || dragging) return;
+    if (!isCurrentPet(_event) || dragging) return;
     const next = clampWindow(x, y);
     safeSetPosition(next.x, next.y);
     const [actualX, actualY] = win.getPosition();
@@ -198,32 +242,36 @@ function createPetWindow(characterId = 'neukgu') {
         || displayForWindowPosition(actualX, actualY).id !== lastDisplayId) publishWindowInfo();
   });
 
-  ipcMain.handle('pet:quit', async () => {
-    if (!win) return false;
-    const result = await dialog.showMessageBox(win, {
-      type: 'question',
-      buttons: ['확인', '취소'],
-      defaultId: 1,
-      cancelId: 1,
-      noLink: true,
-      message: '종료할까요?'
-    });
-    if (result.response === 0) {
-      app.quit();
-      return true;
-    }
-    return false;
+  ipcMain.handle('pet:quit', async (event) => {
+    if (!isCurrentPet(event) || petDialogOpen) return false;
+    const dialogWindow = win;
+    petDialogOpen = true;
+    try {
+      const result = await dialog.showMessageBox(win, {
+        type: 'question',
+        buttons: ['홈으로', '종료', '취소'],
+        defaultId: 2,
+        cancelId: 2,
+        noLink: true,
+        message: '홈으로 돌아가거나 종료할까요?'
+      });
+      // Ignore replies belonging to a pet that has already been closed.
+      if (win !== dialogWindow) return false;
+      if (result.response === 0) return returnHome(dialogWindow);
+      if (result.response === 1) { app.quit(); return true; }
+      return false;
+    } finally { petDialogOpen = false; }
   });
 
-  ipcMain.on('pet:open-fan-project', () => createFanProjectWindow());
+  ipcMain.on('pet:open-fan-project', (event) => { if (isCurrentPet(event)) createFanProjectWindow(); });
 
-  ipcMain.handle('pet:show-royce-message', () => {
-    if (!win || selectedCharacter !== 'royce') return false;
+  ipcMain.handle('pet:show-royce-message', (event) => {
+    const selectedCharacter = activeCharacter;
+    if (!isCurrentPet(event) || selectedCharacter !== 'royce') return false;
     createRoyceMessageWindow();
     return true;
   });
 
-  win.on('closed', () => { win = null; });
 }
 
 
@@ -304,6 +352,7 @@ function createManualWindow() {
 }
 
 function createStartWindow() {
+  if (startWin && !startWin.isDestroyed()) { startWin.focus(); return; }
   startWin = new BrowserWindow({
     width: 680,
     height: 560,
@@ -320,11 +369,12 @@ function createStartWindow() {
   startWin.loadFile(path.join(__dirname, 'start.html'));
   startWin.on('closed', () => {
     startWin = null;
-    if (!launchingPet && !win) app.quit();
+    if (!launchingPet && !returningHome && !win) app.quit();
   });
 }
 
 ipcMain.on('start:launch-pet', (_event, characterId) => {
+  if (_event?.sender && _event.sender !== startWin?.webContents) return;
   if (win || launchingPet) return;
   launchingPet = true;
   if (startWin && !startWin.isDestroyed()) startWin.close();
@@ -338,6 +388,7 @@ ipcMain.on('start:open-manual', () => {
 });
 
 app.whenReady().then(() => {
+  registerPetIPC();
   for (const event of ['display-added', 'display-removed', 'display-metrics-changed']) {
     screen.on(event, reconcileWindow);
   }
@@ -349,11 +400,11 @@ app.whenReady().then(() => {
   }
 
   ipcMain.on('pet:set-ignore-mouse', (_event, ignore) => {
-    if (win && !dragging) win.setIgnoreMouseEvents(Boolean(ignore), { forward: true });
+    if (isCurrentPet(_event) && !dragging) win.setIgnoreMouseEvents(Boolean(ignore), { forward: true });
   });
 
   ipcMain.on('pet:drag-start', (_event, { mouseX, mouseY }) => {
-    if (!win) return;
+    if (!isCurrentPet(_event)) return;
     dragging = true;
     win.setIgnoreMouseEvents(false);
     const [x, y] = win.getPosition();
@@ -363,7 +414,7 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on('pet:drag-move', (_event, { mouseX, mouseY }) => {
-    if (!win || !dragging || !dragStart) return;
+    if (!isCurrentPet(_event) || !dragging || !dragStart) return;
     const next = clampWindow(
       dragStart.x + mouseX - dragStart.mouseX,
       dragStart.y + mouseY - dragStart.mouseY
@@ -372,7 +423,8 @@ app.whenReady().then(() => {
     publishWindowInfo();
   });
 
-  ipcMain.on('pet:drag-end', () => {
+  ipcMain.on('pet:drag-end', (event) => {
+    if (!isCurrentPet(event)) return;
     dragging = false;
     dragStart = null;
     stopDragTimer();

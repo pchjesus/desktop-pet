@@ -95,9 +95,9 @@ test('right-click asks for quit confirmation without affecting left-click drag b
   assert.match(preload, /ipcRenderer\.invoke\('pet:quit'\)/);
   assert.match(main, /ipcMain\.handle\('pet:quit'/);
   assert.match(main, /dialog\.showMessageBox\(win/);
-  assert.match(main, /message: '종료할까요\?'/);
-  assert.match(main, /buttons: \['확인', '취소'\]/);
-  assert.match(main, /cancelId: 1/);
+  assert.match(main, /message: '홈으로 돌아가거나 종료할까요\?'/);
+  assert.match(main, /buttons: \['홈으로', '종료', '취소'\]/);
+  assert.match(main, /cancelId: 2/);
   assert.match(main, /if \(result\.response === 0\)/);
   assert.match(main, /app\.quit\(\)/);
 });
