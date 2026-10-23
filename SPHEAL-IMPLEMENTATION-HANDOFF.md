@@ -8,6 +8,16 @@
 - 위험/검증: Spheal 전용 one-shot 상태와 기존 click-armed 입력만 확장. Pet Engine/Main IPC/창 크기는 유지. 가짜 시계 상태 테스트, renderer 입력·이동 통합 테스트, PNG alpha/연결성/동결 동일성 검사, 밝은/어두운 시트와 연속 재생을 확인한다. Windows Electron/EXE 실기 검증은 별도로 NOT VERIFIED 처리한다.
 - 롤백: 기능 브랜치의 변경 커밋을 역순 revert하거나 위 기준 SHA를 별도 체크아웃한다. 기존 안정/롤백 커밋 및 Patch 23 문서는 덮어쓰지 않는다.
 
+### 구현 및 인계
+- 최종 자동 검증: Node **58/58 PASS**, PNG 검사 **6/6 PASS**, Linux Electron headless 입력/상태/연속 재생/범위 검사 **PASS**. Windows 실화면은 아래와 같이 별도 미검증.
+- CLAP: 두 앞지느러미 뿌리부터 형태를 다시 연결하고 04–05에서 맞닿게 구성. 기존 몸통 alpha/웃는 얼굴/8×180ms 유지. WATER GUN: 코 아래의 계단형 입술·턱과 입 안쪽 발사 원점을 재구성하고 04–08만 수정. 01–03 및 09–12의 몸 털기/물방울/종료 프레임은 그대로 유지.
+- ICE BEAM: 14장의 120×80 전신 PNG. 밝은 단일 빔/프레임별 결정 3개/표면 반사광, 원본 alpha를 보존한 동결 코팅, 좌우 흔들림·짧은 균열·작은 파편, 원본 전신으로 복귀. 별도 효과 DOM/새 의존성 없음.
+- Spheal CSS에서 다른 캐릭터 선택 시에도 Spheal이 표시되던 기존 선택자 오류를 수정하고, Spheal의 원래 #pet 기준 위치를 명시적으로 고정. 다른 캐릭터에서 중첩 표시되지 않는지 Electron으로 검사. Main/IPC/Engine/창 크기/기본/ROLL 및 다른 캐릭터 모듈은 변경하지 않음.
+- 검증 명령: `npm run check`, `npm test`, `python test/spheal-assets.py`, `node scripts/verify-spheal-headless.mjs`. PNG 편집 도구/검사는 개발용 Python + Pillow 사용(앱 의존성 추가 아님). 생성: `python scripts/generate-spheal-specials.py` (고정 기준 커밋의 원본에서 재현).
+- 시각 자료: `docs/spheal-specials/{clap,watergun,icebeam}-sheet.png` (밝은/어두운 배경), `*-playback.png` (연속 APNG), `comparison.png` (Patch 23과 비교). 프레임 시트의 픽셀 검토와 자동 연속 재생 검사는 Windows 실화면의 최종 시각 승인과 구분한다.
+- Linux headless: 180×150 에뮬레이션에서 양방향 효과 영역 x=25–155, y=26–106으로 잘림 없음. 34장 디코딩, 실제 타이머 기반 8/12/14프레임 재생, 상태 복귀와 캐릭터별 표시 검증. 격리 컨테이너의 로컬 신뢰 코드만 `--no-sandbox`로 실행하며 Windows 검증으로 간주하지 않음.
+- Windows Electron / EXE: **NOT VERIFIED**. 실제 창/DPI별 양방향 빔, 박수의 두 지느러미 접촉, 입과 물줄기 연결, 동결 1초·파쇄·효과 제거, 이동/ROLL/드래그/우클릭/기존 명령/다른 캐릭터를 확인해야 함. 시작 화면을 통한 Spheal 선택과 packaged EXE도 Windows에서 확인 필요.
+
 ## 기준
 - 원본 안정 기준: Desktop Pet v0.1.12(2)
 - 현재 작업본: v0.1.12 기반 대굴레오 Patch 13

@@ -382,3 +382,13 @@
 - WATER GUN 01–03 and 09–12, shake/droplets, ROLL, base/idle, JS/CSS, shared input and other characters were not edited.
 - Added bright/dark frame contact sheets and a Patch 22→23 visual comparison guide in `docs/spheal-patch23/`.
 - Verified via PNG decode/re-encode roundtrips, constrained changed-pixel masks, firing beam per-column continuity, and rendered contact sheets. **Node test suite and Windows Electron / EXE visual tests were not executed in this environment and remain mandatory manual follow-up.**
+
+## Spheal CLAP / WATER GUN refinement and ICE BEAM (2026-10-23)
+
+- Baseline main `8960f70fb409684bb69ad07a5e035282a963af52`; preserved Patch 23 `dc669d8` and earlier stable commits. Package version remains 0.1.12; development branch only, no release or main merge.
+- Rebuilt CLAP's existing two fin/root regions without changing body alpha, smile, 8-frame order or 180ms timing. Reconnected WATER GUN's mouth to the snout/chin and moved the stream origin inside that opening; preserved the single moving column, 175ms timing, preparation and shake/droplet/recovery frames.
+- Added click → `icebeam` → Enter: 350ms preparation, 900ms connected crystalline beam, 1000ms still freeze, 500ms shatter, 200ms original-color recovery. Fourteen original-based full-body PNGs; no blur/smoothing or runtime effect overlays.
+- Explicit attacks replace CLAP only; attacks reject duplicates and mutual interruption. Deferred state/facing changes cannot replace active attack art. Autonomous movement remains blocked by the existing renderer one-shot gate; user drag and quit stay available.
+- Changes are limited to Spheal art/module/styles, its command branch and startup hint, focused tests/tools and review evidence. Corrected the Spheal-only CSS visibility selector that previously displayed Spheal on other character selections. Pet Engine/Main/IPC/base/ROLL/other character modules/dependencies are unchanged.
+- PASS: JavaScript syntax, 58 Node regressions, six PNG/alpha/connected-beam/APNG checks and Linux Electron headless integration. Details and reproducible commands are in `SPHEAL-IMPLEMENTATION-HANDOFF.md`; visual sheets/playbacks are in `docs/spheal-specials/`.
+- **NOT VERIFIED:** Windows Electron, packaged EXE, real desktop interactions/DPI, and user visual acceptance. Rollback by reverting this branch's commits in reverse order or using the preserved baseline; do not rewrite main or Patch 23 history.

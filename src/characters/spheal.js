@@ -18,6 +18,11 @@ class SphealCharacter {
     this.waterGunFrames = Array.from({ length: 12 }, (_, index) =>
       `${root}animations/watergun/watergun-${String(index + 1).padStart(2, '0')}.png`
     );
+    this.iceBeamFrames = Array.from({ length: 14 }, (_, index) =>
+      `${root}animations/icebeam/icebeam-${String(index + 1).padStart(2, '0')}.png`
+    );
+    // Preparation, firing, an exactly still 1s hold, shattering, recovery.
+    this.iceBeamDurations = [175, 175, ...Array(6).fill(150), 1000, ...Array(4).fill(125), 200];
 
     this.state = states.IDLE;
     this.rollStartedAt = 0;
@@ -30,6 +35,8 @@ class SphealCharacter {
   setState(next) {
     const previous = this.state;
     this.state = next;
+    // Remember drag/click/normal-state requests without replacing one-shot art.
+    if (this.special) return;
     if (next === this.states.REACT) {
       this.element.className = 'spheal react';
       this.startSpecialAction('clap');
@@ -68,15 +75,16 @@ class SphealCharacter {
 
   setFacing(nextFacing) {
     if (nextFacing !== -1 && nextFacing !== 1) return;
+    if (this.special) return;
     this.facing = nextFacing;
     this.element.style.transform = `scaleX(${-nextFacing})`;
   }
 
   startSpecialAction(type) {
-    if (type !== 'watergun' && type !== 'clap') return false;
+    if (!['watergun', 'icebeam', 'clap'].includes(type)) return false;
     if (this.special) {
-      if (type !== 'watergun' || this.special.type === 'watergun') return false;
-      this.special = null;
+      // Either explicit attack may replace a clap; attacks cannot interrupt each other.
+      if (type === 'clap' || this.special.type !== 'clap') return false;
     }
     this.special = {
       type,
@@ -84,7 +92,9 @@ class SphealCharacter {
       frameMs: type === 'watergun' ? 175 : 180,
       oneShot: true
     };
+    this.rollEndingAt = 0;
     this.element.className = `spheal special-${type}`;
+    this.renderSpecial(this.special.startedAt);
     return true;
   }
 
@@ -99,15 +109,28 @@ class SphealCharacter {
 
   finishSpecialAction() {
     this.special = null;
+    if (this.state === this.states.WALK) {
+      this.rollStartedAt = performance.now();
+      this.movementSpeed = 0.06;
+    }
     this.element.className = `spheal ${this.state}`;
     this.setSprite(this.baseSrc);
   }
 
   renderSpecial(now) {
     if (!this.special) return false;
-    const frames = this.special.type === 'watergun' ? this.waterGunFrames : this.reactFrames;
-    const elapsed = now - this.special.startedAt;
-    const frameIndex = Math.floor(elapsed / this.special.frameMs);
+    const frames = this.special.type === 'icebeam' ? this.iceBeamFrames
+      : this.special.type === 'watergun' ? this.waterGunFrames : this.reactFrames;
+    const elapsed = Math.max(0, now - this.special.startedAt);
+    let frameIndex = Math.floor(elapsed / this.special.frameMs);
+    if (this.special.type === 'icebeam') {
+      let end = 0;
+      frameIndex = this.iceBeamDurations.findIndex(duration => {
+        end += duration;
+        return elapsed < end;
+      });
+      if (frameIndex === -1) frameIndex = frames.length;
+    }
     if (frameIndex >= frames.length) {
       this.finishSpecialAction();
       return false;

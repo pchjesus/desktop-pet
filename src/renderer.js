@@ -45,12 +45,13 @@ function easterEggCode() {
 
 function handleSphealSpecialCode() {
   if (selectedCharacter !== 'spheal' || !character?.startSpecialAction) return false;
-  if (easterEggBuffer !== 'watergun') return false;
-  if (character.startSpecialAction('watergun')) {
-    nextDecision = performance.now() + 1800;
+  if (easterEggBuffer !== 'watergun' && easterEggBuffer !== 'icebeam') return false;
+  const iceBeam = easterEggBuffer === 'icebeam';
+  if (iceBeam ? character.startSpecialAction('icebeam') : character.startSpecialAction('watergun')) {
+    nextDecision = performance.now() + (iceBeam ? 2950 : 2100);
     easterEggEligibleUntil = 0;
     easterEggBuffer = '';
-    showBubble('물대포!');
+    showBubble(iceBeam ? '냉동빔!' : '물대포!');
     return true;
   }
   return false;

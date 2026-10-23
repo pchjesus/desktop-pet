@@ -166,6 +166,8 @@ def ice_beam(index):
             for x, y, size in [(23 - spread, 34, 2), (95 + spread, 45, 2),
                                (42 - spread, 12 - spread // 2, 1), (79 + spread, 67, 1)]:
                 crystal(d, x, y, size)
+        if index == 9:
+            im.putalpha(base.getchannel('A'))
     return im
 
 
