@@ -203,7 +203,7 @@ function createPetWindow(characterId = 'neukgu') {
 
 // One app-lifetime registration; handlers read the current window/character.
 function isCurrentPet(event) {
-  return Boolean(win && (!event?.sender || event.sender === win.webContents));
+  return Boolean(win && !returningHome && (!event?.sender || event.sender === win.webContents));
 }
 
 function clearPetActivity() {
@@ -215,16 +215,18 @@ function clearPetActivity() {
   clearSmokeMarker();
 }
 
-function returnHome(petWindow) {
+async function returnHome(petWindow) {
   if (returningHome || win !== petWindow) return false;
   returningHome = true;
   try {
     clearPetActivity();
-    for (const child of [royceMessageWin, fanProjectWin]) {
-      if (child && !child.isDestroyed()) child.close();
-    }
-    // Destroying this renderer also clears its behavior/input/special timers.
-    petWindow.close();
+    const closing = [royceMessageWin, fanProjectWin, petWindow].filter(child => child && !child.isDestroyed());
+    // Wait for real closed events: Electron close() may finish asynchronously.
+    await Promise.all(closing.map(child => new Promise(resolve => {
+      child.once('closed', resolve);
+      child.close();
+    })));
+    // Destroying the old renderer clears its behavior/input/special timers.
     createStartWindow();
     return true;
   } finally { returningHome = false; }
@@ -243,7 +245,7 @@ function registerPetIPC() {
   });
 
   ipcMain.handle('pet:quit', async (event) => {
-    if (!isCurrentPet(event) || petDialogOpen) return false;
+    if (!isCurrentPet(event) || petDialogOpen || returningHome) return false;
     const dialogWindow = win;
     petDialogOpen = true;
     try {
@@ -257,7 +259,7 @@ function registerPetIPC() {
       });
       // Ignore replies belonging to a pet that has already been closed.
       if (win !== dialogWindow) return false;
-      if (result.response === 0) return returnHome(dialogWindow);
+      if (result.response === 0) return await returnHome(dialogWindow);
       if (result.response === 1) { app.quit(); return true; }
       return false;
     } finally { petDialogOpen = false; }
@@ -366,8 +368,10 @@ function createStartWindow() {
       nodeIntegration: false
     }
   });
+  const launcherWindow = startWin;
   startWin.loadFile(path.join(__dirname, 'start.html'));
   startWin.on('closed', () => {
+    if (startWin !== launcherWindow) return;
     startWin = null;
     if (!launchingPet && !returningHome && !win) app.quit();
   });
@@ -375,9 +379,11 @@ function createStartWindow() {
 
 ipcMain.on('start:launch-pet', (_event, characterId) => {
   if (_event?.sender && _event.sender !== startWin?.webContents) return;
-  if (win || launchingPet) return;
+  if (win || launchingPet || returningHome) return;
   launchingPet = true;
-  if (startWin && !startWin.isDestroyed()) startWin.close();
+  const launcherWindow = startWin;
+  startWin = null;
+  if (launcherWindow && !launcherWindow.isDestroyed()) launcherWindow.close();
   createPetWindow(characterId);
   startMouseHitTesting();
   launchingPet = false;

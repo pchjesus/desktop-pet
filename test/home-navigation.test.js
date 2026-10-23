@@ -57,3 +57,23 @@ test('cancel keeps the pet; repeated dialogs and stale replies cannot create dup
 test('closing the actual home screen still quits normally',()=>{
  const h=setup();h.launcher().close();assert.equal(h.quit(),1);
 });
+
+test('delayed old launcher close cannot quit or erase a newly returned home',async()=>{
+ const h=setup(),old=h.launcher();
+ const oldClose=old.close.bind(old);old.close=()=>{};
+ h.handlers['start:launch-pet']({sender:old.webContents},'growlithe');const pet=h.current();
+ h.response(0);assert.equal(await h.handlers['pet:quit']({sender:pet.webContents}),true);
+ const home=h.launcher();assert.notEqual(home,old);
+ oldClose();
+ assert.equal(vm.runInContext('startWin',h.context),home);
+ assert.equal(h.quit(),0);
+});
+
+test('home waits for the pet to close and rejects new dialogs until then',async()=>{
+ const h=setup();h.handlers['start:launch-pet']({},'pachirisu');const pet=h.current(),event={sender:pet.webContents};
+ const close=pet.close.bind(pet);pet.close=()=>{};
+ h.response(0);const pending=h.handlers['pet:quit'](event);await Promise.resolve();
+ assert.equal(h.launcher(),undefined);assert.equal(await h.handlers['pet:quit'](event),false);
+ h.handlers['pet:set-position'](event,{x:500,y:500});assert.deepEqual(pet.position,[100,100]);
+ close();assert.equal(await pending,true);assert.ok(h.launcher());assert.equal(h.timers.size,0);
+});
