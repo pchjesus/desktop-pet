@@ -81,7 +81,7 @@ class SphealAssets(unittest.TestCase):
             self.assert_cleanup_only(original(f'animations/watergun/watergun-{i:02}.png'), frame('watergun', i))
 
     def test_polish_only_changes_face_pixels_and_preserves_alpha_effects_and_mouth(self):
-        for kind, indices in [('watergun', range(9, 12)), ('icebeam', range(10, 14))]:
+        for kind, indices in [('icebeam', range(10, 14))]:
             for i in indices:
                 before = original(f'animations/{kind}/{kind}-{i:02}.png', POLISH_BASELINE)
                 after = frame(kind, i)
@@ -97,6 +97,34 @@ class SphealAssets(unittest.TestCase):
                 self.assertTrue(changes)
         for i in list(range(1, 10)) + [14]:
             self.assert_cleanup_only(original(f'animations/icebeam/icebeam-{i:02}.png', POLISH_BASELINE), frame('icebeam', i), ice=True)
+
+    def test_water_shake_changes_only_approved_droplet_footprints(self):
+        # Every non-effect pixel, especially face/body and pre-existing spray, is identical.
+        reference = '003aeb2fd33133db4bbe0b7631fc5739e97b83b0'
+        drops = {
+            9: [[22,23,1],[16,38,2],[22,53,1],[29,10,1],[45,5,1],[91,18,2],[102,32,1],[105,49,2],[94,64,1],[73,7,1],[13,58,1]],
+            10: [[14,21,2],[10,39,1],[14,57,2],[27,71,1],[36,5,1],[103,17,2],[112,36,2],[111,57,1],[98,69,2],[58,4,1],[88,5,2],[7,51,1],[108,27,1]],
+            11: [[10,27,1],[7,46,1],[17,67,1],[34,73,1],[106,23,1],[113,41,1],[111,62,2],[92,71,1],[45,4,1],[88,3,1]],
+        }
+        def footprint(x, y, size):
+            offsets = ((0, 0), (0, -1)) if size == 1 else (
+                (0, -2), (-1, -1), (0, -1), (1, -1),
+                (-1, 0), (0, 0), (1, 0), (0, 1))
+            return {(x + dx, y + dy) for dx, dy in offsets}
+        for i in (9, 10, 11):
+            old = original(f'animations/watergun/watergun-{i:02}.png', reference)
+            new = frame('watergun', i)
+            allowed = set().union(*(footprint(x, y, size) for x, y, size in drops[i]))
+            changes = {(x, y) for y in range(80) for x in range(120)
+                       if old.getpixel((x, y)) != new.getpixel((x, y))}
+            self.assertTrue(changes <= allowed, (i, changes - allowed))
+            self.assertGreaterEqual(len(changes), 16, i)
+            for x, y in changes:
+                self.assertEqual(old.getpixel((x, y))[3], 0, (i, x, y, 'source overwritten'))
+                self.assertIn(new.getpixel((x, y)), ((58, 151, 206, 255),
+                    (95, 199, 232, 255), (213, 247, 255, 255)))
+            self.assertEqual(old.crop((32, 19, 78, 34)).tobytes(),
+                             new.crop((32, 19, 78, 34)).tobytes())
 
     def test_shake_and_shatter_have_exactly_two_inward_closed_eyes(self):
         left = {(36 + j, 22 + j) for j in range(4)} | {(39 - j, 25 + j) for j in range(4)}
@@ -214,7 +242,7 @@ class SphealAssets(unittest.TestCase):
                 for y in range(80):
                     for x in range(120):
                         outside = not (0 <= x - dx < 80) or raw.getpixel((x - dx, y))[3] == 0
-                        if outside and old.getpixel((x, y))[3]:
+                        if outside and old.getpixel((x, y))[3] and not (kind == 'watergun' and i in (9, 10, 11)):
                             self.assertEqual(new.getpixel((x, y)), old.getpixel((x, y)), (kind, i, x, y))
                             effects += 1
                 if (kind == 'watergun' and 4 <= i <= 11) or (kind == 'icebeam' and 1 <= i <= 8):
