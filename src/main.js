@@ -299,8 +299,9 @@ function createManualWindow() {
 
 function createStartWindow() {
   startWin = new BrowserWindow({
-    width: 500,
-    height: 500,
+    width: 680,
+    height: 560,
+    useContentSize: true,
     resizable: false,
     title: 'Desktop Pet',
     autoHideMenuBar: true,
