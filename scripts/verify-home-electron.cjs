@@ -5,6 +5,12 @@ const fs=require('node:fs');
 const path=require('node:path');
 const Module=require('node:module');
 const assert=require('node:assert/strict');
+function fail(error) {
+ const detail=error.stack||String(error);console.error(detail);
+ if(process.env.GITHUB_STEP_SUMMARY)fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,'\n## Native input check failure\n```text\n'+detail+'\n```\n');
+ app.exit(1);
+}
+process.once('uncaughtException',fail);
 if(process.platform==='linux'&&!process.env.DISPLAY){console.error('Native home check requires DISPLAY on Linux');app.exit(1);}
 const filename=path.resolve(__dirname,'../src/main.js');
 const main=new Module(filename,module);main.filename=filename;main.paths=Module._nodeModulePaths(path.dirname(filename));
@@ -71,5 +77,5 @@ const loaded=async(get)=>wait(async()=>{const win=get();if(!win||win.isDestroyed
  const pet=await loaded(refs.pet);response=1;exitArmed=true;
  app.once('before-quit',()=>console.log('PASS: native Exit requests app shutdown (dialog responses scripted)'));
  await pet.webContents.executeJavaScript('void window.petAPI.quit();').catch(()=>{});
-})().catch(error=>{console.error(error.stack);exitArmed=false;app.exit(1);});
+})().catch(fail);
 setTimeout(()=>{console.error('Home check timeout');app.exit(1);},60000).unref();
