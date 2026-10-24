@@ -1,3 +1,45 @@
+# Windows mouse input diagnosis — branch-only hotfix
+
+- Baseline main `1e2780572fcca7e7f421ceaa8fcb11606c8e9c1f`, v0.1.12 /
+  Electron 44.5.0. Branch `fix/windows-mouse-forwarding`; no main/release update.
+- Confirmed by Main call-trace reproduction: stable cursor rewrites native ignore
+  state each 30ms; late renderer `setIgnoreMouse(true)` overrides an interactive
+  hit until the next poll; release outside the pet waits for that poll. These are
+  app-state/call-pattern defects, not proof of the reported permanent Windows lock.
+- Polling remains 30ms with the same 110×110 hit area, DIP bounds and drag owner.
+  Apply native ignore only on boolean transitions; reset its cache per window;
+  synchronize after creation/reconciliation/release. Main owns the decision and
+  legacy renderer hints only request a refresh. Remove the renderer startup write.
+- Disable native forwarding: the pet has no mouseenter/mouseleave dependency;
+  pointer movement during drag occurs while interactive. OS polling can restore
+  input without forwarded DOM movement, avoiding Electron's legacy Windows hook.
+- Official related issue [#49982](https://github.com/electron/electron/issues/49982)
+  concerns stuck forwarding after crash/reload; [#52633](https://github.com/electron/electron/pull/52633)
+  fixes stale legacy HWND/hover tracking, backported as
+  [#54802](https://github.com/electron/electron/pull/54802) and shipped in
+  [44.7.1](https://github.com/electron/electron/releases/tag/v44.7.1).
+  44.5.0 source still uses that legacy forwarding path, but already guards repeat
+  hook registration: do not mislabel every 30ms call as a new hook installation.
+  No crash/reload, stale HWND or physical input failure was reproduced on the
+  affected PC; this remains a possible runtime contribution, not a confirmed cause.
+- Retain exact 44.5.0 / lockfile: the minimal app patch avoids the unnecessary
+  forwarding path. If the affected PC still reproduces, compare exact same app
+  with 44.7.1 in an isolated runtime-only trial; do not assume upgrade guarantees it.
+- Local syntax, Node 100/100, shell 20/20 and five-character headless Electron
+  integration PASS. New tests cover coalescing, initialization race, repeated
+  drag/release/re-entry, autonomous position changes and all-five Home loops.
+  Existing animation/artwork, special timing, preload API, engine and dependencies
+  remain unchanged. Windows CI is a separate gate for this exact branch SHA.
+- Windows native trace uses real BrowserWindows/native setter with scripted
+  cursor coordinates and DOM/IPC clicks; physical OS delivery is NOT VERIFIED.
+  Portable execution smoke is not a user-PC input/visual acceptance test.
+- Manual follow-up on the affected PC: leave/re-enter/reclick repeatedly, repeat
+  drags and releases (including blur), click after autonomous movement, verify
+  transparent areas still pass through, then Home→different pets→re-entry.
+  Record Windows/DPI/mouse-driver/foreground-app conditions and whether a renderer
+  reload/crash occurred if it still fails. Roll back these branch commits normally
+  to 1e27805; do not reset main or publish a release from this diagnostic branch.
+
 # Home navigation, Growlithe size and diagonal meteors
 
 - Baseline main `958a2c89`; feature branch `feat/pet-home-size-meteors`.

@@ -15,6 +15,7 @@ let dragging = false;
 let dragStart = null;
 let dragTimer = null;
 let hitTestTimer = null;
+let mouseEventsIgnored = null;
 let launchingPet = false;
 let returningHome = false;
 let petDialogOpen = false;
@@ -135,10 +136,19 @@ function reconcileWindow() {
     dragStart = { x: px, y: py, mouseX: cursor.x, mouseY: cursor.y };
   }
   publishWindowInfo();
+  updateMouseHitTesting();
+}
+
+function setMouseEventsIgnored(ignore) {
+  if (!win || mouseEventsIgnored === ignore) return;
+  // Main polls OS coordinates, so no forwarded mouse/leave messages are needed.
+  // In particular, avoid the legacy Windows forwarding hook in Electron 44.5.
+  win.setIgnoreMouseEvents(ignore);
+  mouseEventsIgnored = ignore;
 }
 
 function updateMouseHitTesting() {
-  if (!win || dragging) return;
+  if (!win || dragging || returningHome) return;
   const [x, y] = win.getPosition();
   const cursor = screen.getCursorScreenPoint();
 
@@ -149,7 +159,7 @@ function updateMouseHitTesting() {
     cursor.y >= y + 20 &&
     cursor.y <= y + 130;
 
-  win.setIgnoreMouseEvents(!overPet, { forward: true });
+  setMouseEventsIgnored(!overPet);
 }
 
 function startMouseHitTesting() {
@@ -167,6 +177,7 @@ function createPetWindow(characterId = 'neukgu') {
   if (win) return;
   const selectedCharacter = ['growlithe', 'royce', 'spheal', 'pachirisu'].includes(characterId) ? characterId : 'neukgu';
   activeCharacter = selectedCharacter;
+  mouseEventsIgnored = null;
   win = new BrowserWindow({
     width: 180,
     height: 150,
@@ -188,6 +199,7 @@ function createPetWindow(characterId = 'neukgu') {
 
   const petWindow = win;
   win.setAlwaysOnTop(true, 'floating');
+  updateMouseHitTesting();
   win.webContents.once('did-finish-load', () => {
     if (win === petWindow) { reconcileWindow(); markSmokeReady(); }
   });
@@ -211,6 +223,7 @@ function clearPetActivity() {
   dragStart = null;
   stopDragTimer();
   stopMouseHitTesting();
+  mouseEventsIgnored = null;
   lastDisplayId = null;
   clearSmokeMarker();
 }
@@ -405,14 +418,16 @@ app.whenReady().then(() => {
     createStartWindow();
   }
 
-  ipcMain.on('pet:set-ignore-mouse', (_event, ignore) => {
-    if (isCurrentPet(_event) && !dragging) win.setIgnoreMouseEvents(Boolean(ignore), { forward: true });
+  ipcMain.on('pet:set-ignore-mouse', (_event) => {
+    // Keep the bridge compatible, but treat renderer hints as a refresh only.
+    // A late initialization message must not override cursor/drag ownership.
+    if (isCurrentPet(_event)) updateMouseHitTesting();
   });
 
   ipcMain.on('pet:drag-start', (_event, { mouseX, mouseY }) => {
     if (!isCurrentPet(_event)) return;
     dragging = true;
-    win.setIgnoreMouseEvents(false);
+    setMouseEventsIgnored(false);
     const [x, y] = win.getPosition();
     dragStart = { x, y, mouseX, mouseY };
     stopDragTimer();

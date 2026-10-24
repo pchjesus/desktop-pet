@@ -291,5 +291,4 @@ function startBehaviorLoop() {
 }
 
 // The renderer itself is a tiny behavior loop; OS window position remains main-process-owned.
-window.petAPI.setIgnoreMouse(true);
 initPosition().then(startBehaviorLoop);
