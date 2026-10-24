@@ -1,8 +1,8 @@
-name: Desktop Pet Home and Motion Windows Preview
+name: Desktop Pet Mouse Input Windows Preview
 
 on:
   push:
-    branches: [feat/canine-soft-runtime, feat/pachirisu-growlithe-integration, feat/pet-home-size-meteors]
+    branches: [feat/canine-soft-runtime, feat/pachirisu-growlithe-integration, feat/pet-home-size-meteors, fix/windows-mouse-forwarding]
     paths:
       - ".github/workflows/windows-canine-preview.yml"
       - "src/**"
@@ -105,7 +105,7 @@ jobs:
       - name: Upload preview EXE
         uses: actions/upload-artifact@v4
         with:
-          name: DesktopPet-Home-Motion-Windows
+          name: DesktopPet-Mouse-Input-Fix-Windows
           path: dist/DesktopPet-0.1.12-portable.exe
           if-no-files-found: error
           retention-days: 7
