@@ -1,8 +1,8 @@
-name: Desktop Pet Mouse Input Windows Preview
+name: Desktop Pet Input Diagnostics Windows Preview
 
 on:
   push:
-    branches: [feat/canine-soft-runtime, feat/pachirisu-growlithe-integration, feat/pet-home-size-meteors, fix/windows-mouse-forwarding]
+    branches: [feat/canine-soft-runtime, feat/pachirisu-growlithe-integration, feat/pet-home-size-meteors, fix/windows-mouse-forwarding, debug/windows-input-diagnostics]
     paths:
       - ".github/workflows/windows-canine-preview.yml"
       - "src/**"
@@ -102,11 +102,14 @@ jobs:
       - name: Verify user-facing Windows BAT against packaged portable EXE
         shell: cmd
         run: call VERIFY-WINDOWS.bat
+      - name: Name diagnostic-only EXE distinctly
+        shell: pwsh
+        run: Copy-Item 'dist/DesktopPet-0.1.12-portable.exe' 'dist/DesktopPet-0.1.12-INPUT-DIAGNOSTIC.exe'
       - name: Upload preview EXE
         uses: actions/upload-artifact@v4
         with:
-          name: DesktopPet-Mouse-Input-Fix-Windows
-          path: dist/DesktopPet-0.1.12-portable.exe
+          name: DesktopPet-Input-Diagnostics-Windows
+          path: dist/DesktopPet-0.1.12-INPUT-DIAGNOSTIC.exe
           if-no-files-found: error
           retention-days: 7
           compression-level: 0

@@ -19,6 +19,32 @@ const character = selectedCharacter === 'growlithe'
         : new globalThis.NeukguCharacter(document.getElementById('neukgu'), PET_STATES);
 const bubble = document.getElementById('bubble');
 
+// Passive diagnostic-only listeners: no preventDefault, stopPropagation or key logging.
+let lastDiagMove = -Infinity;
+function diagnosticCapture(type, event) {
+  if (type === 'pointermove') {
+    const now = performance.now();
+    if (now - lastDiagMove < 900) return;
+    lastDiagMove = now;
+  }
+  window.petAPI.diagnosticEvent(type, {
+    target: event?.target?.closest?.('#pet') ? 'pet' : 'other',
+    button: event?.button,
+    clientX: event?.clientX, clientY: event?.clientY,
+    screenX: event?.screenX, screenY: event?.screenY,
+    trusted: event?.isTrusted === true,
+    visibility: document.visibilityState
+  });
+}
+for (const type of ['pointerdown', 'pointerup', 'pointercancel', 'pointermove', 'click', 'contextmenu']) {
+  window.addEventListener(type, (event) => diagnosticCapture(type, event), { capture: true, passive: true });
+}
+for (const type of ['focus', 'blur'])
+  window.addEventListener(type, (event) => diagnosticCapture(type, event));
+document.addEventListener('visibilitychange', (event) => diagnosticCapture('visibilitychange', event));
+diagnosticCapture('renderer-ready', null);
+
+
 let easterEggEligibleUntil = 0;
 let easterEggBuffer = '';
 

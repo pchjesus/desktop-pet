@@ -4,6 +4,7 @@ const debugLog = (...args) => { if (PET_DEBUG) console.log('[PET]', ...args); };
 const path = require('path');
 const fs = require('fs');
 const windowBounds = require('./window-bounds');
+const inputDiagnostics = require('./input-diagnostics')({ app, fs, path, screen });
 
 let win;
 let startWin;
@@ -145,6 +146,7 @@ function setMouseEventsIgnored(ignore) {
   // In particular, avoid the legacy Windows forwarding hook in Electron 44.5.
   win.setIgnoreMouseEvents(ignore);
   mouseEventsIgnored = ignore;
+  inputDiagnostics.record('native-ignore', { ignored: ignore, dragging, character: activeCharacter });
 }
 
 function updateMouseHitTesting() {
@@ -160,6 +162,7 @@ function updateMouseHitTesting() {
     cursor.y <= y + 130;
 
   setMouseEventsIgnored(!overPet);
+  inputDiagnostics.sample({ win, cursor, overPet, ignored: mouseEventsIgnored, dragging, character: activeCharacter });
 }
 
 function startMouseHitTesting() {
@@ -198,6 +201,7 @@ function createPetWindow(characterId = 'neukgu') {
   });
 
   const petWindow = win;
+  inputDiagnostics.observeWindow(petWindow, activeCharacter);
   win.setAlwaysOnTop(true, 'floating');
   updateMouseHitTesting();
   win.webContents.once('did-finish-load', () => {
@@ -407,6 +411,7 @@ ipcMain.on('start:open-manual', () => {
 });
 
 app.whenReady().then(() => {
+  inputDiagnostics.start();
   registerPetIPC();
   for (const event of ['display-added', 'display-removed', 'display-metrics-changed']) {
     screen.on(event, reconcileWindow);
@@ -418,6 +423,11 @@ app.whenReady().then(() => {
     createStartWindow();
   }
 
+  ipcMain.on('pet:diag-event', (event, payload) => {
+    if (isCurrentPet(event) && payload && typeof payload === 'object')
+      inputDiagnostics.rendererEvent(payload.type, payload.data);
+  });
+
   ipcMain.on('pet:set-ignore-mouse', (_event) => {
     // Keep the bridge compatible, but treat renderer hints as a refresh only.
     // A late initialization message must not override cursor/drag ownership.
@@ -427,6 +437,7 @@ app.whenReady().then(() => {
   ipcMain.on('pet:drag-start', (_event, { mouseX, mouseY }) => {
     if (!isCurrentPet(_event)) return;
     dragging = true;
+    inputDiagnostics.record('drag-start', { character: activeCharacter });
     setMouseEventsIgnored(false);
     const [x, y] = win.getPosition();
     dragStart = { x, y, mouseX, mouseY };
@@ -449,6 +460,7 @@ app.whenReady().then(() => {
     dragging = false;
     dragStart = null;
     stopDragTimer();
+    inputDiagnostics.record('drag-end', { character: activeCharacter });
     reconcileWindow();
   });
 });
@@ -457,6 +469,7 @@ app.whenReady().then(() => {
 // Home waits for the old windows to close; explicit Exit still uses app.quit().
 app.on('window-all-closed', () => {});
 app.on('before-quit', () => {
+  inputDiagnostics.record('end');
   dragging = false;
   dragStart = null;
   stopDragTimer();

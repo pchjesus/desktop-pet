@@ -14,5 +14,6 @@ contextBridge.exposeInMainWorld('petAPI', {
   setPosition: (x, y) => ipcRenderer.send('pet:set-position', { x, y }),
   quit: () => ipcRenderer.invoke('pet:quit'),
   openFanProject: () => ipcRenderer.send('pet:open-fan-project'),
-  showRoyceMessage: () => ipcRenderer.invoke('pet:show-royce-message')
+  showRoyceMessage: () => ipcRenderer.invoke('pet:show-royce-message'),
+  diagnosticEvent: (type, data) => ipcRenderer.send('pet:diag-event', { type, data })
 });
