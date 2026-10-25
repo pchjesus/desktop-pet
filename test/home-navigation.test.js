@@ -19,7 +19,7 @@ function setup(){
  }
  let response=2,resolveDialog;
  const dialog={options:null,showMessageBox(_win,options){this.options=options;return response==='pending'?new Promise(r=>resolveDialog=r):Promise.resolve({response});}};
- const context=vm.createContext({require:n=>n==='electron'?{app,BrowserWindow:Window,dialog,ipcMain,screen}:n==='./window-bounds'?require('../src/window-bounds'):require(n),__dirname:path.resolve(__dirname,'../src'),process:{env:{},argv:[]},console,setInterval:fn=>{timers.set(++id,fn);return id},clearInterval:n=>timers.delete(n)});
+ const context=vm.createContext({require:n=>n==='electron'?{app,BrowserWindow:Window,dialog,ipcMain,screen}:n==='./window-bounds'?require('../src/window-bounds'):n==='./input-diagnostics'?()=>({start(){},record(){},sample(){},rendererEvent(){},observeWindow(){}}):require(n),__dirname:path.resolve(__dirname,'../src'),process:{env:{},argv:[]},console,setInterval:fn=>{timers.set(++id,fn);return id},clearInterval:n=>timers.delete(n)});
  vm.runInContext(fs.readFileSync(path.resolve(__dirname,'../src/main.js'),'utf8'),context);ready();
  return{appHandlers,handlers,windows,timers,dialog,context,registrations,response:n=>response=n,resolveDialog:r=>resolveDialog({response:r}),quit:()=>quit,current:()=>windows.findLast(w=>!w.destroyed&&w.file==='index.html'),launcher:()=>windows.findLast(w=>!w.destroyed&&w.file==='start.html')};
 }

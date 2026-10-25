@@ -27,7 +27,7 @@ function diagnosticCapture(type, event) {
     if (now - lastDiagMove < 900) return;
     lastDiagMove = now;
   }
-  window.petAPI.diagnosticEvent(type, {
+  window.petAPI.diagnosticEvent?.(type, {
     target: event?.target?.closest?.('#pet') ? 'pet' : 'other',
     button: event?.button,
     clientX: event?.clientX, clientY: event?.clientY,

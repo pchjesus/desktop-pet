@@ -32,7 +32,7 @@ function harness(source = fs.readFileSync(path.join(root, 'src/main.js'), 'utf8'
     setAlwaysOnTop(){} setIgnoreMouseEvents(){} loadFile(){}
   }
   const context = vm.createContext({ require:name=>name==='electron'?{app,screen,ipcMain,BrowserWindow,dialog:{}}
-    :name==='./window-bounds'?geometry:require(name),
+    :name==='./window-bounds'?geometry:name==='./input-diagnostics'?()=>({start(){},record(){},sample(){},rendererEvent(){},observeWindow(){}}):require(name),
     __dirname:path.join(root,'src'),process:{argv:[],env:{}},console,
     setInterval:()=>1,clearInterval(){},setTimeout,clearTimeout });
   vm.runInContext(source,context);

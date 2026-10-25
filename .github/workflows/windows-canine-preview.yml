@@ -36,8 +36,13 @@ jobs:
       - name: JavaScript and character regression
         run: |
           npm run check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          node --check src/input-diagnostics.js
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           npm test
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           npm run test:shell
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Asset regression (Pillow)
         shell: pwsh
         run: |
