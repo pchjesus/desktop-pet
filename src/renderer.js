@@ -41,7 +41,7 @@ for (const type of ['pointerdown', 'pointerup', 'pointercancel', 'pointermove', 
 }
 for (const type of ['focus', 'blur'])
   window.addEventListener(type, (event) => diagnosticCapture(type, event));
-document.addEventListener('visibilitychange', (event) => diagnosticCapture('visibilitychange', event));
+document.addEventListener?.('visibilitychange', (event) => diagnosticCapture('visibilitychange', event));
 diagnosticCapture('renderer-ready', null);
 
 
