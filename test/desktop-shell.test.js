@@ -205,7 +205,7 @@ function mouseHarness() {
   }
   const app={whenReady:()=>({then:fn=>ready=fn}),on(){},quit(){},getPath:()=>'/tmp'};
   const ipcMain={on:(name,fn)=>handlers[name]=fn,handle:(name,fn)=>{assert.equal(handlers[name],undefined);handlers[name]=fn;}};
-  const context=vm.createContext({require:n=>n==='electron'?{app,BrowserWindow:Window,screen,ipcMain,dialog:{showMessageBox:async()=>({response:0})}}:n==='./window-bounds'?require('../src/window-bounds'):require(n),
+  const context=vm.createContext({require:n=>n==='electron'?{app,BrowserWindow:Window,screen,ipcMain,dialog:{showMessageBox:async()=>({response:0})}}:n==='./window-bounds'?require('../src/window-bounds'):n==='./input-diagnostics'?require('../src/input-diagnostics'):require(n),
     __dirname:path.join(root,'src'),console,process:{argv:[],env:{}},
     setInterval:(fn,ms)=>{timers.set(++timerId,{fn,ms});return timerId;},clearInterval:id=>timers.delete(id)});
   vm.runInContext(main,context);ready();
