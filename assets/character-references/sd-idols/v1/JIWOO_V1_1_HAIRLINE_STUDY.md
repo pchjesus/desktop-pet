@@ -1,8 +1,8 @@
-# Jiwoo SD v1.1 — Hairline cleanup study (UNAPPROVED)
+# Jiwoo SD v1.1 — Hairline cleanup study (REJECTED, NOT ADOPTED)
 
 Date: 2026-11-03 (KST)
 
-**Do not replace the first approved Jiwoo v1.** This is an isolated static-reference experiment, not a release or Electron asset integration.
+**Decision (2026-11-03 KST): User explicitly declined to adopt v1.1. Jiwoo v1 remains the sole approved baseline.** This v1.1 file is preserved for study/audit only. Do not replace Jiwoo v1, promote v1.1, or imply it is approved. This was an isolated static-reference experiment, not a release or Electron asset integration.
 
 ## Source of truth
 
@@ -12,7 +12,7 @@ Date: 2026-11-03 (KST)
 
 ## Scope
 
-Two localized hairline/forehead areas were edge-cleaned using non-generative, masked pixel processing. This reduces the diffuse left fringe and dark fuzzy right fringe, but the right-side strand may now appear slightly more geometric under magnification. The new appearance is **not** yet user-approved.
+Two localized hairline/forehead areas were edge-cleaned using non-generative, masked pixel processing. This reduces the diffuse left fringe and dark fuzzy right fringe, but the right-side strand may now appear slightly more geometric under magnification. The proposed change was **not adopted** by the user.
 
 ## Actual pixel verification
 
@@ -25,6 +25,6 @@ Two localized hairline/forehead areas were edge-cleaned using non-generative, ma
 - Approved original SHA-256 unchanged and retained in the backup archive.
 - No shared code, Electron runtime, animation or sprites were changed.
 
-## Follow-up
+## Final review decision
 
-Show side-by-side full and cropped views to user. Continue with v1 as the canonical design until explicit approval. If the harder right-side edge is disliked, adjust only that fragment or revert to v1; do not rerender the entire lineup.
+**REJECTED / NOT ADOPTED (2026-11-03).** Keep the original approved `jiwoo_approved_v1.png` and its existing SHA-256 as the only Jiwoo v1 reference. The v1.1 study and comparison files may be kept as historical, explicitly rejected candidates. Sullyoon and Seeun stay approved and unchanged. No new revision or animation integration is authorized by this decision.
