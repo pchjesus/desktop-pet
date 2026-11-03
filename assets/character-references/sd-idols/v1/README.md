@@ -8,7 +8,7 @@
 |---|---|---|
 | Sullyoon (NMIXX) | **APPROVED v1 — LOCKED** | Long half-up brown hair; pink S-A frill/corset stage dress; existing approved face/expression and clasped-hands pose |
 | Seeun (STAYC) | **APPROVED v1 — LOCKED** | Brown 2026 `2:LOVE` bob with airy bangs and outward curling ends; white layered `2:LOVE` stage outfit; existing approved face/expression, hair ornament and cheek-touching pose |
-| Jiwoo (Hearts2Hearts) | **NOT APPROVED** | J-B blue sporty top/white pleated skirt retained; face likeness requires revision from verified **Hearts2Hearts** Jiwoo reference photographs; do not confuse with NMIXX Jiwoo |
+| Jiwoo (Hearts2Hearts) | **APPROVED v1 — LOCKED AS BASELINE** | J-B blue sporty top/white pleated skirt and waving pose; face-only corrected v3 accepted on 2026-11-03. See [JIWOO_APPROVAL_V1.md](./JIWOO_APPROVAL_V1.md) for exact file hashes, pixel comparison, remaining polish notes, and binary backup status. |
 
 ## Exact approved master
 
@@ -37,5 +37,5 @@ When the images are added to the GitHub repository later, place unmodified copie
 
 ## Next task
 
-Revise **Jiwoo only**, with 10+ verified Hearts2Hearts Jiwoo photos spanning front, three-quarter, smile and side angles. Extract actual eye shape, brow, cheek outline, lip and 2025 GirlsAward bob silhouette. Do not accept a generic SD-face substitution.
+Treat Jiwoo v1 as an approved, immutable baseline. Optional v1.1 studies may polish forehead/bang compositing seams or compare eye/smile details against actual Hearts2Hearts Jiwoo photographs. Any study remains **UNAPPROVED** until explicitly accepted; do not replace approved PNGs. The approved Jiwoo v1 binary is currently available only as a conversation backup, not committed to GitHub. Do not touch Electron/runtime assets.
 
