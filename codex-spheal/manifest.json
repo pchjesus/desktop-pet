@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "packId": "spheal-codex-companion",
+  "title": "대굴레오 Codex 펫 스프라이트 팩",
+  "origin": {
+    "repository": "pchjesus/desktop-pet",
+    "branchBaseline": "main",
+    "assetRoot": "src/assets/characters/spheal",
+    "sourcePolicy": "Reuse original committed PNG bytes; never redraw/resize source frames."
+  },
+  "format": {
+    "pixelArt": true,
+    "transparentPng": true,
+    "baseSize": [
+      80,
+      80
+    ],
+    "attackSize": [
+      120,
+      80
+    ],
+    "previewScale": 3
+  },
+  "sprite": {
+    "idle": {
+      "frames": [
+        "src/assets/characters/spheal/spheal-base.png"
+      ],
+      "mode": "static"
+    },
+    "portrait": {
+      "frames": [
+        "src/assets/characters/spheal/spheal-portrait.png"
+      ],
+      "mode": "static"
+    },
+    "roll": {
+      "frames": [
+        "src/assets/characters/spheal/roll-01.png",
+        "src/assets/characters/spheal/roll-02.png",
+        "src/assets/characters/spheal/roll-03.png",
+        "src/assets/characters/spheal/roll-04.png",
+        "src/assets/characters/spheal/roll-05.png",
+        "src/assets/characters/spheal/roll-06.png",
+        "src/assets/characters/spheal/roll-07.png",
+        "src/assets/characters/spheal/roll-08.png",
+        "src/assets/characters/spheal/roll-09.png",
+        "src/assets/characters/spheal/roll-10.png",
+        "src/assets/characters/spheal/roll-11.png",
+        "src/assets/characters/spheal/roll-12.png"
+      ],
+      "mode": "phased_loop",
+      "startFrames": [
+        0,
+        1
+      ],
+      "loopFrames": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "endFrames": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "startFrameMs": 105,
+      "loopFrameMs": 90,
+      "endFrameMs": 105
+    },
+    "clap": {
+      "frames": [
+        "src/assets/characters/spheal/animations/clap/clap-01.png",
+        "src/assets/characters/spheal/animations/clap/clap-02.png",
+        "src/assets/characters/spheal/animations/clap/clap-03.png",
+        "src/assets/characters/spheal/animations/clap/clap-04.png",
+        "src/assets/characters/spheal/animations/clap/clap-05.png",
+        "src/assets/characters/spheal/animations/clap/clap-06.png",
+        "src/assets/characters/spheal/animations/clap/clap-07.png",
+        "src/assets/characters/spheal/animations/clap/clap-08.png"
+      ],
+      "mode": "once",
+      "frameMs": 180
+    },
+    "watergun": {
+      "frames": [
+        "src/assets/characters/spheal/animations/watergun/watergun-01.png",
+        "src/assets/characters/spheal/animations/watergun/watergun-02.png",
+        "src/assets/characters/spheal/animations/watergun/watergun-03.png",
+        "src/assets/characters/spheal/animations/watergun/watergun-04.png",
+        "src/assets/characters/spheal/animations/watergun/watergun-05.png",
+        "src/assets/characters/spheal/animations/watergun/watergun-06.png",
+        "src/assets/characters/spheal/animations/watergun/watergun-07.png",
+        "src/assets/characters/spheal/animations/watergun/watergun-08.png",
+        "src/assets/characters/spheal/animations/watergun/watergun-09.png",
+        "src/assets/characters/spheal/animations/watergun/watergun-10.png",
+        "src/assets/characters/spheal/animations/watergun/watergun-11.png",
+        "src/assets/characters/spheal/animations/watergun/watergun-12.png"
+      ],
+      "mode": "once",
+      "frameMs": 175
+    },
+    "icebeam": {
+      "frames": [
+        "src/assets/characters/spheal/animations/icebeam/icebeam-01.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-02.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-03.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-04.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-05.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-06.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-07.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-08.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-09.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-10.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-11.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-12.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-13.png",
+        "src/assets/characters/spheal/animations/icebeam/icebeam-14.png"
+      ],
+      "mode": "once",
+      "frameDurationsMs": [
+        175,
+        175,
+        150,
+        150,
+        150,
+        150,
+        150,
+        150,
+        1000,
+        125,
+        125,
+        125,
+        125,
+        200
+      ]
+    }
+  },
+  "eventContract": {
+    "task_started": {
+      "animation": "idle",
+      "speech": null
+    },
+    "task_completed": {
+      "animation": "watergun",
+      "speech": "작업 완료!",
+      "trigger": "only on verified task-completed event"
+    },
+    "user_click": {
+      "animation": "clap",
+      "speech": null
+    },
+    "manual_watergun": {
+      "animation": "watergun",
+      "speech": "물대포!"
+    },
+    "manual_icebeam": {
+      "animation": "icebeam",
+      "speech": "냉동빔!"
+    }
+  },
+  "integrationNotes": [
+    "No built-in Work/Codex completion notification is assumed.",
+    "Host/bridge must send verified task-completed signal; do not infer completion from window focus or idle.",
+    "During watergun/icebeam, suppress duplicate attack triggers; retain drag/movement state and return after one-shot.",
+    "Do not alter base/roll PNGs, other characters, Pet Engine or Electron IPC without separate review."
+  ]
+}
