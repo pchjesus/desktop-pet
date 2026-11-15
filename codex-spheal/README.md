@@ -50,3 +50,37 @@ python codex-spheal/build_pack.py
 이 작업은 신규 codex-spheal/ 폴더만 추가한다. src/characters/spheal.js, src/renderer.js, src/main.js, src/pet-engine.js와 기존 PNG는 변경하지 않는다. 실제 Codex 완료 자동 감지, Electron 런타임 통합, Windows EXE 실행은 별도 작업이며 이번 팩으로 검증된 것으로 간주하지 않는다.
 
 이 스프라이트는 포켓몬 팬 프로젝트용으로 기존 사용 자료를 정리한 것이다. 상업 배포 권리를 새로 부여하지 않는다.
+
+## ChatGPT/ Codex 공식 펫으로 쓰는 방법 (별도 Electron 구현 불필요)
+
+OpenAI 기본 9행(v1) 펫 규격에 맞춘 1536×1872 투명 아틀라스 빌더도 포함했다. 공식 atlas는 192×208 크기의 셀 8열×9행이다.
+
+```bash
+python -m pip install Pillow
+python codex-spheal/build_native_pet.py
+```
+
+생성 파일:
+- dist/spheal-codex-spritesheet.png — ChatGPT 웹 Settings > Personalization > Pet > Upload pet (가능한 계정에서)
+- dist/spheal-codex-spritesheet.webp — 데스크탑/CLI 커스텀 펫용
+- dist/Spheal-Codex-Native-Pet.zip — spheal-codex/pet.json + spritesheet.webp + spritesheet.png
+
+데스크탑 앱에서는 Settings > Pets > Create your own pet을 선택하면 hatch-pet 제작 흐름을 이용할 수 있다. 로컬 설치형 커스텀 펫은 보통 CODEX_HOME/pets/spheal-codex/ 아래 pet.json과 spritesheet.webp를 설치하는 형식이며, 실제 사용 중인 앱의 지원 방식을 따라야 한다.
+
+### 고정 행과 기존 동작 대응
+
+| 공식 행 | 기존 원본 재사용 방식 |
+|---|---|
+| 0 idle (6장) | 기본 이미지 미세 바운스 |
+| 1 running-right (8장) | ROLL 방향 뒤집기 |
+| 2 running-left (8장) | 원본 ROLL |
+| 3 waving (4장) | CLAP |
+| 4 jumping (5장) | CLAP + 수직 위치 변화 |
+| 5 failed (8장) | ICE BEAM/동결·파쇄 장면 |
+| 6 waiting (6장) | CLAP 준비 지느러미 자세 |
+| 7 running (6장) | WATER GUN 준비 자세 (작업 중 집중) |
+| 8 review (6장) | WATER GUN 발사와 몸 털기 (완료 연출 후보) |
+
+중요: 공식 펫은 작업 상태별 **고정 행**을 호스트 앱이 선택한다. 이 시트가 사용자가 원하는 시점에 반드시 '작업 완료!' 글자와 물대포를 실행시키는 것은 아니다. 8행 review를 물대포 완료 연출 후보로 배치했으며, 실제 호스트의 상태 매핑과 표현은 앱에서 확인해야 한다. 새로운 PNG 그림을 그리지 않았기 때문에 기다림/실패 표정 등은 기존 포즈를 활용한 근사 표현이다. 기존 Electron 별도 커스터마이징이나 대사 알림은 별도의 통합 작업이다.
+
+본 브랜치는 기존 원본 이미지를 한 장도 변경하지 않는다. 코드 추가는 codex-spheal/와 이 팩 전용 GitHub Actions 워크플로에 한정한다.
