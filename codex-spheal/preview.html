@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>대굴레오 Codex 펫 — 기존 PNG 스프라이트 검토</title>
+<style>
+:root{color-scheme:light;font-family:system-ui,"Noto Sans KR",sans-serif;background:#f6f8fb;color:#17263b}
+*{box-sizing:border-box}body{margin:0;padding:24px}main{max-width:1080px;margin:auto}
+h1{font-size:1.6rem;margin:0 0 7px}p{line-height:1.55;color:#52637b}
+.panel{background:#fff;border:1px solid #dbe3ec;border-radius:14px;padding:18px;margin:16px 0}
+.stage{position:relative;display:grid;place-items:center;min-height:330px;overflow:hidden;border-radius:10px;background-color:#eef2f7;background-image:linear-gradient(45deg,#e1e8f0 25%,transparent 25%,transparent 75%,#e1e8f0 75%),linear-gradient(45deg,#e1e8f0 25%,transparent 25%,transparent 75%,#e1e8f0 75%);background-size:24px 24px;background-position:0 0,12px 12}
+.stage.dark{background-color:#283648;background-image:none}
+#sprite{image-rendering:pixelated;object-fit:contain;flex:none;max-width:none}
+.bubble{position:absolute;top:13px;left:50%;transform:translateX(-50%);background:white;border:2px solid #3d5878;border-radius:10px;font-weight:800;padding:7px 15px;white-space:nowrap}
+.bubble[hidden]{display:none}button{border:1px solid #b9cbe0;border-radius:8px;background:#fff;padding:10px 12px;font:inherit;font-weight:650;cursor:pointer}
+button:hover,button:focus-visible{background:#e7f3ff;outline-offset:3px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.note{font-size:.92rem}h2{font-size:1.15rem;margin:2px 0 10px}
+.gallery{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}
+.tile{min-width:0;min-height:91px;display:grid;place-items:center;position:relative;border:1px solid #e2e7ef;border-radius:8px;background:white}
+.tile img{max-width:100%;width:auto;height:80px;object-fit:contain;image-rendering:pixelated}
+.tile span{position:absolute;bottom:3px;right:5px;font-size:10px;background:#ffffffd9;color:#53657b}
+fieldset{border:0;padding:0;display:inline-flex;align-items:center;gap:8px}
+@media(max-width:600px){body{padding:12px}.gallery{grid-template-columns:repeat(3,minmax(0,1fr))}.controls button{flex:1}.stage{min-height:290px}}
+</style>
+</head>
+<body><main>
+<h1>대굴레오 · Codex 펫 스프라이트 팩</h1>
+<p>GitHub <code>desktop-pet</code>의 기존 원본 PNG를 그대로 표시합니다. 피카츄 참고 이미지처럼 포즈별로 모았으며 실제 Codex 작업 완료 연결은 아직 포함하지 않은 시연입니다.</p>
+<section class="panel">
+ <div class="stage" id="stage" aria-live="polite">
+  <div class="bubble" id="bubble" hidden></div>
+  <img id="sprite" alt="대굴레오 현재 애니메이션 프레임">
+ </div>
+ <div class="controls">
+  <button data-action="idle">대기</button>
+  <button data-action="roll">구르기</button>
+  <button data-action="clap">박수</button>
+  <button data-action="watergun">물대포!</button>
+  <button data-action="icebeam">냉동빔!</button>
+  <button data-action="task_completed">작업 완료! → 물대포</button>
+ </div>
+ <fieldset><label><input id="dark" type="checkbox"> 어두운 배경 확인</label></fieldset>
+ <p class="note" id="status">대기 중 · 이미지는 기존 <code>src/assets/characters/spheal/</code>를 사용합니다.</p>
+</section>
+<section class="panel" id="sheets"><h2>원본 프레임 시트</h2><p class="note">각 행은 실제 저장소 파일을 참조합니다. 프레임을 확대하거나 다시 그리지 않습니다.</p></section>
+</main>
+<script>
+(() => {
+ const root="../src/assets/characters/spheal";
+ const frames=(folder,prefix,count)=>Array.from({length:count},(_,i)=>root+"/"+(folder?folder+"/":"")+prefix+"-"+String(i+1).padStart(2,"0")+".png");
+ const sets={
+  idle:[root+"/spheal-base.png"],roll:frames("","roll",12),
+  clap:frames("animations/clap","clap",8),
+  watergun:frames("animations/watergun","watergun",12),
+  icebeam:frames("animations/icebeam","icebeam",14)
+ };
+ const durations={roll:[105,105,...Array(6).fill(90),...Array(4).fill(105)],clap:Array(8).fill(180),
+  watergun:Array(12).fill(175),icebeam:[175,175,...Array(6).fill(150),1000,...Array(4).fill(125),200]};
+ const sprite=document.getElementById("sprite"),bubble=document.getElementById("bubble"),status=document.getElementById("status");
+ const stage=document.getElementById("stage");
+ let active=null,pendingComplete=false,bubbleTimeout=null;
+ function frame(src){sprite.src=src;const big=src.includes("watergun-")||src.includes("icebeam-");sprite.style.width=(big?360:240)+"px";sprite.style.height="240px";sprite.style.transform="scaleX(-1)";}
+ function speak(message){clearTimeout(bubbleTimeout);bubble.hidden=!message;if(message)bubble.textContent=message;bubbleTimeout=setTimeout(()=>bubble.hidden=true,1450);}
+ function finish(){active=null;frame(sets.idle[0]);status.textContent="대기 중";if(pendingComplete){pendingComplete=false;start("watergun","작업 완료!");}}
+ function start(name,caption=null){
+  if(name==="idle"){if(!active){frame(sets.idle[0]);speak(null);status.textContent="대기 중";}return;}
+  if(active){if(caption==="작업 완료!")pendingComplete=true;return;}
+  if(!sets[name])return;
+  let index=0;
+  active=name;status.textContent="재생: "+name;speak(caption);
+  const step=()=>{
+   if(active!==name)return;
+   if(index>=sets[name].length){finish();return;}
+   frame(sets[name][index]);const duration=durations[name][index];index++;setTimeout(step,duration);
+  };
+  step();
+ }
+ document.querySelectorAll("[data-action]").forEach(button=>button.addEventListener("click",()=>{
+  const action=button.dataset.action;
+  if(action==="task_completed")start("watergun","작업 완료!");
+  else start(action,action==="watergun"?"물대포!":action==="icebeam"?"냉동빔!":null);
+ }));
+ document.getElementById("dark").addEventListener("change",e=>stage.classList.toggle("dark",e.target.checked));
+ const labels={idle:"IDLE · 기본",roll:"ROLL · 구르기",clap:"CLAP · 박수",watergun:"WATER GUN · 물대포",icebeam:"ICE BEAM · 냉동빔"};
+ for(const [name,files] of Object.entries(sets)){
+  const section=document.createElement("section");section.innerHTML="<h2>"+labels[name]+" ("+files.length+"장)</h2>";
+  const sheet=document.createElement("div");sheet.className="gallery";
+  files.forEach((src,i)=>{const cell=document.createElement("div");cell.className="tile";const img=document.createElement("img");img.src=src;img.alt=labels[name]+" "+String(i+1);img.loading="lazy";const label=document.createElement("span");label.textContent=String(i+1).padStart(2,"0");cell.append(img,label);sheet.append(cell);});
+  section.append(sheet);document.getElementById("sheets").append(section);
+ }
+ frame(sets.idle[0]);
+ window.SphealCodexPreview=Object.freeze({emit(event){if(event==="task_completed")start("watergun","작업 완료!");}});
+})();
+</script>
+</body></html>
