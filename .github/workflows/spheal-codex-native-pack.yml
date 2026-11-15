@@ -1,0 +1,52 @@
+name: Build Spheal Codex pet pack
+
+on:
+  push:
+    branches:
+      - feat/spheal-codex-sprite-pack
+    paths:
+      - "codex-spheal/**"
+      - ".github/workflows/spheal-codex-native-pack.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-packs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build-only image dependency
+        run: python -m pip install --disable-pip-version-check "Pillow>=11,<13"
+      - name: Build native pet and generic source pack
+        run: |
+          python codex-spheal/build_native_pet.py
+          python codex-spheal/build_pack.py
+      - name: Confirm expected deliverables
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          for file in ('Spheal-Codex-Native-Pet.zip', 'Spheal-Codex-Pack.zip', 'spheal-codex-spritesheet.png', 'spheal-codex-spritesheet.webp'):
+              p = Path('dist') / file
+              assert p.is_file() and p.stat().st_size > 0, file
+          with Image.open('dist/spheal-codex-spritesheet.png') as im:
+              assert im.size == (1536,1872)
+              assert im.mode == 'RGBA'
+          print('Atlas and ZIP existence + dimensions verified')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spheal-codex-pets
+          path: |
+            dist/Spheal-Codex-Native-Pet.zip
+            dist/Spheal-Codex-Pack.zip
+            dist/spheal-codex-spritesheet.png
+            dist/spheal-codex-spritesheet.webp
+          if-no-files-found: error
+          retention-days: 7
